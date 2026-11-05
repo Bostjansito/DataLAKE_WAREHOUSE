@@ -6,7 +6,7 @@
 | Parte | Carpeta | Contenido |
 |---|---|---|
 | Data Lake de noticias RSS | [`datalake/`](datalake/README.md) | Arquitectura, código, Terraform, DAG de Airflow, guías y evidencias |
-| Data Warehouse | [`datawarehouse/`](datawarehouse/README.md) | Migración AWS preparada; capturas y ejecución AWS pendientes. [Instrucciones](datawarehouse/docs/Instrucciones%20-%20Arquitecturas%20de%20datos%20-%20DataWarehouse.md) · [Evidencias](datawarehouse/evidencias/docEVIDENCIA/EVIDENCIAS.md) |
+| Data Warehouse | [`datawarehouse/`](datawarehouse/README.md) | Migración AWS; S3 y EC2/VPC demostrados y retirados, fuentes y pipeline pendientes. [Instrucciones](datawarehouse/docs/Instrucciones%20-%20Arquitecturas%20de%20datos%20-%20DataWarehouse.md) · [Evidencias](datawarehouse/evidencias/docEVIDENCIA/EVIDENCIAS.md) |
 
 Dentro de `datalake/`:
 

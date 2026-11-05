@@ -1,5 +1,13 @@
 # Validación de la preparación local
 
+> **Registro histórico de preparación:** los resultados corresponden a la configuración y momento indicados, no a los cambios posteriores. S3 y runtime se desplegaron y retiraron después; véase [cronología](docEVIDENCIA/EVIDENCIAS.md).
+
+## Verificaciones posteriores de fuentes
+
+Según la ejecución del responsable de infraestructura, `terraform init` y `validate` terminaron correctamente. El plan regenerado `fuentes-nuevo.tfplan`, con MySQL 8.4, cuenta `241732001318`, región `us-east-1`, compute y sources activos, DocumentDB activo y warehouse inactivo, mostró **43 altas, 0 cambios y 0 eliminaciones**, con estado sin recursos administrados; IAM limita `PutObject` a `raw/*`. El archivo local tiene modo `0600` y SHA-256 `87919e189dd3d4585ca841ed87db963853c53350d832277eeebaba9a325468b2`. Es un plan, no una aplicación; no se incluyen el binario ni el estado en evidencia. Tras la corrección de seguridad, la suite local informó **49 pruebas aprobadas en 0.89 s**: 23 pipeline, 21 runtime y 5 deployment. `bash -n` de `upload-bundle.sh`, `remote-deploy.sh` y `deploy-instance.sh` terminó con código 0. Estas comprobaciones no demuestran conexiones ni ejecución AWS.
+
+La consulta de opciones disponibles informó DocumentDB 5.0.0 `db.t3.medium` con dos opciones y RDS MySQL 8.4 `db.t3.micro` en us-east-1 con versiones 8.4.5 a 8.4.11. Una consulta anterior encontró MySQL 8.0.46 y variantes con parches RDS; se cambió a 8.4 por el fin del soporte estándar de 8.0 y el riesgo de cargos de Extended Support. La disponibilidad consultada no garantiza capacidad ni permisos al aplicar. El esquema del provider AWS 5.100 admite `manage_master_user_password` en RDS/DocumentDB y `manage_admin_password` en Redshift Serverless. No se hizo apply AWS en estas verificaciones.
+
 Fecha de sesión: 2026-11-05. **Esto no es una demostración desplegada en AWS ni una captura confirmada.** No se ejecutó `terraform apply`, no se crearon recursos AWS, no se sembraron bases remotas y no hubo commit/push. La primera captura prevista es S3/Terraform (1.1); no se exige captura de identidad.
 
 ## Comprobaciones ejecutadas

@@ -20,12 +20,12 @@ output "raw_bucket_arn" {
 
 output "mysql_endpoint" {
   sensitive = true
-  value = try(module.database[0].mysql_endpoint, null)
+  value     = try(module.database[0].mysql_endpoint, null)
 }
 
 output "docdb_endpoint" {
   sensitive = true
-  value = try(module.database[0].docdb_endpoint, null)
+  value     = try(module.database[0].docdb_endpoint, null)
 }
 
 output "mysql_secret_arn" {
@@ -38,7 +38,7 @@ output "docdb_secret_arn" {
 
 output "redshift_endpoint" {
   sensitive = true
-  value = try(module.warehouse[0].redshift_endpoint, null)
+  value     = try(module.warehouse[0].redshift_endpoint, null)
 }
 
 output "redshift_database" {
@@ -47,7 +47,7 @@ output "redshift_database" {
 
 output "redshift_username" {
   sensitive = true
-  value = try(module.warehouse[0].redshift_username, null)
+  value     = try(module.warehouse[0].redshift_username, null)
 }
 
 output "redshift_copy_role_arn" {
@@ -68,11 +68,20 @@ output "ec2_instance_id" {
 
 output "runtime_config" {
   value = {
-    AWS_REGION = var.aws_region
-    S3_BUCKET = module.storage.raw_bucket
-    MYSQL_SECRET_ARN = try(module.database[0].mysql_secret_arn, null)
-    MONGO_SECRET_ARN = try(module.database[0].docdb_secret_arn, null)
-    REDSHIFT_SECRET_ARN = try(module.warehouse[0].redshift_secret_arn, null)
+    AWS_REGION             = var.aws_region
+    S3_BUCKET              = module.storage.raw_bucket
+    MYSQL_SECRET_ARN       = try(module.database[0].mysql_secret_arn, null)
+    MYSQL_HOST             = try(module.database[0].mysql_endpoint, null)
+    MYSQL_PORT             = 3306
+    MYSQL_DATABASE         = "ecommerce"
+    MONGO_SECRET_ARN       = try(module.database[0].docdb_secret_arn, null)
+    MONGO_HOST             = try(module.database[0].docdb_endpoint, null)
+    MONGO_PORT             = 27017
+    MONGO_DATABASE         = "ecommerce"
+    REDSHIFT_SECRET_ARN    = try(module.warehouse[0].redshift_secret_arn, null)
+    REDSHIFT_HOST          = try(module.warehouse[0].redshift_endpoint, null)
+    REDSHIFT_PORT          = 5439
+    REDSHIFT_DATABASE      = "ecommerce_dw"
     REDSHIFT_COPY_ROLE_ARN = try(module.warehouse[0].redshift_copy_role_arn, null)
   }
 }

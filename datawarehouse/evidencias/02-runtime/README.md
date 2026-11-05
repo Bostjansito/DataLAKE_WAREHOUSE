@@ -1,5 +1,7 @@
 # Runtime — 2026-11-05
 
+> **Registro histórico:** los recursos descritos como activos en esta fase fueron retirados después de la captura confirmada. Véase [cronología](../docEVIDENCIA/EVIDENCIAS.md). Las instrucciones de captura siguientes describen ese momento, no el estado actual.
+
 ## Estado real y pausa
 
 Cuenta **241732001318**, región **us-east-1**, operador `user_cli`. Plan revisado: **31 altas, 0 cambios y 0 eliminaciones**; aplicación completada con esos recuentos. Flags locales persistidos: compute=true, sources=false, warehouse=false. El inventario previo no encontró VPC, instancias ni buckets en la consulta realizada. No se importaron ni modificaron recursos preexistentes. No se crearon RDS, DocumentDB, Redshift ni secretos.

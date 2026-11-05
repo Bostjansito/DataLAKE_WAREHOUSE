@@ -2,6 +2,7 @@
 aws_region = "us-east-1"
 enable_compute = false
 enable_sources = false
+enable_docdb = true # Independently disable DocumentDB after manual retirement.
 enable_warehouse = false
 # Retain protection until an explicitly reviewed teardown (see README).
 sources_deletion_protection = true

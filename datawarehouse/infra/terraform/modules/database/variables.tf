@@ -16,3 +16,6 @@ variable "mysql_final_snapshot_identifier" {
 variable "docdb_final_snapshot_identifier" {
   type = string
 }
+variable "enable_docdb" {
+  type = bool
+}
