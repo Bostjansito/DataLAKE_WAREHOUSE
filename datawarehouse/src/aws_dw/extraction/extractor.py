@@ -210,9 +210,12 @@ def verify_payload(s3, info):
     digest = hashlib.sha256()
     result = s3.get_object(Bucket=os.environ["S3_BUCKET"], Key=info["key"])
     size = 0
-    with result["Body"] as body:
+    body = result["Body"]
+    try:
         for chunk in body.iter_chunks(chunk_size=1024 * 1024):
             digest.update(chunk)
             size += len(chunk)
+    finally:
+        body.close()
     if digest.hexdigest() != info["sha256"] or size != info["bytes"]:
         raise ValueError(f"S3 payload integrity failure: {info['key']}")

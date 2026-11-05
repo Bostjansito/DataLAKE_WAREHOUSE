@@ -35,6 +35,7 @@ Wants=network-online.target
 User=ecommerce
 Group=ecommerce
 WorkingDirectory=/opt/ecommerce/app
+Environment="PATH=/opt/ecommerce/airflow-venv/bin:/usr/local/bin:/usr/bin"
 ExecStart=/opt/ecommerce/runtime/bin/python /opt/ecommerce/runtime.py /opt/ecommerce/airflow-venv/bin/airflow scheduler
 Restart=on-failure
 UMask=0077
