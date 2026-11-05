@@ -1,0 +1,83 @@
+# Escenario 02-registros-defectuosos  (2026-11-05T02:20:49Z)
+$ dag_trigger.sh '{"bronze_run_id": "20261105T015607Z"}'
+run_id=manual__2026-11-05T01:56:14+00:00 conf={"bronze_run_id": "20261105T015607Z"}
+estado=success
+validar_configuracion       success  2026-11-05T01:56:20.299090+00:00  2026-11-05T01:56:21.203395+00:00
+fuentes                     success  2026-11-05T01:56:23.425851+00:00  2026-11-05T01:56:23.576797+00:00
+extraer_fuente              skipped                                    
+resumen_extraccion          success  2026-11-05T01:56:25.909759+00:00  2026-11-05T01:56:26.174053+00:00
+limpiar_validar_deduplicar  success  2026-11-05T01:56:28.468254+00:00  2026-11-05T01:56:32.184733+00:00
+enriquecer_comprehend       success  2026-11-05T01:56:34.500942+00:00  2026-11-05T01:56:35.530994+00:00
+publicar_silver             success  2026-11-05T01:56:38.419184+00:00  2026-11-05T01:56:42.687261+00:00
+construir_gold              success  2026-11-05T01:56:44.916105+00:00  2026-11-05T01:56:47.863961+00:00
+actualizar_glue             success  2026-11-05T01:56:50.065225+00:00  2026-11-05T01:56:56.148415+00:00
+validar_athena              success  2026-11-05T01:56:58.353995+00:00  2026-11-05T01:57:02.029389+00:00
+registrar_estado            success  2026-11-05T01:57:04.392014+00:00  2026-11-05T01:57:04.972325+00:00
+	
+
+# control/runs/run_id=20261105T010000Z/
+## extract.json
+{
+ "status": "complete",
+ "sources_ok": [
+  "eltiempo_politica",
+  "eltiempo_economia",
+  "eltiempo_deportes"
+ ],
+ "sources_failed": []
+}
+## silver.json
+{
+ "mode": "incremental",
+ "batch_stats": [
+  {
+   "run_id": "20261105T015607Z",
+   "source_id": "eltiempo_politica",
+   "received": 16,
+   "valid": 13,
+   "rejected": 3,
+   "updated": 1,
+   "unchanged": 9,
+   "new": 2,
+   "duplicate_in_batch": 1
+  }
+ ],
+ "news_current": 42,
+ "news_changed": 3,
+ "affected_dates": [
+  "2026-11-04",
+  "2026-11-05",
+  "sin_fecha"
+ ],
+ "write_id": "20261105T015639080992Z",
+ "comprehend": {
+  "analyzed": 2,
+  "reused": 0,
+  "skipped": {},
+  "errors": 0,
+  "api_calls": 2,
+  "chars_sent": 390
+ }
+}
+## dag.json
+{
+ "status": "complete",
+ "extraction": "reprocess",
+ "params": {
+  "bronze_run_id": "20261105T015607Z",
+  "rebuild": false,
+  "fuente_caida": "",
+  "simular_fallo": false
+ },
+ "validations": {
+  "noticias_vigentes": 42,
+  "ids_duplicados": 0,
+  "campos_obligatorios_vacios": 0,
+  "enlaces_invalidos": 0,
+  "fechas_inconsistentes": 0,
+  "entidades_huerfanas": 0,
+  "frases_huerfanas": 0,
+  "descuadre_gold_noticias": 0,
+  "descuadre_gold_entidades": 0
+ }
+}

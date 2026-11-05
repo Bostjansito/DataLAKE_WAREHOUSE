@@ -1,0 +1,99 @@
+# Escenario 06a-fallo-controlado-reintento  (2026-11-05T02:24:09Z)
+$ dag_trigger.sh '{"simular_fallo": true}'
+run_id=manual__2026-11-05T02:24:09+00:00 conf={"simular_fallo": true}
+estado=success
+validar_configuracion       success  2026-11-05T02:24:16.761011+00:00  2026-11-05T02:24:17.630234+00:00
+fuentes                     success  2026-11-05T02:24:19.858225+00:00  2026-11-05T02:24:20.006265+00:00
+extraer_fuente              success  2026-11-05T02:24:23.066871+00:00  2026-11-05T02:24:24.743175+00:00
+resumen_extraccion          success  2026-11-05T02:24:33.520113+00:00  2026-11-05T02:24:34.113746+00:00
+limpiar_validar_deduplicar  success  2026-11-05T02:24:36.301969+00:00  2026-11-05T02:24:40.128658+00:00
+enriquecer_comprehend       success  2026-11-05T02:24:42.802282+00:00  2026-11-05T02:24:43.730413+00:00
+publicar_silver             success  2026-11-05T02:25:32.791759+00:00  2026-11-05T02:25:37.990909+00:00
+construir_gold              success  2026-11-05T02:25:40.188940+00:00  2026-11-05T02:25:42.947005+00:00
+actualizar_glue             success  2026-11-05T02:25:45.133309+00:00  2026-11-05T02:25:51.017390+00:00
+validar_athena              success  2026-11-05T02:25:53.202215+00:00  2026-11-05T02:25:56.836907+00:00
+registrar_estado            success  2026-11-05T02:25:59.024845+00:00  2026-11-05T02:25:59.598726+00:00
+extraer_fuente              success  2026-11-05T02:24:26.638003+00:00  2026-11-05T02:24:27.983389+00:00
+extraer_fuente              success  2026-11-05T02:24:29.886442+00:00  2026-11-05T02:24:31.329279+00:00
+	
+
+# control/runs/run_id=20261105T022409Z/
+## extract.json
+{
+ "status": "complete",
+ "sources_ok": [
+  "eltiempo_politica",
+  "eltiempo_economia",
+  "eltiempo_deportes"
+ ],
+ "sources_failed": []
+}
+## silver.json
+{
+ "mode": "incremental",
+ "batch_stats": [
+  {
+   "run_id": "20261105T022409Z",
+   "source_id": "eltiempo_deportes",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "new": 1,
+   "unchanged": 8,
+   "updated": 1
+  },
+  {
+   "run_id": "20261105T022409Z",
+   "source_id": "eltiempo_economia",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 10
+  },
+  {
+   "run_id": "20261105T022409Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 2,
+   "unchanged": 8
+  }
+ ],
+ "news_current": 46,
+ "news_changed": 4,
+ "affected_dates": [
+  "2026-11-05"
+ ],
+ "write_id": "20261105T022533447256Z",
+ "comprehend": {
+  "analyzed": 1,
+  "reused": 1,
+  "skipped": {},
+  "errors": 0,
+  "api_calls": 2,
+  "chars_sent": 448
+ }
+}
+## dag.json
+{
+ "status": "complete",
+ "extraction": "complete",
+ "params": {
+  "bronze_run_id": "",
+  "rebuild": false,
+  "fuente_caida": "",
+  "simular_fallo": true
+ },
+ "validations": {
+  "noticias_vigentes": 46,
+  "ids_duplicados": 0,
+  "campos_obligatorios_vacios": 0,
+  "enlaces_invalidos": 0,
+  "fechas_inconsistentes": 0,
+  "entidades_huerfanas": 0,
+  "frases_huerfanas": 0,
+  "descuadre_gold_noticias": 0,
+  "descuadre_gold_entidades": 0
+ }
+}

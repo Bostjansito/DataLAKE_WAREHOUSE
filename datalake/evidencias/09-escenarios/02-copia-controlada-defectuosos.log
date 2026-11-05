@@ -1,0 +1,30 @@
+2026-11-04 20:56:09,507 INFO [noticias.storage] glue table=control_batches partitions_created=0 partitions_updated=0
+2026-11-04 20:56:09,507 INFO [noticias.scenarios] run_id=20261105T015607Z source=eltiempo_politica task=controlled_copy modo=defectuosos origen=bronze/source=eltiempo_politica/ingestion_date=2026-11-05/run_id=20261105T003325Z/feed.xml cambios=['+1 título vacío', '+1 sin enlace', '+1 enlace inválido', '+1 sin fecha', '+1 fecha ilegible', '+1 duplicado del item0']
+{
+  "source_id": "eltiempo_politica",
+  "media": "El Tiempo",
+  "section": "Política",
+  "url": "https://www.eltiempo.com/rss/politica.xml",
+  "language": "es",
+  "run_id": "20261105T015607Z",
+  "batch_type": "controlled_copy",
+  "ingestion_ts": "2026-11-05T01:56:07Z",
+  "ingestion_date": "2026-11-05",
+  "http_status": null,
+  "status": "success",
+  "error_message": null,
+  "items_received": 16,
+  "content_bytes": 15371,
+  "content_hash": "548a45ed938131069260bdac338602c59cc9fd93cbf858e1d5ec08bc94ce9679",
+  "bronze_key": "bronze/source=eltiempo_politica/ingestion_date=2026-11-05/run_id=20261105T015607Z/feed.xml",
+  "origin_bronze_key": "bronze/source=eltiempo_politica/ingestion_date=2026-11-05/run_id=20261105T003325Z/feed.xml",
+  "scenario": "defectuosos",
+  "changes": [
+    "+1 título vacío",
+    "+1 sin enlace",
+    "+1 enlace inválido",
+    "+1 sin fecha",
+    "+1 fecha ilegible",
+    "+1 duplicado del item0"
+  ]
+}

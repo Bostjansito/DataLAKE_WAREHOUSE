@@ -1,0 +1,55 @@
+$ terraform apply fase1.tfplan   # 2026-11-04T03:47:32Z
+aws_s3_bucket.data_lake: Creating...
+aws_s3_bucket.data_lake: Creation complete after 3s [id=datalake-noticias-387512138242-us-east-1]
+data.aws_iam_policy_document.data_lake_tls_only: Reading...
+aws_s3_bucket_public_access_block.data_lake: Creating...
+aws_s3_bucket_versioning.data_lake: Creating...
+aws_s3_bucket_ownership_controls.data_lake: Creating...
+aws_s3_bucket_server_side_encryption_configuration.data_lake: Creating...
+data.aws_iam_policy_document.data_lake_tls_only: Read complete after 0s [id=3959655194]
+aws_s3_bucket_lifecycle_configuration.data_lake: Creating...
+aws_s3_bucket_ownership_controls.data_lake: Creation complete after 0s [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_bucket_public_access_block.data_lake: Creation complete after 0s [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_bucket_policy.data_lake: Creating...
+aws_s3_bucket_server_side_encryption_configuration.data_lake: Creation complete after 1s [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_object.zone_markers["control"]: Creating...
+aws_s3_object.zone_markers["bronze"]: Creating...
+aws_s3_object.zone_markers["quarantine"]: Creating...
+aws_s3_object.zone_markers["silver"]: Creating...
+aws_s3_object.zone_markers["athena-results"]: Creating...
+aws_s3_object.zone_markers["tmp"]: Creating...
+aws_s3_object.zone_markers["gold"]: Creating...
+aws_s3_bucket_policy.data_lake: Creation complete after 1s [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_object.zone_markers["bronze"]: Creation complete after 0s [id=bronze/]
+aws_s3_object.zone_markers["silver"]: Creation complete after 0s [id=silver/]
+aws_s3_object.zone_markers["athena-results"]: Creation complete after 0s [id=athena-results/]
+aws_s3_object.zone_markers["quarantine"]: Creation complete after 0s [id=quarantine/]
+aws_s3_object.zone_markers["tmp"]: Creation complete after 0s [id=tmp/]
+aws_s3_object.zone_markers["control"]: Creation complete after 0s [id=control/]
+aws_s3_object.zone_markers["gold"]: Creation complete after 0s [id=gold/]
+aws_s3_bucket_versioning.data_lake: Creation complete after 1s [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_bucket_lifecycle_configuration.data_lake: Still creating... [00m10s elapsed]
+aws_s3_bucket_lifecycle_configuration.data_lake: Still creating... [00m20s elapsed]
+aws_s3_bucket_lifecycle_configuration.data_lake: Still creating... [00m30s elapsed]
+aws_s3_bucket_lifecycle_configuration.data_lake: Still creating... [00m40s elapsed]
+aws_s3_bucket_lifecycle_configuration.data_lake: Still creating... [00m50s elapsed]
+aws_s3_bucket_lifecycle_configuration.data_lake: Creation complete after 57s [id=datalake-noticias-387512138242-us-east-1]
+
+Apply complete! Resources: 14 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+account_id = "387512138242"
+budget_created = false
+data_lake_bucket = "datalake-noticias-387512138242-us-east-1"
+data_lake_bucket_arn = "arn:aws:s3:::datalake-noticias-387512138242-us-east-1"
+data_lake_zones = {
+  "athena-results" = "s3://datalake-noticias-387512138242-us-east-1/athena-results/"
+  "bronze" = "s3://datalake-noticias-387512138242-us-east-1/bronze/"
+  "control" = "s3://datalake-noticias-387512138242-us-east-1/control/"
+  "gold" = "s3://datalake-noticias-387512138242-us-east-1/gold/"
+  "quarantine" = "s3://datalake-noticias-387512138242-us-east-1/quarantine/"
+  "silver" = "s3://datalake-noticias-387512138242-us-east-1/silver/"
+  "tmp" = "s3://datalake-noticias-387512138242-us-east-1/tmp/"
+}
+region = "us-east-1"

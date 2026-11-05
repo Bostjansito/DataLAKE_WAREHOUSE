@@ -1,0 +1,14 @@
+$ aws s3 ls s3://datalake-noticias-387512138242-us-east-1/silver/news/published_date=2026-11-05/
+                           PRE v=20261105T003352104627Z/
+                           PRE v=20261105T004055942313Z/
+                           PRE v=20261105T014140870808Z/
+                           PRE v=20261105T014544113969Z/
+                           PRE v=20261105T015639080992Z/
+                           PRE v=20261105T020033900964Z/
+                           PRE v=20261105T022308756378Z/
+                           PRE v=20261105T022446605924Z/
+                           PRE v=20261105T022533447256Z/
+                           PRE v=20261105T023034589689Z/
+
+$ aws glue get-partition --database-name datalake_noticias_lab --table-name silver_news --partition-values 2026-11-05 --query Partition.StorageDescriptor.Location
+s3://datalake-noticias-387512138242-us-east-1/silver/news/published_date=2026-11-05/v=20261105T023034589689Z/

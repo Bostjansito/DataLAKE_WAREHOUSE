@@ -1,0 +1,21 @@
+2026-11-04 19:41:08,940 INFO [noticias.gold] run_id=gold-20261105T004107Z task=gold date=2026-11-04 news_daily=3 entity_daily=84 key_phrases_daily=319
+2026-11-04 19:41:10,754 INFO [noticias.gold] run_id=gold-20261105T004107Z task=gold date=2026-11-05 news_daily=2 entity_daily=7 key_phrases_daily=25
+2026-11-04 19:41:11,746 INFO [noticias.storage] glue table=gold_news_daily partitions_created=0 partitions_updated=2
+2026-11-04 19:41:12,861 INFO [noticias.storage] glue table=gold_entity_daily partitions_created=0 partitions_updated=2
+2026-11-04 19:41:13,920 INFO [noticias.storage] glue table=gold_key_phrases_daily partitions_created=0 partitions_updated=2
+{
+  "run_id": "gold-20261105T004107Z",
+  "stage": "gold",
+  "status": "complete",
+  "dates": [
+    "2026-11-04",
+    "2026-11-05"
+  ],
+  "rows": {
+    "gold_news_daily": 5,
+    "gold_entity_daily": 91,
+    "gold_key_phrases_daily": 344
+  },
+  "write_id": "20261105T004107380904Z",
+  "finished_at": "2026-11-05T00:41:13Z"
+}

@@ -1,0 +1,3 @@
+2026-11-04 21:38:31,112 INFO [noticias.validate] run_id=deteccion-bug-rebuild task=validate_athena resultado={'noticias_vigentes': 46, 'ids_duplicados': 0, 'campos_obligatorios_vacios': 0, 'enlaces_invalidos': 0, 'fechas_inconsistentes': 0, 'noticias_sin_enriquecimiento': 2, 'entidades_huerfanas': 0, 'frases_huerfanas': 0, 'descuadre_gold_noticias': 0, 'descuadre_gold_entidades': 0} bytes_scanned=
+    raise RuntimeError(f"Validaciones con Athena fallidas: {failed}")
+RuntimeError: Validaciones con Athena fallidas: {'noticias_sin_enriquecimiento': 2}

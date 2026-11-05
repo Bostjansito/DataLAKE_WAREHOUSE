@@ -1,0 +1,38 @@
+2026-11-04 19:40:55,935 INFO [noticias.enrich] task=enrich analyzed=0 reused=30 skipped={} errors=0 api_calls=0 chars_sent=0
+2026-11-04 19:40:58,532 INFO [noticias.storage] glue table=silver_news_entities partitions_created=0 partitions_updated=2
+2026-11-04 19:40:59,626 INFO [noticias.storage] glue table=silver_news_key_phrases partitions_created=0 partitions_updated=2
+2026-11-04 19:41:00,632 INFO [noticias.storage] glue table=silver_news partitions_created=0 partitions_updated=2
+2026-11-04 19:41:02,076 INFO [noticias.storage] glue table=control_batches partitions_created=0 partitions_updated=0
+2026-11-04 19:41:02,077 INFO [noticias.silver] run_id=20261105T003325Z source=eltiempo_deportes task=silver mode=rebuild received=10 valid=10 rejected=0 dup=0 new=10 updated=0 unchanged=0
+2026-11-04 19:41:03,392 INFO [noticias.storage] glue table=control_batches partitions_created=0 partitions_updated=0
+2026-11-04 19:41:03,392 INFO [noticias.silver] run_id=20261105T003325Z source=eltiempo_economia task=silver mode=rebuild received=10 valid=10 rejected=0 dup=0 new=10 updated=0 unchanged=0
+2026-11-04 19:41:04,494 INFO [noticias.storage] glue table=control_batches partitions_created=0 partitions_updated=0
+2026-11-04 19:41:04,495 INFO [noticias.silver] run_id=20261105T003325Z source=eltiempo_politica task=silver mode=rebuild received=10 valid=10 rejected=0 dup=0 new=10 updated=0 unchanged=0
+2026-11-04 19:41:04,695 INFO [noticias.silver] run_id=rebuild-20261105T004047Z task=silver mode=rebuild news_current=30 changed=30 affected_dates=['2026-11-04', '2026-11-05']
+{
+  "run_id": "rebuild-20261105T004047Z",
+  "stage": "silver",
+  "mode": "rebuild",
+  "status": "complete",
+  "bronze_batches": [
+    "20261105T003325Z/eltiempo_deportes",
+    "20261105T003325Z/eltiempo_economia",
+    "20261105T003325Z/eltiempo_politica"
+  ],
+  "news_current": 30,
+  "news_changed": 30,
+  "affected_dates": [
+    "2026-11-04",
+    "2026-11-05"
+  ],
+  "write_id": "20261105T004055942313Z",
+  "comprehend": {
+    "analyzed": 0,
+    "reused": 30,
+    "skipped": {},
+    "errors": 0,
+    "api_calls": 0,
+    "chars_sent": 0
+  },
+  "finished_at": "2026-11-05T00:41:00Z"
+}

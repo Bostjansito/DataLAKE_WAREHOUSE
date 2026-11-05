@@ -1,0 +1,179 @@
+$ terraform plan  -out=fase.tfplan   # 2026-11-05T01:38:19Z
+random_password.airflow_admin: Refreshing state... [id=none]
+data.archive_file.datalake_code: Reading...
+data.archive_file.datalake_code: Read complete after 0s [id=ac1dc1a84c0cf7f3d8d3404af9dcc779bee751ec]
+data.aws_vpc.default: Reading...
+data.aws_caller_identity.current: Reading...
+data.aws_iam_policy_document.ec2_assume: Reading...
+data.aws_ssm_parameter.al2023_ami: Reading...
+aws_glue_catalog_database.data_lake: Refreshing state... [id=387512138242:datalake_noticias_lab]
+data.aws_region.current: Reading...
+aws_ssm_parameter.airflow_admin_password: Refreshing state... [id=/datalake-noticias/lab/airflow/admin-password]
+data.aws_region.current: Read complete after 0s [id=us-east-1]
+data.aws_iam_policy_document.ec2_assume: Read complete after 0s [id=2851119427]
+aws_iam_role.airflow_ec2: Refreshing state... [id=datalake-noticias-lab-airflow-ec2]
+data.aws_caller_identity.current: Read complete after 0s [id=387512138242]
+aws_s3_bucket.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+data.aws_ssm_parameter.al2023_ami: Read complete after 1s [id=/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64]
+aws_iam_role_policy_attachment.ssm_core: Refreshing state... [id=datalake-noticias-lab-airflow-ec2-20261105000524443500000001]
+aws_iam_instance_profile.airflow_ec2: Refreshing state... [id=datalake-noticias-lab-airflow-ec2]
+data.aws_vpc.default: Read complete after 1s [id=vpc-089b31dfc1377294b]
+data.aws_subnets.default: Reading...
+aws_security_group.airflow: Refreshing state... [id=sg-0083638846a3fe238]
+data.aws_subnets.default: Read complete after 0s [id=us-east-1]
+aws_s3_bucket_ownership_controls.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+data.aws_iam_policy_document.data_lake_tls_only: Reading...
+aws_s3_object.datalake_code: Refreshing state... [id=deploy/datalake.zip]
+aws_s3_bucket_versioning.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_bucket_server_side_encryption_configuration.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_bucket_lifecycle_configuration.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+aws_athena_workgroup.data_lake: Refreshing state... [id=datalake-noticias-lab-wg]
+aws_s3_bucket_public_access_block.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+data.aws_iam_policy_document.data_lake_tls_only: Read complete after 0s [id=3959655194]
+data.aws_iam_policy_document.airflow_pipeline: Reading...
+aws_glue_catalog_table.tables["control_batches"]: Refreshing state... [id=387512138242:datalake_noticias_lab:control_batches]
+aws_glue_catalog_table.tables["gold_news_daily"]: Refreshing state... [id=387512138242:datalake_noticias_lab:gold_news_daily]
+data.aws_iam_policy_document.airflow_pipeline: Read complete after 0s [id=1552006]
+aws_glue_catalog_table.tables["silver_news"]: Refreshing state... [id=387512138242:datalake_noticias_lab:silver_news]
+aws_glue_catalog_table.tables["quarantine_news"]: Refreshing state... [id=387512138242:datalake_noticias_lab:quarantine_news]
+aws_glue_catalog_table.tables["gold_key_phrases_daily"]: Refreshing state... [id=387512138242:datalake_noticias_lab:gold_key_phrases_daily]
+aws_glue_catalog_table.tables["gold_entity_daily"]: Refreshing state... [id=387512138242:datalake_noticias_lab:gold_entity_daily]
+aws_glue_catalog_table.tables["silver_news_entities"]: Refreshing state... [id=387512138242:datalake_noticias_lab:silver_news_entities]
+aws_glue_catalog_table.tables["silver_news_key_phrases"]: Refreshing state... [id=387512138242:datalake_noticias_lab:silver_news_key_phrases]
+aws_iam_policy.airflow_pipeline: Refreshing state... [id=arn:aws:iam::387512138242:policy/datalake-noticias-lab-airflow-pipeline]
+aws_s3_bucket_policy.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+aws_s3_object.zone_markers["tmp"]: Refreshing state... [id=tmp/]
+aws_s3_object.zone_markers["quarantine"]: Refreshing state... [id=quarantine/]
+aws_s3_object.zone_markers["gold"]: Refreshing state... [id=gold/]
+aws_s3_object.zone_markers["athena-results"]: Refreshing state... [id=athena-results/]
+aws_s3_object.zone_markers["silver"]: Refreshing state... [id=silver/]
+aws_s3_object.zone_markers["bronze"]: Refreshing state... [id=bronze/]
+aws_s3_object.zone_markers["control"]: Refreshing state... [id=control/]
+aws_instance.airflow: Refreshing state... [id=i-066eb3481cc73d7c4]
+aws_iam_role_policy_attachment.airflow_pipeline: Refreshing state... [id=datalake-noticias-lab-airflow-ec2-20261105000524446100000002]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_instance.airflow must be replaced
+-/+ resource "aws_instance" "airflow" {
+      ~ arn                                  = "arn:aws:ec2:us-east-1:387512138242:instance/i-066eb3481cc73d7c4" -> (known after apply)
+      ~ availability_zone                    = "us-east-1a" -> (known after apply)
+      ~ cpu_core_count                       = 1 -> (known after apply)
+      ~ cpu_threads_per_core                 = 2 -> (known after apply)
+      ~ disable_api_stop                     = false -> (known after apply)
+      ~ disable_api_termination              = false -> (known after apply)
+      ~ ebs_optimized                        = false -> (known after apply)
+      + enable_primary_ipv6                  = (known after apply)
+      - hibernation                          = false -> null
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      ~ id                                   = "i-066eb3481cc73d7c4" -> (known after apply)
+      ~ instance_initiated_shutdown_behavior = "stop" -> (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      ~ instance_state                       = "running" -> (known after apply)
+      ~ ipv6_address_count                   = 0 -> (known after apply)
+      ~ ipv6_addresses                       = [] -> (known after apply)
+      + key_name                             = (known after apply)
+      ~ monitoring                           = false -> (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      ~ placement_partition_number           = 0 -> (known after apply)
+      ~ primary_network_interface_id         = "eni-015971e795d6188f1" -> (known after apply)
+      ~ private_dns                          = "ip-172-31-3-165.ec2.internal" -> (known after apply)
+      ~ private_ip                           = "172.31.3.165" -> (known after apply)
+      ~ public_dns                           = "ec2-34-205-29-246.compute-1.amazonaws.com" -> (known after apply)
+      ~ public_ip                            = "34.205.29.246" -> (known after apply)
+      ~ secondary_private_ips                = [] -> (known after apply)
+      ~ security_groups                      = [
+          - "datalake-noticias-lab-airflow",
+        ] -> (known after apply)
+      + spot_instance_request_id             = (known after apply)
+        tags                                 = {
+            "Name" = "datalake-noticias-lab-airflow"
+        }
+      ~ tenancy                              = "default" -> (known after apply)
+      ~ user_data                            = "1af8052e2dd39619473360a3943c8bfacd805f38" -> "aec7c562e52555545ab57f47e47489ec43aa6dab" # forces replacement
+      + user_data_base64                     = (known after apply)
+        # (10 unchanged attributes hidden)
+
+      ~ capacity_reservation_specification (known after apply)
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      ~ cpu_options (known after apply)
+      - cpu_options {
+          - core_count       = 1 -> null
+          - threads_per_core = 2 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - credit_specification {
+          - cpu_credits = "unlimited" -> null
+        }
+
+      ~ ebs_block_device (known after apply)
+
+      ~ enclave_options (known after apply)
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      ~ ephemeral_block_device (known after apply)
+
+      ~ instance_market_options (known after apply)
+
+      ~ maintenance_options (known after apply)
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      ~ metadata_options {
+          ~ http_put_response_hop_limit = 2 -> (known after apply)
+          ~ instance_metadata_tags      = "disabled" -> (known after apply)
+            # (3 unchanged attributes hidden)
+        }
+
+      ~ network_interface (known after apply)
+
+      ~ private_dns_name_options (known after apply)
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      ~ root_block_device {
+          ~ device_name           = "/dev/xvda" -> (known after apply)
+          ~ iops                  = 3000 -> (known after apply)
+          ~ kms_key_id            = "arn:aws:kms:us-east-1:387512138242:key/26a16817-3423-4419-9afa-ee0d48c2847a" -> (known after apply)
+          - tags                  = {} -> null
+          ~ tags_all              = {
+              - "Course"      = "arquitecturas-de-datos"
+              - "Environment" = "lab"
+              - "ManagedBy"   = "terraform"
+              - "Project"     = "datalake-noticias"
+            } -> (known after apply)
+          ~ throughput            = 125 -> (known after apply)
+          ~ volume_id             = "vol-0d99f197e7e1a9fab" -> (known after apply)
+            # (4 unchanged attributes hidden)
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Changes to Outputs:
+  ~ airflow_instance_id              = "i-066eb3481cc73d7c4" -> (known after apply)
+  ~ airflow_tunnel_command           = "aws ssm start-session --target i-066eb3481cc73d7c4 --document-name AWS-StartPortForwardingSession --parameters portNumber=8080,localPortNumber=8080" -> (known after apply)
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: fase.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "fase.tfplan"

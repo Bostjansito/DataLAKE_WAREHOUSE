@@ -1,0 +1,249 @@
+$ terraform plan -target=aws_glue_catalog_table.tables -out=fase.tfplan   # 2026-11-05T00:33:12Z
+data.aws_caller_identity.current: Reading...
+aws_glue_catalog_database.data_lake: Refreshing state... [id=387512138242:datalake_noticias_lab]
+data.aws_caller_identity.current: Read complete after 1s [id=387512138242]
+aws_s3_bucket.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+aws_glue_catalog_table.tables["gold_entity_daily"]: Refreshing state... [id=387512138242:datalake_noticias_lab:gold_entity_daily]
+aws_glue_catalog_table.tables["gold_key_phrases_daily"]: Refreshing state... [id=387512138242:datalake_noticias_lab:gold_key_phrases_daily]
+aws_glue_catalog_table.tables["gold_news_daily"]: Refreshing state... [id=387512138242:datalake_noticias_lab:gold_news_daily]
+aws_glue_catalog_table.tables["silver_news_entities"]: Refreshing state... [id=387512138242:datalake_noticias_lab:silver_news_entities]
+aws_glue_catalog_table.tables["silver_news_key_phrases"]: Refreshing state... [id=387512138242:datalake_noticias_lab:silver_news_key_phrases]
+aws_glue_catalog_table.tables["silver_news"]: Refreshing state... [id=387512138242:datalake_noticias_lab:silver_news]
+aws_glue_catalog_table.tables["control_batches"]: Refreshing state... [id=387512138242:datalake_noticias_lab:control_batches]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_glue_catalog_table.tables["control_batches"] will be updated in-place
+  ~ resource "aws_glue_catalog_table" "tables" {
+        id                 = "387512138242:datalake_noticias_lab:control_batches"
+        name               = "control_batches"
+        # (10 unchanged attributes hidden)
+
+      ~ storage_descriptor {
+            # (9 unchanged attributes hidden)
+
+          + columns {
+              + comment = "Fecha y hora del procesamiento a Silver (UTC)"
+              + name    = "processed_at"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Ejecución de Silver que procesó el lote"
+              + name    = "processing_run_id"
+              + type    = "string"
+            }
+
+            # (21 unchanged blocks hidden)
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+  # aws_glue_catalog_table.tables["quarantine_news"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Cuarentena: ítems RSS rechazados, con motivo y referencia a Bronze"
+      + id            = (known after apply)
+      + name          = "quarantine_news"
+      + parameters    = {
+          + "EXTERNAL"       = "TRUE"
+          + "classification" = "json"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de ingesta UTC (AAAA-MM-DD)"
+          + name    = "ingestion_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/quarantine/news/"
+          + output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+          + columns {
+              + comment = "Lote de Bronze de origen"
+              + name    = "run_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fuente RSS"
+              + name    = "source_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Archivo original en Bronze"
+              + name    = "bronze_key"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Posición del ítem dentro del RSS"
+              + name    = "item_index"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Motivos del rechazo"
+              + name    = "reasons"
+              + type    = "array<string>"
+            }
+          + columns {
+              + comment = "Título original"
+              + name    = "raw_title"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Enlace original"
+              + name    = "raw_link"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "GUID original"
+              + name    = "raw_guid"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha original"
+              + name    = "raw_pubdate"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Descripción original"
+              + name    = "raw_description"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha y hora del rechazo UTC (ISO 8601)"
+              + name    = "quarantined_at"
+              + type    = "string"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "ignore.malformed.json" = "FALSE"
+                }
+              + serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.tables["silver_news"] will be updated in-place
+  ~ resource "aws_glue_catalog_table" "tables" {
+        id                 = "387512138242:datalake_noticias_lab:silver_news"
+        name               = "silver_news"
+        # (10 unchanged attributes hidden)
+
+      ~ storage_descriptor {
+            # (9 unchanged attributes hidden)
+
+          ~ columns {
+              ~ comment    = "Identificador estable: hash del GUID o del enlace normalizado" -> "Identificador estable: medio + id de artículo, o hash del GUID/enlace"
+                name       = "news_id"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "guid | link | title_date" -> "article_id | guid | link | title_date"
+                name       = "id_strategy"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "Hash del contenido de la noticia" -> "ok | missing_date | unparseable_date | future_date | too_old_date | naive_assumed_utc"
+              ~ name       = "content_hash" -> "date_status"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "Hash del texto enviado a Comprehend" -> "Hash del contenido de la noticia"
+              ~ name       = "analyzed_text_hash" -> "content_hash"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "Idioma usado en Comprehend" -> "Hash del texto enviado a Comprehend"
+              ~ name       = "language" -> "analyzed_text_hash"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "ok | reused | empty_text | text_too_long | unsupported_language | error" -> "Idioma usado en Comprehend"
+              ~ name       = "enrichment_status" -> "language"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "Versión vigente de la noticia (1 = original)" -> "ok | reused | empty_text | text_too_long | unsupported_language | error"
+              ~ name       = "version" -> "enrichment_status"
+              ~ type       = "int" -> "string"
+                # (1 unchanged attribute hidden)
+            }
+          ~ columns {
+              ~ comment    = "Primera vez que se ingirió" -> "Versión vigente de la noticia (1 = original)"
+              ~ name       = "first_seen_at" -> "version"
+              ~ type       = "timestamp" -> "int"
+                # (1 unchanged attribute hidden)
+            }
+          ~ columns {
+              ~ comment    = "Última vez que cambió su contenido" -> "Primera vez que se ingirió"
+              ~ name       = "last_updated_at" -> "first_seen_at"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "Lote de Bronze de la versión vigente" -> "Última vez que cambió su contenido"
+              ~ name       = "bronze_run_id" -> "last_updated_at"
+              ~ type       = "string" -> "timestamp"
+                # (1 unchanged attribute hidden)
+            }
+          ~ columns {
+              ~ comment    = "Archivo de Bronze de la versión vigente" -> "Lote de Bronze de la versión vigente"
+              ~ name       = "bronze_key" -> "bronze_run_id"
+                # (2 unchanged attributes hidden)
+            }
+          ~ columns {
+              ~ comment    = "Ejecución que publicó la fila" -> "Archivo de Bronze de la versión vigente"
+              ~ name       = "silver_run_id" -> "bronze_key"
+                # (2 unchanged attributes hidden)
+            }
+          + columns {
+              + comment = "Ejecución que publicó la fila"
+              + name    = "silver_run_id"
+              + type    = "string"
+            }
+
+            # (10 unchanged blocks hidden)
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+Plan: 1 to add, 2 to change, 0 to destroy.
+
+Changes to Outputs:
+  ~ glue_tables          = [
+        # (3 unchanged elements hidden)
+        "gold_news_daily",
+      + "quarantine_news",
+        "silver_news",
+        # (2 unchanged elements hidden)
+    ]
+
+Warning: Resource targeting is in effect
+
+You are creating a plan with the -target option, which means that the result
+of this plan may not represent all of the changes requested by the current
+configuration.
+
+The -target option is not for routine use, and is provided only for
+exceptional situations such as recovering from errors or mistakes, or when
+Terraform specifically suggests to use it as part of an error message.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: fase.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "fase.tfplan"

@@ -1,0 +1,30 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+*.tfvars
+!*.tfvars.example
+.terraform.lock.hcl.bak
+
+# Secretos y entornos
+.env
+*.pem
+.aws/
+
+# Python
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+
+# Airflow local
+logs/
+
+# Configuración local de Claude Code
+.claude/
+CLAUDE.md
+
+# Paquete de despliegue generado por Terraform
+**/.build/

@@ -1,0 +1,709 @@
+$ terraform plan -target=aws_glue_catalog_database.data_lake -target=aws_glue_catalog_table.tables -out=fase.tfplan   # 2026-11-05T00:05:44Z
+data.aws_caller_identity.current: Reading...
+data.aws_caller_identity.current: Read complete after 1s [id=387512138242]
+aws_s3_bucket.data_lake: Refreshing state... [id=datalake-noticias-387512138242-us-east-1]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_glue_catalog_database.data_lake will be created
+  + resource "aws_glue_catalog_database" "data_lake" {
+      + arn          = (known after apply)
+      + catalog_id   = (known after apply)
+      + description  = "Data lake de noticias RSS: tablas Silver, Gold y de control"
+      + id           = (known after apply)
+      + location_uri = (known after apply)
+      + name         = "datalake_noticias_lab"
+      + tags_all     = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+
+      + create_table_default_permission (known after apply)
+    }
+
+  # aws_glue_catalog_table.tables["control_batches"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Control: registro por lote y fuente con conteos y estado del procesamiento"
+      + id            = (known after apply)
+      + name          = "control_batches"
+      + parameters    = {
+          + "EXTERNAL"       = "TRUE"
+          + "classification" = "json"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de ingesta UTC (AAAA-MM-DD)"
+          + name    = "ingestion_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/control/batches/"
+          + output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+          + columns {
+              + comment = "Identificador de la ejecución"
+              + name    = "run_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "extraction | reprocess"
+              + name    = "batch_type"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fuente RSS"
+              + name    = "source_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Medio"
+              + name    = "media"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Sección"
+              + name    = "section"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "URL consultada"
+              + name    = "url"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Estado HTTP"
+              + name    = "http_status"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Hash SHA-256 del contenido original"
+              + name    = "content_hash"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Tamaño de la respuesta"
+              + name    = "content_bytes"
+              + type    = "bigint"
+            }
+          + columns {
+              + comment = "Ubicación del archivo original en S3"
+              + name    = "bronze_key"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha y hora de ingesta UTC (ISO 8601)"
+              + name    = "ingestion_ts"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "success | empty | http_error | malformed_xml | failed"
+              + name    = "status"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Detalle del error, si aplica"
+              + name    = "error_message"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Ítems en el RSS"
+              + name    = "items_received"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Ítems válidos"
+              + name    = "items_valid"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Ítems enviados a cuarentena"
+              + name    = "items_rejected"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Repetidos dentro del lote"
+              + name    = "items_duplicate_in_batch"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Noticias nuevas"
+              + name    = "items_new"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Noticias con contenido modificado"
+              + name    = "items_updated"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Noticias ya conocidas sin cambios"
+              + name    = "items_unchanged"
+              + type    = "int"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "ignore.malformed.json" = "FALSE"
+                }
+              + serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.tables["gold_entity_daily"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Gold: presencia diaria de cada entidad (noticias distintas que la mencionan)"
+      + id            = (known after apply)
+      + name          = "gold_entity_daily"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de publicación UTC (AAAA-MM-DD) o 'sin_fecha'"
+          + name    = "published_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/gold/entity_daily/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + comment = "PERSON | ORGANIZATION | LOCATION"
+              + name    = "entity_type"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Clave de agrupación"
+              + name    = "entity_text_normalized"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Forma de visualización"
+              + name    = "entity_text"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Noticias distintas con la entidad"
+              + name    = "news_count"
+              + type    = "bigint"
+            }
+          + columns {
+              + comment = "Ejecución que construyó la fila"
+              + name    = "gold_run_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha de construcción"
+              + name    = "built_at"
+              + type    = "timestamp"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "serialization.format" = "1"
+                }
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.tables["gold_key_phrases_daily"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Gold: frecuencia diaria de frases clave por sección"
+      + id            = (known after apply)
+      + name          = "gold_key_phrases_daily"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de publicación UTC (AAAA-MM-DD) o 'sin_fecha'"
+          + name    = "published_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/gold/key_phrases_daily/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + comment = "Sección"
+              + name    = "section"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Clave de agrupación"
+              + name    = "key_phrase_normalized"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Forma de visualización"
+              + name    = "key_phrase"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Noticias distintas con la frase"
+              + name    = "news_count"
+              + type    = "bigint"
+            }
+          + columns {
+              + comment = "Ejecución que construyó la fila"
+              + name    = "gold_run_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha de construcción"
+              + name    = "built_at"
+              + type    = "timestamp"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "serialization.format" = "1"
+                }
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.tables["gold_news_daily"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Gold: noticias publicadas por día, medio y sección"
+      + id            = (known after apply)
+      + name          = "gold_news_daily"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de publicación UTC (AAAA-MM-DD) o 'sin_fecha'"
+          + name    = "published_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/gold/news_daily/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + comment = "Medio"
+              + name    = "media"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Sección"
+              + name    = "section"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Noticias distintas vigentes"
+              + name    = "news_count"
+              + type    = "bigint"
+            }
+          + columns {
+              + comment = "Ejecución que construyó la fila"
+              + name    = "gold_run_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha de construcción"
+              + name    = "built_at"
+              + type    = "timestamp"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "serialization.format" = "1"
+                }
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.tables["silver_news"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Silver: una fila por noticia vigente, limpia y enriquecida"
+      + id            = (known after apply)
+      + name          = "silver_news"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de publicación UTC (AAAA-MM-DD) o 'sin_fecha'"
+          + name    = "published_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/silver/news/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + comment = "Identificador estable: hash del GUID o del enlace normalizado"
+              + name    = "news_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "guid | link | title_date"
+              + name    = "id_strategy"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "GUID del RSS, si existe"
+              + name    = "guid"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Enlace normalizado"
+              + name    = "link"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Título sin HTML"
+              + name    = "title"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Descripción sin HTML"
+              + name    = "description"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Medio de comunicación"
+              + name    = "media"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Sección del primer feed donde apareció"
+              + name    = "section"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Todas las secciones donde apareció la noticia"
+              + name    = "sections"
+              + type    = "array<string>"
+            }
+          + columns {
+              + comment = "Fecha original del RSS"
+              + name    = "published_at_raw"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha de publicación normalizada a UTC"
+              + name    = "published_at_utc"
+              + type    = "timestamp"
+            }
+          + columns {
+              + comment = "Hash del contenido de la noticia"
+              + name    = "content_hash"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Hash del texto enviado a Comprehend"
+              + name    = "analyzed_text_hash"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Idioma usado en Comprehend"
+              + name    = "language"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "ok | reused | empty_text | text_too_long | unsupported_language | error"
+              + name    = "enrichment_status"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Versión vigente de la noticia (1 = original)"
+              + name    = "version"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Primera vez que se ingirió"
+              + name    = "first_seen_at"
+              + type    = "timestamp"
+            }
+          + columns {
+              + comment = "Última vez que cambió su contenido"
+              + name    = "last_updated_at"
+              + type    = "timestamp"
+            }
+          + columns {
+              + comment = "Lote de Bronze de la versión vigente"
+              + name    = "bronze_run_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Archivo de Bronze de la versión vigente"
+              + name    = "bronze_key"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Ejecución que publicó la fila"
+              + name    = "silver_run_id"
+              + type    = "string"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "serialization.format" = "1"
+                }
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.tables["silver_news_entities"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Silver: una fila por entidad distinta detectada en cada noticia vigente"
+      + id            = (known after apply)
+      + name          = "silver_news_entities"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de publicación UTC (AAAA-MM-DD) o 'sin_fecha'"
+          + name    = "published_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/silver/news_entities/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + comment = "Noticia asociada"
+              + name    = "news_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "PERSON | ORGANIZATION | LOCATION"
+              + name    = "entity_type"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Texto de la entidad (forma más frecuente)"
+              + name    = "entity_text"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Texto en minúsculas y sin tildes, para agrupar"
+              + name    = "entity_text_normalized"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Máxima confianza devuelta por Comprehend"
+              + name    = "score"
+              + type    = "double"
+            }
+          + columns {
+              + comment = "Menciones dentro del texto (no se usa para contar presencia)"
+              + name    = "mentions"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Hash del texto analizado"
+              + name    = "analyzed_text_hash"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Idioma del análisis"
+              + name    = "language"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha del análisis"
+              + name    = "analyzed_at"
+              + type    = "timestamp"
+            }
+          + columns {
+              + comment = "Ejecución que publicó la fila"
+              + name    = "silver_run_id"
+              + type    = "string"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "serialization.format" = "1"
+                }
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.tables["silver_news_key_phrases"] will be created
+  + resource "aws_glue_catalog_table" "tables" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "datalake_noticias_lab"
+      + description   = "Silver: una fila por frase clave distinta detectada en cada noticia vigente"
+      + id            = (known after apply)
+      + name          = "silver_news_key_phrases"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "Fecha de publicación UTC (AAAA-MM-DD) o 'sin_fecha'"
+          + name    = "published_date"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://datalake-noticias-387512138242-us-east-1/silver/news_key_phrases/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + comment = "Noticia asociada"
+              + name    = "news_id"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Frase clave (forma más frecuente)"
+              + name    = "key_phrase"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Frase en minúsculas y sin tildes"
+              + name    = "key_phrase_normalized"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Máxima confianza devuelta por Comprehend"
+              + name    = "score"
+              + type    = "double"
+            }
+          + columns {
+              + comment = "Menciones dentro del texto"
+              + name    = "mentions"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "Hash del texto analizado"
+              + name    = "analyzed_text_hash"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Idioma del análisis"
+              + name    = "language"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "Fecha del análisis"
+              + name    = "analyzed_at"
+              + type    = "timestamp"
+            }
+          + columns {
+              + comment = "Ejecución que publicó la fila"
+              + name    = "silver_run_id"
+              + type    = "string"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "serialization.format" = "1"
+                }
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + glue_database        = "datalake_noticias_lab"
+  + glue_tables          = [
+      + "control_batches",
+      + "gold_entity_daily",
+      + "gold_key_phrases_daily",
+      + "gold_news_daily",
+      + "silver_news",
+      + "silver_news_entities",
+      + "silver_news_key_phrases",
+    ]
+
+Warning: Resource targeting is in effect
+
+You are creating a plan with the -target option, which means that the result
+of this plan may not represent all of the changes requested by the current
+configuration.
+
+The -target option is not for routine use, and is provided only for
+exceptional situations such as recovering from errors or mistakes, or when
+Terraform specifically suggests to use it as part of an error message.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: fase.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "fase.tfplan"

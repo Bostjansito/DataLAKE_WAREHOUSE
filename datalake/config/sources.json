@@ -1,0 +1,26 @@
+{
+  "_comment": "Fuentes RSS del data lake. El directorio https://www.eltiempo.com/rss no es un feed; estas son las URL de cada sección.",
+  "sources": [
+    {
+      "source_id": "eltiempo_politica",
+      "media": "El Tiempo",
+      "section": "Política",
+      "url": "https://www.eltiempo.com/rss/politica.xml",
+      "language": "es"
+    },
+    {
+      "source_id": "eltiempo_economia",
+      "media": "El Tiempo",
+      "section": "Economía",
+      "url": "https://www.eltiempo.com/rss/economia.xml",
+      "language": "es"
+    },
+    {
+      "source_id": "eltiempo_deportes",
+      "media": "El Tiempo",
+      "section": "Deportes",
+      "url": "https://www.eltiempo.com/rss/deportes.xml",
+      "language": "es"
+    }
+  ]
+}

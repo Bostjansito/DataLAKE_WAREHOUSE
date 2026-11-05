@@ -1,0 +1,45 @@
+$ terraform apply fase.tfplan   # 2026-11-05T00:05:21Z
+aws_iam_policy.airflow_pipeline: Creating...
+aws_iam_role.airflow_ec2: Creating...
+aws_iam_policy.airflow_pipeline: Creation complete after 1s [id=arn:aws:iam::387512138242:policy/datalake-noticias-lab-airflow-pipeline]
+aws_iam_role.airflow_ec2: Creation complete after 1s [id=datalake-noticias-lab-airflow-ec2]
+aws_iam_role_policy_attachment.airflow_pipeline: Creating...
+aws_iam_role_policy_attachment.ssm_core: Creating...
+aws_iam_instance_profile.airflow_ec2: Creating...
+aws_iam_role_policy_attachment.ssm_core: Creation complete after 1s [id=datalake-noticias-lab-airflow-ec2-20261105000524443500000001]
+aws_iam_role_policy_attachment.airflow_pipeline: Creation complete after 1s [id=datalake-noticias-lab-airflow-ec2-20261105000524446100000002]
+aws_iam_instance_profile.airflow_ec2: Creation complete after 7s [id=datalake-noticias-lab-airflow-ec2]
+
+Warning: Applied changes may be incomplete
+
+The plan was created with the -target option in effect, so some changes
+requested in the configuration may have been ignored and the output values
+may not be fully updated. Run the following command to verify that no other
+changes are pending:
+    terraform plan
+
+Note that the -target option is not suitable for routine use, and is provided
+only for exceptional situations such as recovering from errors or mistakes,
+or when Terraform specifically suggests to use it as part of an error
+message.
+
+Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+account_id = "387512138242"
+airflow_ec2_instance_profile = "datalake-noticias-lab-airflow-ec2"
+airflow_ec2_role_arn = "arn:aws:iam::387512138242:role/datalake-noticias-lab-airflow-ec2"
+budget_created = false
+data_lake_bucket = "datalake-noticias-387512138242-us-east-1"
+data_lake_bucket_arn = "arn:aws:s3:::datalake-noticias-387512138242-us-east-1"
+data_lake_zones = {
+  "athena-results" = "s3://datalake-noticias-387512138242-us-east-1/athena-results/"
+  "bronze" = "s3://datalake-noticias-387512138242-us-east-1/bronze/"
+  "control" = "s3://datalake-noticias-387512138242-us-east-1/control/"
+  "gold" = "s3://datalake-noticias-387512138242-us-east-1/gold/"
+  "quarantine" = "s3://datalake-noticias-387512138242-us-east-1/quarantine/"
+  "silver" = "s3://datalake-noticias-387512138242-us-east-1/silver/"
+  "tmp" = "s3://datalake-noticias-387512138242-us-east-1/tmp/"
+}
+region = "us-east-1"

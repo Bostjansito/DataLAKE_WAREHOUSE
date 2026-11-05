@@ -1,0 +1,422 @@
+$ terraform plan -out=fase1.tfplan   # 2026-11-04T03:47:28Z
+data.aws_caller_identity.current: Reading...
+data.aws_region.current: Reading...
+data.aws_region.current: Read complete after 0s [id=us-east-1]
+data.aws_caller_identity.current: Read complete after 0s [id=387512138242]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.aws_iam_policy_document.data_lake_tls_only will be read during apply
+  # (config refers to values not yet known)
+ <= data "aws_iam_policy_document" "data_lake_tls_only" {
+      + id            = (known after apply)
+      + json          = (known after apply)
+      + minified_json = (known after apply)
+
+      + statement {
+          + actions   = [
+              + "s3:*",
+            ]
+          + effect    = "Deny"
+          + resources = [
+              + (known after apply),
+              + (known after apply),
+            ]
+          + sid       = "DenyInsecureTransport"
+
+          + condition {
+              + test     = "Bool"
+              + values   = [
+                  + "false",
+                ]
+              + variable = "aws:SecureTransport"
+            }
+
+          + principals {
+              + identifiers = [
+                  + "*",
+                ]
+              + type        = "*"
+            }
+        }
+    }
+
+  # aws_s3_bucket.data_lake will be created
+  + resource "aws_s3_bucket" "data_lake" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "datalake-noticias-387512138242-us-east-1"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags_all                    = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # aws_s3_bucket_lifecycle_configuration.data_lake will be created
+  + resource "aws_s3_bucket_lifecycle_configuration" "data_lake" {
+      + bucket                                 = (known after apply)
+      + expected_bucket_owner                  = (known after apply)
+      + id                                     = (known after apply)
+      + transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      + rule {
+          + id     = "abortar-cargas-multiparte-incompletas"
+          + status = "Enabled"
+            # (1 unchanged attribute hidden)
+
+          + abort_incomplete_multipart_upload {
+              + days_after_initiation = 1
+            }
+
+          + filter {
+                # (1 unchanged attribute hidden)
+            }
+        }
+      + rule {
+          + id     = "expirar-resultados-athena"
+          + status = "Enabled"
+            # (1 unchanged attribute hidden)
+
+          + expiration {
+              + days                         = 7
+              + expired_object_delete_marker = false
+            }
+
+          + filter {
+              + prefix = "athena-results/"
+            }
+        }
+      + rule {
+          + id     = "expirar-staging-temporal"
+          + status = "Enabled"
+            # (1 unchanged attribute hidden)
+
+          + expiration {
+              + days                         = 1
+              + expired_object_delete_marker = false
+            }
+
+          + filter {
+              + prefix = "tmp/"
+            }
+        }
+    }
+
+  # aws_s3_bucket_ownership_controls.data_lake will be created
+  + resource "aws_s3_bucket_ownership_controls" "data_lake" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + rule {
+          + object_ownership = "BucketOwnerEnforced"
+        }
+    }
+
+  # aws_s3_bucket_policy.data_lake will be created
+  + resource "aws_s3_bucket_policy" "data_lake" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+      + policy = (known after apply)
+    }
+
+  # aws_s3_bucket_public_access_block.data_lake will be created
+  + resource "aws_s3_bucket_public_access_block" "data_lake" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # aws_s3_bucket_server_side_encryption_configuration.data_lake will be created
+  + resource "aws_s3_bucket_server_side_encryption_configuration" "data_lake" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + rule {
+          + bucket_key_enabled = true
+
+          + apply_server_side_encryption_by_default {
+              + sse_algorithm     = "AES256"
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # aws_s3_bucket_versioning.data_lake will be created
+  + resource "aws_s3_bucket_versioning" "data_lake" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Disabled"
+        }
+    }
+
+  # aws_s3_object.zone_markers["athena-results"] will be created
+  + resource "aws_s3_object" "zone_markers" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = "application/x-directory"
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "athena-results/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.zone_markers["bronze"] will be created
+  + resource "aws_s3_object" "zone_markers" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = "application/x-directory"
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "bronze/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.zone_markers["control"] will be created
+  + resource "aws_s3_object" "zone_markers" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = "application/x-directory"
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "control/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.zone_markers["gold"] will be created
+  + resource "aws_s3_object" "zone_markers" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = "application/x-directory"
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "gold/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.zone_markers["quarantine"] will be created
+  + resource "aws_s3_object" "zone_markers" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = "application/x-directory"
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "quarantine/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.zone_markers["silver"] will be created
+  + resource "aws_s3_object" "zone_markers" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = "application/x-directory"
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "silver/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.zone_markers["tmp"] will be created
+  + resource "aws_s3_object" "zone_markers" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = "application/x-directory"
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "tmp/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "Course"      = "arquitecturas-de-datos"
+          + "Environment" = "lab"
+          + "ManagedBy"   = "terraform"
+          + "Project"     = "datalake-noticias"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+Plan: 14 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + account_id           = "387512138242"
+  + budget_created       = false
+  + data_lake_bucket     = "datalake-noticias-387512138242-us-east-1"
+  + data_lake_bucket_arn = (known after apply)
+  + data_lake_zones      = {
+      + athena-results = "s3://datalake-noticias-387512138242-us-east-1/athena-results/"
+      + bronze         = "s3://datalake-noticias-387512138242-us-east-1/bronze/"
+      + control        = "s3://datalake-noticias-387512138242-us-east-1/control/"
+      + gold           = "s3://datalake-noticias-387512138242-us-east-1/gold/"
+      + quarantine     = "s3://datalake-noticias-387512138242-us-east-1/quarantine/"
+      + silver         = "s3://datalake-noticias-387512138242-us-east-1/silver/"
+      + tmp            = "s3://datalake-noticias-387512138242-us-east-1/tmp/"
+    }
+  + region               = "us-east-1"
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: fase1.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "fase1.tfplan"

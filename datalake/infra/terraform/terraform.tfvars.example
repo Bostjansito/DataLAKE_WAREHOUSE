@@ -1,0 +1,12 @@
+# Copiar como terraform.tfvars y ajustar. terraform.tfvars no se sube al repositorio.
+
+aws_region   = "us-east-1"
+project_name = "datalake-noticias"
+environment  = "lab"
+
+# Alerta de costos (opcional). Dejar vacío para no crear el presupuesto.
+budget_limit_usd   = 10
+budget_alert_email = ""
+
+# true solo en laboratorio: permite eliminar el bucket con objetos en terraform destroy.
+force_destroy_bucket = true

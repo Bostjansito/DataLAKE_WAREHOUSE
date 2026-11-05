@@ -1,0 +1,106 @@
+#!/bin/bash
+# Arranque de la instancia de Airflow (Amazon Linux 2023). Generado por Terraform.
+# Registro: /var/log/airflow-bootstrap.log
+set -euo pipefail
+exec > >(tee -a /var/log/airflow-bootstrap.log) 2>&1
+echo "== bootstrap $(date -u +%FT%TZ)"
+
+AIRFLOW_VERSION="${airflow_version}"
+export AWS_DEFAULT_REGION=${region}
+PY=python3.11
+
+# 1. Paquetes del sistema y swap de respaldo (2 GB)
+dnf install -y -q $PY $PY-pip unzip
+if [ ! -f /swapfile ]; then
+  dd if=/dev/zero of=/swapfile bs=1M count=2048 status=none
+  chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+  echo '/swapfile swap swap defaults 0 0' >> /etc/fstab
+fi
+
+# 2. Usuario y entorno de Airflow
+id airflow >/dev/null 2>&1 || useradd --system --create-home --home-dir /opt/airflow airflow
+mkdir -p /opt/airflow /opt/datalake
+$PY -m venv /opt/airflow/venv
+/opt/airflow/venv/bin/pip install -q --upgrade pip
+/opt/airflow/venv/bin/pip install -q "apache-airflow==$${AIRFLOW_VERSION}" \
+  --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-$${AIRFLOW_VERSION}/constraints-3.11.txt"
+
+# 3. Script de despliegue del código (se vuelve a ejecutar con SSM al publicar una versión nueva)
+cat > /opt/datalake/deploy.sh <<'DEPLOY'
+#!/bin/bash
+set -euo pipefail
+export AWS_DEFAULT_REGION=${region}
+TMP=$(mktemp -d)
+aws s3 cp --only-show-errors "s3://${bucket}/${deploy_key}" "$TMP/datalake.zip"
+mkdir -p "$TMP/code" && unzip -q "$TMP/datalake.zip" -d "$TMP/code"
+/opt/airflow/venv/bin/pip install -q -r "$TMP/code/requirements.txt"
+rm -rf /opt/datalake/app.old
+[ -d /opt/datalake/app ] && mv /opt/datalake/app /opt/datalake/app.old
+mv "$TMP/code" /opt/datalake/app
+chown -R airflow:airflow /opt/datalake/app
+rm -rf "$TMP" /opt/datalake/app.old
+echo "desplegado $(date -u +%FT%TZ) etag=$(aws s3api head-object --bucket ${bucket} --key ${deploy_key} --query ETag --output text)"
+DEPLOY
+chmod 750 /opt/datalake/deploy.sh
+/opt/datalake/deploy.sh
+
+# 4. Configuración (sin secretos en el archivo de entorno)
+cat > /etc/sysconfig/airflow <<ENV
+AIRFLOW_HOME=/opt/airflow
+PATH=/opt/airflow/venv/bin:/usr/local/bin:/usr/bin:/bin
+AIRFLOW__CORE__DAGS_FOLDER=/opt/datalake/app/dags
+AIRFLOW__CORE__LOAD_EXAMPLES=False
+AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+AIRFLOW__CORE__DEFAULT_TIMEZONE=utc
+AIRFLOW__WEBSERVER__WEB_SERVER_HOST=127.0.0.1
+AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8080
+AIRFLOW__WEBSERVER__WORKERS=2
+AIRFLOW__WEBSERVER__EXPOSE_CONFIG=False
+AIRFLOW__WEBSERVER__SECRET_KEY=$(openssl rand -hex 32)
+AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL=30
+DATALAKE_BUCKET=${bucket}
+AWS_REGION=${region}
+AWS_DEFAULT_REGION=${region}
+GLUE_DATABASE=${glue_database}
+ATHENA_WORKGROUP=${athena_wg}
+PYTHONPATH=/opt/datalake/app/src
+ENV
+chmod 640 /etc/sysconfig/airflow && chgrp airflow /etc/sysconfig/airflow
+chown -R airflow:airflow /opt/airflow
+
+as_airflow() { sudo -u airflow bash -c "set -a; . /etc/sysconfig/airflow; set +a; $*"; }
+as_airflow /opt/airflow/venv/bin/airflow db migrate
+
+# 5. Usuario admin con la contraseña de SSM Parameter Store (no se imprime)
+ADMIN_PW=$(aws ssm get-parameter --region ${region} --name "${airflow_param}" --with-decryption \
+  --query Parameter.Value --output text)
+if ! as_airflow /opt/airflow/venv/bin/airflow users list | grep -qw admin; then
+  sudo -u airflow bash -c "set -a; . /etc/sysconfig/airflow; set +a; /opt/airflow/venv/bin/airflow users create \
+    --username admin --firstname Admin --lastname Laboratorio --role Admin --email admin@example.com \
+    --password \"\$0\"" "$ADMIN_PW" > /dev/null
+fi
+unset ADMIN_PW
+
+# 6. Servicios systemd
+for svc in webserver scheduler; do
+cat > /etc/systemd/system/airflow-$svc.service <<UNIT
+[Unit]
+Description=Airflow $svc
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=airflow
+Group=airflow
+EnvironmentFile=/etc/sysconfig/airflow
+ExecStart=/opt/airflow/venv/bin/airflow $svc
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+done
+systemctl daemon-reload
+systemctl enable --now airflow-scheduler airflow-webserver
+echo "== bootstrap terminado $(date -u +%FT%TZ)"

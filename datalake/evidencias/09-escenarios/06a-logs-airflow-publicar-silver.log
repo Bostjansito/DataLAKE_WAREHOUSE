@@ -1,0 +1,29 @@
+attempt=1.log
+attempt=2.log
+===== publicar_silver attempt=1
+[2026-11-05T02:24:46.775+0000] {silver.py:273} ERROR - run_id=20261105T022409Z task=publish_silver FALLO CONTROLADO después de escribir v=20261105T022446605924Z y antes de publicar en Glue: Athena sigue viendo la versión anterior
+[2026-11-05T02:24:46.775+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+  File "/opt/datalake/app/dags/noticias_datalake.py", line 190, in publicar_silver
+  File "/opt/datalake/app/src/noticias/silver.py", line 275, in publish_silver
+    raise SimulatedFailure(f"Fallo controlado en publish_silver (archivos sin publicar en v={write_id})")
+noticias.silver.SimulatedFailure: Fallo controlado en publish_silver (archivos sin publicar en v=20261105T022446605924Z)
+[2026-11-05T02:24:46.782+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=noticias_datalake, task_id=publicar_silver, run_id=manual__2026-11-05T02:24:09+00:00, execution_date=20261105T022409, start_date=20261105T022445, end_date=2026110
+[2026-11-05T02:24:46.804+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 79 for task publicar_silver (Fallo controlado en publish_silver (archivos sin publicar en v=20261105T022446605924Z); 33055)
+  File "/opt/datalake/app/dags/noticias_datalake.py", line 190, in publicar_silver
+  File "/opt/datalake/app/src/noticias/silver.py", line 275, in publish_silver
+    raise SimulatedFailure(f"Fallo controlado en publish_silver (archivos sin publicar en v={write_id})")
+noticias.silver.SimulatedFailure: Fallo controlado en publish_silver (archivos sin publicar en v=20261105T022446605924Z)
+===== publicar_silver attempt=2
+[2026-11-05T02:25:32.798+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: noticias_datalake.publicar_silver manual__2026-11-05T02:24:09+00:00 [queued]>
+[2026-11-05T02:25:32.821+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'noticias_datalake', 'publicar_silver', 'manual__2026-11-05T02:24:09+00:00', '--job-id', '80', '--raw', '--subdir', 'DAGS_FOLDER/noticias_datalake.py', '--
+[2026-11-05T02:25:32.856+0000] {task_command.py:467} INFO - Running <TaskInstance: noticias_datalake.publicar_silver manual__2026-11-05T02:24:09+00:00 [running]> on host ip-172-31-6-106.ec2.internal
+[2026-11-05T02:25:32.918+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='datalake' AIRFLOW_CTX_DAG_ID='noticias_datalake' AIRFLOW_CTX_TASK_ID='publicar_silver' AIRFLOW_CTX_EXECUTION_DATE='2026-11-05T02:24:09+00:00' AIRFLOW_CTX_TR
+[2026-11-05T02:25:34.195+0000] {storage.py:122} INFO - glue table=silver_news_entities partitions_created=0 partitions_updated=1
+[2026-11-05T02:25:34.902+0000] {storage.py:122} INFO - glue table=silver_news_key_phrases partitions_created=0 partitions_updated=1
+[2026-11-05T02:25:35.631+0000] {storage.py:122} INFO - glue table=silver_news partitions_created=0 partitions_updated=1
+[2026-11-05T02:25:36.382+0000] {storage.py:122} INFO - glue table=control_batches partitions_created=0 partitions_updated=0
+[2026-11-05T02:25:37.272+0000] {storage.py:122} INFO - glue table=control_batches partitions_created=0 partitions_updated=0
+[2026-11-05T02:25:37.922+0000] {storage.py:122} INFO - glue table=control_batches partitions_created=0 partitions_updated=0
+[2026-11-05T02:25:37.960+0000] {python.py:240} INFO - Done. Returned value was: {'run_id': '20261105T022409Z', 'stage': 'silver', 'mode': 'incremental', 'status': 'complete', 'bronze_batches': ['20261105T022409Z/eltiempo_deportes', '20261105T022409Z/eltiempo_e
+[2026-11-05T02:25:37.990+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=noticias_datalake, task_id=publicar_silver, run_id=manual__2026-11-05T02:24:09+00:00, execution_date=20261105T022409, start_date=20261105T022532, end_date=20261105T0225
+	

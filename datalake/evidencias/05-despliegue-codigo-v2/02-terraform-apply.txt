@@ -1,0 +1,53 @@
+$ terraform apply fase.tfplan   # 2026-11-05T02:20:28Z
+aws_s3_object.datalake_code: Modifying... [id=deploy/datalake.zip]
+aws_s3_object.datalake_code: Modifications complete after 1s [id=deploy/datalake.zip]
+
+Warning: Applied changes may be incomplete
+
+The plan was created with the -target option in effect, so some changes
+requested in the configuration may have been ignored and the output values
+may not be fully updated. Run the following command to verify that no other
+changes are pending:
+    terraform plan
+
+Note that the -target option is not suitable for routine use, and is provided
+only for exceptional situations such as recovering from errors or mistakes,
+or when Terraform specifically suggests to use it as part of an error
+message.
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+
+Outputs:
+
+account_id = "387512138242"
+airflow_admin_password_parameter = "/datalake-noticias/lab/airflow/admin-password"
+airflow_ec2_instance_profile = "datalake-noticias-lab-airflow-ec2"
+airflow_ec2_role_arn = "arn:aws:iam::387512138242:role/datalake-noticias-lab-airflow-ec2"
+airflow_instance_id = "i-0a27767206dc5cd38"
+airflow_tunnel_command = "aws ssm start-session --target i-0a27767206dc5cd38 --document-name AWS-StartPortForwardingSession --parameters portNumber=8080,localPortNumber=8080"
+athena_workgroup = "datalake-noticias-lab-wg"
+budget_created = false
+data_lake_bucket = "datalake-noticias-387512138242-us-east-1"
+data_lake_bucket_arn = "arn:aws:s3:::datalake-noticias-387512138242-us-east-1"
+data_lake_zones = {
+  "athena-results" = "s3://datalake-noticias-387512138242-us-east-1/athena-results/"
+  "bronze" = "s3://datalake-noticias-387512138242-us-east-1/bronze/"
+  "control" = "s3://datalake-noticias-387512138242-us-east-1/control/"
+  "gold" = "s3://datalake-noticias-387512138242-us-east-1/gold/"
+  "quarantine" = "s3://datalake-noticias-387512138242-us-east-1/quarantine/"
+  "silver" = "s3://datalake-noticias-387512138242-us-east-1/silver/"
+  "tmp" = "s3://datalake-noticias-387512138242-us-east-1/tmp/"
+}
+datalake_code_object = "s3://datalake-noticias-387512138242-us-east-1/deploy/datalake.zip"
+glue_database = "datalake_noticias_lab"
+glue_tables = tolist([
+  "control_batches",
+  "gold_entity_daily",
+  "gold_key_phrases_daily",
+  "gold_news_daily",
+  "quarantine_news",
+  "silver_news",
+  "silver_news_entities",
+  "silver_news_key_phrases",
+])
+region = "us-east-1"

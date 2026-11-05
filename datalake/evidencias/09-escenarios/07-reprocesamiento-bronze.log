@@ -1,0 +1,230 @@
+# Escenario 07-reprocesamiento-bronze  (2026-11-05T02:30:07Z)
+$ dag_trigger.sh '{"rebuild": true}'
+run_id=manual__2026-11-05T02:30:07+00:00 conf={"rebuild": true}
+estado=success
+validar_configuracion       success  2026-11-05T02:30:14.251688+00:00  2026-11-05T02:30:15.044898+00:00
+fuentes                     success  2026-11-05T02:30:17.246552+00:00  2026-11-05T02:30:17.395860+00:00
+extraer_fuente              skipped                                    
+resumen_extraccion          success  2026-11-05T02:30:20.220922+00:00  2026-11-05T02:30:20.592503+00:00
+limpiar_validar_deduplicar  success  2026-11-05T02:30:22.919568+00:00  2026-11-05T02:30:26.271494+00:00
+enriquecer_comprehend       success  2026-11-05T02:30:28.458310+00:00  2026-11-05T02:30:31.776250+00:00
+publicar_silver             success  2026-11-05T02:30:33.945793+00:00  2026-11-05T02:30:58.520331+00:00
+construir_gold              success  2026-11-05T02:31:00.810936+00:00  2026-11-05T02:31:03.915053+00:00
+actualizar_glue             success  2026-11-05T02:31:06.126680+00:00  2026-11-05T02:31:12.713466+00:00
+validar_athena              success  2026-11-05T02:31:15.036102+00:00  2026-11-05T02:31:20.188071+00:00
+registrar_estado            success  2026-11-05T02:31:22.359870+00:00  2026-11-05T02:31:22.928463+00:00
+	
+
+# control/runs/run_id=20261105T023007Z/
+## silver.json
+{
+ "mode": "rebuild",
+ "batch_stats": [
+  {
+   "run_id": "20261105T000000Z",
+   "source_id": "eltiempo_deportes",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "new": 10
+  },
+  {
+   "run_id": "20261105T000000Z",
+   "source_id": "eltiempo_economia",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "new": 10
+  },
+  {
+   "run_id": "20261105T000000Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "new": 10
+  },
+  {
+   "run_id": "20261105T003325Z",
+   "source_id": "eltiempo_deportes",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 1,
+   "unchanged": 5,
+   "new": 4
+  },
+  {
+   "run_id": "20261105T003325Z",
+   "source_id": "eltiempo_economia",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 4,
+   "new": 6
+  },
+  {
+   "run_id": "20261105T003325Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 1,
+   "unchanged": 9
+  },
+  {
+   "run_id": "20261105T010000Z",
+   "source_id": "eltiempo_deportes",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 8,
+   "updated": 2
+  },
+  {
+   "run_id": "20261105T010000Z",
+   "source_id": "eltiempo_economia",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 10
+  },
+  {
+   "run_id": "20261105T010000Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 1,
+   "unchanged": 9
+  },
+  {
+   "run_id": "20261105T015607Z",
+   "source_id": "eltiempo_politica",
+   "received": 16,
+   "valid": 13,
+   "rejected": 3,
+   "updated": 1,
+   "unchanged": 9,
+   "new": 2,
+   "duplicate_in_batch": 1
+  },
+  {
+   "run_id": "20261105T020000Z",
+   "source_id": "eltiempo_deportes",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 9,
+   "updated": 1
+  },
+  {
+   "run_id": "20261105T020000Z",
+   "source_id": "eltiempo_economia",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "new": 3,
+   "unchanged": 7
+  },
+  {
+   "run_id": "20261105T020000Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 1,
+   "unchanged": 9
+  },
+  {
+   "run_id": "20261105T022242Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 2,
+   "unchanged": 8
+  },
+  {
+   "run_id": "20261105T022409Z",
+   "source_id": "eltiempo_deportes",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "new": 1,
+   "unchanged": 8,
+   "updated": 1
+  },
+  {
+   "run_id": "20261105T022409Z",
+   "source_id": "eltiempo_economia",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 10
+  },
+  {
+   "run_id": "20261105T022409Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 2,
+   "unchanged": 8
+  },
+  {
+   "run_id": "20261105T022630Z",
+   "source_id": "eltiempo_economia",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 10
+  },
+  {
+   "run_id": "20261105T022630Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "unchanged": 10
+  }
+ ],
+ "news_current": 46,
+ "news_changed": 46,
+ "affected_dates": [
+  "2026-11-04",
+  "2026-11-05",
+  "sin_fecha"
+ ],
+ "write_id": "20261105T023034589689Z",
+ "comprehend": {
+  "analyzed": 0,
+  "reused": 44,
+  "skipped": {},
+  "errors": 0,
+  "api_calls": 0,
+  "chars_sent": 0
+ }
+}
+## dag.json
+{
+ "status": "complete",
+ "extraction": "rebuild",
+ "params": {
+  "bronze_run_id": "",
+  "rebuild": true,
+  "fuente_caida": "",
+  "simular_fallo": false
+ },
+ "validations": {
+  "noticias_vigentes": 46,
+  "ids_duplicados": 0,
+  "campos_obligatorios_vacios": 0,
+  "enlaces_invalidos": 0,
+  "fechas_inconsistentes": 0,
+  "entidades_huerfanas": 0,
+  "frases_huerfanas": 0,
+  "descuadre_gold_noticias": 0,
+  "descuadre_gold_entidades": 0
+ }
+}

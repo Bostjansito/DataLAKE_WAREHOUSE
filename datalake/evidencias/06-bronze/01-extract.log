@@ -1,0 +1,24 @@
+2026-11-04 19:33:27,859 INFO [noticias.storage] glue table=control_batches partitions_created=1 partitions_updated=0
+2026-11-04 19:33:27,859 INFO [noticias.ingest] source=eltiempo_politica run_id=20261105T003325Z task=extract status=success http=200 items=10 bytes=13239 error=None
+2026-11-04 19:33:29,171 INFO [noticias.storage] glue table=control_batches partitions_created=0 partitions_updated=0
+2026-11-04 19:33:29,171 INFO [noticias.ingest] source=eltiempo_economia run_id=20261105T003325Z task=extract status=success http=200 items=10 bytes=13041 error=None
+2026-11-04 19:33:30,562 INFO [noticias.storage] glue table=control_batches partitions_created=0 partitions_updated=0
+2026-11-04 19:33:30,563 INFO [noticias.ingest] source=eltiempo_deportes run_id=20261105T003325Z task=extract status=success http=200 items=10 bytes=12748 error=None
+2026-11-04 19:33:30,728 INFO [noticias.ingest] run_id=20261105T003325Z task=extract status=complete ok=3 failed=0
+{
+  "run_id": "20261105T003325Z",
+  "stage": "extract",
+  "status": "complete",
+  "finished_at": "2026-11-05T00:33:30Z",
+  "sources_ok": [
+    "eltiempo_politica",
+    "eltiempo_economia",
+    "eltiempo_deportes"
+  ],
+  "sources_failed": [],
+  "bronze_keys": [
+    "bronze/source=eltiempo_politica/ingestion_date=2026-11-05/run_id=20261105T003325Z/feed.xml",
+    "bronze/source=eltiempo_economia/ingestion_date=2026-11-05/run_id=20261105T003325Z/feed.xml",
+    "bronze/source=eltiempo_deportes/ingestion_date=2026-11-05/run_id=20261105T003325Z/feed.xml"
+  ]
+}

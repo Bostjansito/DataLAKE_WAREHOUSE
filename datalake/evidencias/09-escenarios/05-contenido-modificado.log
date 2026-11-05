@@ -1,0 +1,69 @@
+# Escenario 05-contenido-modificado  (2026-11-05T02:22:44Z)
+$ dag_trigger.sh '{"bronze_run_id": "20261105T022242Z"}'
+run_id=manual__2026-11-05T02:22:44+00:00 conf={"bronze_run_id": "20261105T022242Z"}
+estado=success
+validar_configuracion       success  2026-11-05T02:22:50.660586+00:00  2026-11-05T02:22:51.495712+00:00
+fuentes                     success  2026-11-05T02:22:53.702797+00:00  2026-11-05T02:22:53.850624+00:00
+extraer_fuente              skipped                                    
+resumen_extraccion          success  2026-11-05T02:22:56.909593+00:00  2026-11-05T02:22:57.246334+00:00
+limpiar_validar_deduplicar  success  2026-11-05T02:22:59.417517+00:00  2026-11-05T02:23:02.674603+00:00
+enriquecer_comprehend       success  2026-11-05T02:23:04.904555+00:00  2026-11-05T02:23:05.876863+00:00
+publicar_silver             success  2026-11-05T02:23:08.098438+00:00  2026-11-05T02:23:12.134413+00:00
+construir_gold              success  2026-11-05T02:23:14.995344+00:00  2026-11-05T02:23:17.773093+00:00
+actualizar_glue             success  2026-11-05T02:23:19.972768+00:00  2026-11-05T02:23:26.827697+00:00
+validar_athena              success  2026-11-05T02:23:29.012958+00:00  2026-11-05T02:23:34.189774+00:00
+registrar_estado            success  2026-11-05T02:23:36.381651+00:00  2026-11-05T02:23:36.957041+00:00
+	
+
+# control/runs/run_id=20261105T022244Z/
+## silver.json
+{
+ "mode": "incremental",
+ "batch_stats": [
+  {
+   "run_id": "20261105T022242Z",
+   "source_id": "eltiempo_politica",
+   "received": 10,
+   "valid": 10,
+   "rejected": 0,
+   "updated": 2,
+   "unchanged": 8
+  }
+ ],
+ "news_current": 45,
+ "news_changed": 2,
+ "affected_dates": [
+  "2026-11-05"
+ ],
+ "write_id": "20261105T022308756378Z",
+ "comprehend": {
+  "analyzed": 1,
+  "reused": 0,
+  "skipped": {},
+  "errors": 0,
+  "api_calls": 2,
+  "chars_sent": 722
+ }
+}
+## dag.json
+{
+ "status": "complete",
+ "extraction": "reprocess",
+ "params": {
+  "bronze_run_id": "20261105T022242Z",
+  "rebuild": false,
+  "fuente_caida": "",
+  "simular_fallo": false
+ },
+ "validations": {
+  "noticias_vigentes": 45,
+  "ids_duplicados": 0,
+  "campos_obligatorios_vacios": 0,
+  "enlaces_invalidos": 0,
+  "fechas_inconsistentes": 0,
+  "entidades_huerfanas": 0,
+  "frases_huerfanas": 0,
+  "descuadre_gold_noticias": 0,
+  "descuadre_gold_entidades": 0
+ }
+}
