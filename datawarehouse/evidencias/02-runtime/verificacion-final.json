@@ -1,0 +1,22 @@
+{
+  "CommandId": "2692d4e1-58e4-4f78-8233-dcecd4db5597",
+  "InstanceId": "i-0b65cd081428de5fc",
+  "Comment": "Verify repaired runtime software and own bucket using actual instance role",
+  "DocumentName": "AWS-RunShellScript",
+  "DocumentVersion": "$DEFAULT",
+  "PluginName": "aws:runShellScript",
+  "ResponseCode": 0,
+  "ExecutionStartDateTime": "2026-11-05T18:05:30.940Z",
+  "ExecutionElapsedTime": "PT1.95S",
+  "ExecutionEndDateTime": "2026-11-05T18:05:31.940Z",
+  "Status": "Success",
+  "StatusDetails": "Success",
+  "StandardOutputContent": "Python 3.11.18\nactive\nTLS_CA_FILES_PRESENT\n{\n    \"UserId\": \"AROATQSCZTYTCFGZWGWDY:i-0b65cd081428de5fc\",\n    \"Account\": \"241732001318\",\n    \"Arn\": \"arn:aws:sts::241732001318:assumed-role/dw-ec2-20261105180243023500000001/i-0b65cd081428de5fc\"\n}\n{\n    \"RequestCharged\": null,\n    \"Prefix\": \"\"\n}\n",
+  "StandardOutputUrl": "",
+  "StandardErrorContent": "",
+  "StandardErrorUrl": "",
+  "CloudWatchOutputConfig": {
+    "CloudWatchLogGroupName": "",
+    "CloudWatchOutputEnabled": false
+  }
+}

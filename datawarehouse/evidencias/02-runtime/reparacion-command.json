@@ -1,0 +1,5 @@
+{
+  "CommandId": "0ba49ad1-e320-4a31-8273-596f606f62be",
+  "InstanceId": "i-0b65cd081428de5fc",
+  "reason": "AL2023 curl-minimal conflicts with full curl; replay corrected software-only bootstrap without replacement"
+}
