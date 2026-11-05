@@ -18,6 +18,7 @@ __pycache__/
 .pytest_cache/
 *.pyc
 .venv/
+.venv-dw/
 
 # Airflow local
 logs/
@@ -28,3 +29,8 @@ CLAUDE.md
 
 # Paquete de despliegue generado por Terraform
 **/.build/
+
+# Resultados regenerables de dbt
+**/dbt_packages/
+**/target/
+*.egg-info/

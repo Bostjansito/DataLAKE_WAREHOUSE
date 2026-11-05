@@ -1,0 +1,9 @@
+# Copy into infra/terraform/terraform.tfvars. No AWS keys or DB passwords here.
+aws_region = "us-east-1"
+enable_compute = false
+enable_sources = false
+enable_warehouse = false
+# Retain protection until an explicitly reviewed teardown (see README).
+sources_deletion_protection = true
+mysql_final_snapshot_identifier = "dw-mysql-final"
+docdb_final_snapshot_identifier = "dw-docdb-final"

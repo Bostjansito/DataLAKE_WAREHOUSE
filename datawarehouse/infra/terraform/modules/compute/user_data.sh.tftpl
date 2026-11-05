@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+# Software only: never retrieve credentials in user data.
+dnf install -y python3.11 python3.11-pip tar gzip curl
+id ecommerce >/dev/null 2>&1 || useradd --system --create-home --home-dir /opt/ecommerce ecommerce
+install -d -o ecommerce -g ecommerce -m 0750 /opt/ecommerce/app /opt/ecommerce/airflow /opt/ecommerce/certs
+curl --fail --silent --show-error https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -o /opt/ecommerce/certs/global-bundle.pem
+curl --fail --silent --show-error https://s3.amazonaws.com/redshift-downloads/amazon-trust-ca-bundle.crt -o /opt/ecommerce/certs/redshift-ca.crt
+install -d -o ecommerce -g ecommerce -m 0700 /opt/ecommerce/.postgresql
+install -o ecommerce -g ecommerce -m 0644 /opt/ecommerce/certs/redshift-ca.crt /opt/ecommerce/.postgresql/root.crt
+printf 'AWS_REGION=${region}\n' > /opt/ecommerce/region.env
+chmod 0644 /opt/ecommerce/certs/global-bundle.pem /opt/ecommerce/region.env
+systemctl enable --now amazon-ssm-agent

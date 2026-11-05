@@ -1,0 +1,244 @@
+[
+  {
+    "label": "EC2 t3.medium",
+    "service": "AmazonEC2",
+    "filters": {
+      "instanceType": "t3.medium",
+      "location": "US East (N. Virginia)",
+      "operatingSystem": "Linux",
+      "tenancy": "Shared",
+      "preInstalledSw": "NA",
+      "capacitystatus": "Used"
+    },
+    "prices": [
+      {
+        "description": "$0.0416 per On Demand Linux t3.medium Instance Hour",
+        "unit": "Hrs",
+        "USD": "0.0416000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "RDS MySQL db.t3.micro",
+    "service": "AmazonRDS",
+    "filters": {
+      "instanceType": "db.t3.micro",
+      "location": "US East (N. Virginia)",
+      "databaseEngine": "MySQL",
+      "deploymentOption": "Single-AZ"
+    },
+    "prices": [
+      {
+        "description": "USD 0.017 per db.t3.micro Single-AZ instance hour (or partial hour) running MySQL",
+        "unit": "Hrs",
+        "USD": "0.0170000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "USD 0.017 per db.t3.micro Single-AZ unused capacity reservation hour (or partial hour) for MySQL",
+        "unit": "Hrs",
+        "USD": "0.0170000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "DocumentDB db.t3.medium",
+    "service": "AmazonDocDB",
+    "filters": {
+      "instanceType": "db.t3.medium",
+      "location": "US East (N. Virginia)"
+    },
+    "prices": [
+      {
+        "description": "$0.09 per vCPU-hour of T3 CPU credits",
+        "unit": "vCPU-Hours",
+        "USD": "0.0900000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.0858 per db.t3.medium IO-Optimized instance hour (or partial hour) running Amazon DocumentDB",
+        "unit": "Hrs",
+        "USD": "0.0858000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.078 per db.t3.medium instance hour (or partial hour) running Amazon DocumentDB",
+        "unit": "Hrs",
+        "USD": "0.0780000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "Redshift Serverless",
+    "service": "AmazonRedshift",
+    "filters": {
+      "location": "US East (N. Virginia)",
+      "productFamily": "Serverless"
+    },
+    "prices": [
+      {
+        "description": "$2,430.00 per RPU-Hr for Redshift serverless capacity reservations all-upfront usage in US East (N. Virginia)",
+        "unit": "RPU-Hr",
+        "USD": "2430.0000000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.375 per RPU-Hr for Redshift Serverless compute charges in US East (N. Virginia)",
+        "unit": "RPU-Hr",
+        "USD": "0.3750000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.293 per RPU-Hr for Redshift serverless capacity reservations usage in US East (N. Virginia)",
+        "unit": "RPU-Hr",
+        "USD": "0.2930000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "S3 Standard",
+    "service": "AmazonS3",
+    "filters": {
+      "location": "US East (N. Virginia)",
+      "productFamily": "Storage",
+      "volumeType": "Standard"
+    },
+    "prices": [
+      {
+        "description": "$0.022 per GB - next 450 TB / month of storage used",
+        "unit": "GB-Mo",
+        "USD": "0.0220000000",
+        "beginRange": "51200",
+        "endRange": "512000"
+      },
+      {
+        "description": "$0.021 per GB - storage used / month over 500 TB",
+        "unit": "GB-Mo",
+        "USD": "0.0210000000",
+        "beginRange": "512000",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.023 per GB - first 50 TB / month of storage used",
+        "unit": "GB-Mo",
+        "USD": "0.0230000000",
+        "beginRange": "0",
+        "endRange": "51200"
+      }
+    ]
+  },
+  {
+    "label": "EBS gp3",
+    "service": "AmazonEC2",
+    "filters": {
+      "location": "US East (N. Virginia)",
+      "volumeApiName": "gp3",
+      "productFamily": "Storage"
+    },
+    "prices": [
+      {
+        "description": "$0.08 per GB-month of General Purpose (gp3) provisioned storage - US East (N. Virginia)",
+        "unit": "GB-Mo",
+        "USD": "0.0800000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "IPv4 p\u00fablica",
+    "service": "AmazonVPC",
+    "filters": {
+      "location": "US East (N. Virginia)",
+      "group": "VPCPublicIPv4Address"
+    },
+    "prices": [
+      {
+        "description": "$0.005 per In-use public IPv4 address per hour",
+        "unit": "Hrs",
+        "USD": "0.0050000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.005 per Idle public IPv4 address per hour",
+        "unit": "Hrs",
+        "USD": "0.0050000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "RDS gp3 MySQL",
+    "service": "AmazonRDS",
+    "filters": {
+      "location": "US East (N. Virginia)",
+      "databaseEngine": "MySQL",
+      "deploymentOption": "Single-AZ",
+      "volumeType": "General Purpose-GP3"
+    },
+    "prices": [
+      {
+        "description": "$0.115 per GB-month of provisioned GP3 storage running MySQL",
+        "unit": "GB-Mo",
+        "USD": "0.1150000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "DocumentDB almacenamiento",
+    "service": "AmazonDocDB",
+    "filters": {
+      "location": "US East (N. Virginia)",
+      "productFamily": "Database Storage"
+    },
+    "prices": [
+      {
+        "description": "$0.3 per GB-month of IO-Optimized consumed storage (Amazon DocumentDB)",
+        "unit": "GB-Mo",
+        "USD": "0.3000000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.3 per GB-Mo for Elastic Storage Usage in US East (N. Virginia)",
+        "unit": "GB-Mo",
+        "USD": "0.3000000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      },
+      {
+        "description": "$0.10 per GB-month of consumed storage (Amazon DocumentDB)",
+        "unit": "GB-Mo",
+        "USD": "0.1000000000",
+        "beginRange": "0",
+        "endRange": "Inf"
+      }
+    ]
+  },
+  {
+    "label": "Redshift almacenamiento",
+    "service": "AmazonRedshift",
+    "filters": {
+      "location": "US East (N. Virginia)",
+      "productFamily": "Redshift Storage"
+    },
+    "prices": []
+  }
+]

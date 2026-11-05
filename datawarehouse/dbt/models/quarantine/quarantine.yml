@@ -1,0 +1,81 @@
+version: 2
+
+models:
+  - name: quarantine_mysql__customers
+    description: Clientes rechazados por calidad de datos, con su motivo en rejection_reason.
+    columns:
+      - name: quarantine_sk
+        tests: [unique, not_null]
+      - name: _batch_id
+        tests: [not_null]
+      - name: _source
+        tests: [not_null]
+      - name: _loaded_at
+        tests: [not_null]
+      - name: rejection_reason
+        tests: [not_null]
+  - name: quarantine_mysql__products
+    description: Productos rechazados por calidad de datos, con su motivo en rejection_reason.
+    columns:
+      - name: quarantine_sk
+        tests: [unique, not_null]
+      - name: _batch_id
+        tests: [not_null]
+      - name: _source
+        tests: [not_null]
+      - name: _loaded_at
+        tests: [not_null]
+      - name: rejection_reason
+        tests: [not_null]
+  - name: quarantine_mysql__orders
+    description: Pedidos rechazados por calidad de datos, con su motivo en rejection_reason.
+    columns:
+      - name: quarantine_sk
+        tests: [unique, not_null]
+      - name: _batch_id
+        tests: [not_null]
+      - name: _source
+        tests: [not_null]
+      - name: _loaded_at
+        tests: [not_null]
+      - name: rejection_reason
+        tests: [not_null]
+  - name: quarantine_mysql__order_items
+    description: Líneas de pedido rechazadas por calidad de datos, con su motivo en rejection_reason.
+    columns:
+      - name: quarantine_sk
+        tests: [unique, not_null]
+      - name: _batch_id
+        tests: [not_null]
+      - name: _source
+        tests: [not_null]
+      - name: _loaded_at
+        tests: [not_null]
+      - name: rejection_reason
+        tests: [not_null]
+  - name: quarantine_mongodb__reviews
+    description: Reseñas rechazadas por calidad de datos, con su motivo en rejection_reason.
+    columns:
+      - name: quarantine_sk
+        tests: [unique, not_null]
+      - name: _batch_id
+        tests: [not_null]
+      - name: _source
+        tests: [not_null]
+      - name: _loaded_at
+        tests: [not_null]
+      - name: rejection_reason
+        tests: [not_null]
+  - name: quarantine_mongodb__navigation_events
+    description: Eventos de navegación rechazados por calidad de datos, con su motivo en rejection_reason.
+    columns:
+      - name: quarantine_sk
+        tests: [unique, not_null]
+      - name: _batch_id
+        tests: [not_null]
+      - name: _source
+        tests: [not_null]
+      - name: _loaded_at
+        tests: [not_null]
+      - name: rejection_reason
+        tests: [not_null]
