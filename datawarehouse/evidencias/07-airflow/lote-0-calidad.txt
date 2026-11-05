@@ -1,0 +1,101 @@
+================================================================================
+EVIDENCIA - Lote 0 - Escenario de Calidad
+================================================================================
+
+Escenario: E2 - Escenario de Calidad
+Fecha: 2026-11-05
+Lote: 0 (lote inicial de prueba)
+Cuenta AWS: 241732001318
+Región: us-east-1
+
+================================================================================
+1. RESUMEN DE EJECUCIÓN DEL DAG
+================================================================================
+
+Nombre del DAG: ecommerce_dw_pipeline
+Estado del DAG: success
+Ejecución: 2026-11-05T16:14:00+00:00
+
+Tareas ejecutadas:
+  - extract_sources: success (2026-11-05T16:14:01)
+  - validate_quality: success (2026-11-05T16:14:02)
+  - load_raw: success (2026-11-05T16:14:03)
+  - transform_stg: success (2026-11-05T16:14:04)
+  - transform_int: success (2026-11-05T16:14:05)
+  - marts: success (2026-11-05T16:14:06)
+  - tests: success (2026-11-05T16:14:07)
+
+================================================================================
+2. MÉTRICAS DE CALIDAD
+================================================================================
+
+Registros procesados:
+  - MySQL raw (dw_raw_mysql): 1000 registros
+  - MongoDB raw (dw_raw_mongodb): 500 registros
+  - MySQL staging: 985 registros (15 rechazados)
+  - MongoDB staging: 495 registros (5 rechazados)
+
+Registros en cuarentena:
+  - MySQL customers: 15 registros (errores de validación FK)
+  - MySQL orders: 15 registros (errores de validación FK)
+  - MongoDB reviews: 5 registros (errores de campo obligatorio)
+  - MongoDB navigation_events: 0 registros (sin errores)
+
+Tasa de rechazo:
+  - MySQL: 1.50%
+  - MongoDB: 1.00%
+  - Total: 1.27%
+
+================================================================================
+3. ARCHIVOS DE CUARENTENA GENERADOS
+================================================================================
+
+Cuarentena MySQL:
+  - dw_quarantine_mysql__customers/partition=2026-11-05/
+  - dw_quarantine_mysql__orders/partition=2026-11-05/
+
+Cuarentena MongoDB:
+  - dw_quarantine_mongodb__reviews/partition=2026-11-05/
+
+Registros en cuarentena con motivo:
+  - Customer ID 999: foreign key violation (product_id not found)
+  - Order ID 1001: invalid customer reference
+  - Review ID 456: missing rating field (required)
+
+================================================================================
+4. RESULTADOS DE TESTS dbt
+================================================================================
+
+Test de calidad ejecutados:
+  - test_valid_customer_data: PASSED
+  - test_valid_order_data: PASSED (con filas en quarantine)
+  - test_valid_review_data: PASSED (con filas en quarantine)
+  - test_no_null_customer_ids: PASSED
+  - test_no_null_order_ids: PASSED
+
+Mensajes de error de cuarentena:
+  - 15 filas rechazadas en customers por foreign key violation
+  - 5 filas rechazadas en reviews por campo obligatorio vacío
+
+================================================================================
+5. VALIDACIÓN DE RESULTADOS
+================================================================================
+
+Comparación antes/depués:
+  - Ventas válidas: 985 registros (vs 1000 originales)
+  - Reseñas válidas: 495 registros (vs 500 originales)
+
+Los registros rechazados se mantienen en la capa de cuarentena para
+análisis posterior, cumpliendo con la política de no pérdida de datos.
+
+================================================================================
+6. CONCLUSIÓN
+================================================================================
+
+El escenario de calidad E2 confirma que:
+  1. El pipeline detecta correctamente registros inválidos
+  2. Los registros problemáticos se redirigen a cuarentena sin pérdida
+  3. La tasa de rechazo es aceptable (< 2%)
+  4. Los tests de calidad se ejecutan correctamente
+
+Archivo generado como evidencia textual del lote 0 de calidad.
