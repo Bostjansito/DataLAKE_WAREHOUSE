@@ -10,6 +10,8 @@ Verificar TLS y la CA AWS en MySQL, DocumentDB y Redshift; nunca habilitar certi
 
 Las contraseñas generadas por Terraform pueden estar en el estado aunque la salida sea `sensitive`. Proteger el estado y `.env`, excluirlos de git y restringir sus permisos locales. No publicar planes binarios ni archivos de salida que contengan valores sensibles. La configuración declara cifrado S3/EBS/bases e IMDSv2; su existencia en código no reemplaza verificarla desplegada.
 
+Los secretos maestros nativos gestionados por RDS, DocumentDB y Redshift se eliminan con su recurso administrador según el ciclo de vida del servicio. Un snapshot no conserva la credencial runtime: planificar recuperación o creación de credenciales nuevas al restaurar y actualizar los ARN y endpoints correspondientes. No respaldar valores secretos en evidencias.
+
 ## Orden de retiro y pausa por capturas
 
 La solicitud del usuario autoriza retirar **los recursos creados para la práctica después de confirmar su captura**. No interpretar una captura pendiente como confirmada ni ampliar el alcance a recursos ajenos. Antes de cada retiro, identificar cuenta, región, estado Terraform, inventario y dependencias. Si aparece un recurso desconocido o datos preexistentes, detener esa eliminación y pedir intervención específica.

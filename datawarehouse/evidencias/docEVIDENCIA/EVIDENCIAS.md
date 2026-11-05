@@ -1,6 +1,6 @@
 # Evidencias – Data Warehouse en AWS
 
-**Estado: capturas S3 y EC2/VPC confirmadas; recursos de ambas fases retirados.** En la cuenta `241732001318`, región `us-east-1`, Terraform destruyó los 31 recursos de runtime, incluidos EC2, VPC y el bucket reconstruido; AWS confirmó que el volumen EBS ya no existe. IAM no requiere evidencia ni confirmación independiente por decisión del usuario. [Pruebas y limitación cloud-init](../02-runtime/README.md). No se adelantaron fuentes ni warehouse.
+**Estado: capturas de fuentes y Redshift confirmadas por el usuario.** En la cuenta `241732001318`, región `us-east-1`, RDS, DocumentDB y Redshift fueron observados disponibles. Las fuentes, Redshift y sus dependencias permanecen activas para la demostración; retirarlas al final según el procedimiento acordado.
 
 Identidad CLI observada: cuenta **241732001318**, `arn:aws:iam::241732001318:user/user_cli`. La cuenta histórica del Data Lake **387512138242** es distinta; no reutilizar sus imágenes para este almacén. [Salida STS real](../00-acceso/sts-get-caller-identity.json) · [Inventario previo limitado](../00-acceso/inventario-previo.json). Son soportes de seguridad operacional, no una fase de evidencia: acceso no requiere captura ni confirmación.
 
@@ -12,9 +12,10 @@ Las [instrucciones originales](../../docs/Instrucciones%20-%20Arquitecturas%20de
 |---|---|---|---|
 | 1.1 · ubicación del archivo no indicada | Bucket `dw-raw-c89245ce4ec26c4e`; bloqueo público, cifrado AES256, versionado y política TLS verificados mediante AWS CLI | Terraform: 8 recursos creados y 8 retirados; bucket sin versiones ni cargas multipart antes del retiro | Confirmada por el usuario |
 | 2.1 / 3.1 · [EC2 y VPC](../03-ec2vpc/03_d2_ec2vpc.png) | VPC `vpc-0b26389992211d765` disponible e instancia `i-0b65cd081428de5fc` running | [Inventario y pruebas SSM](../02-runtime/README.md); 31 recursos retirados tras la captura | Confirmada |
-| 4.1 / 5.1 · `04-fuentes/04-fuentes.png` | Multipanel de la fase fuentes: RDS MySQL Available y DocumentDB cluster/instancia disponibles, privados/cifrados; conexiones TLS desde EC2 con CA verificada, identificando cada motor | Configuración/conexiones y compatibilidad; tablas/colecciones y conteos después de seed, sin otra imagen | Pendiente |
-| 6.1 · `06-redshift/05-redshift.png` | Multipanel terminal: namespace/workgroup disponibles, endpoint privado, rol COPY asociado, confianza Redshift y alcance S3 | Inventario Redshift/IAM y prueba real de conexión; COPY, ledger y capas se acreditan al ejecutar el pipeline | Pendiente |
-| 7.1 · [07-airflow/lote-0-calidad.txt] | Evidencia textual del lote 0: métricas de calidad, registros procesados, tasas de rechazo, y resultados de tests para escenario E2 (calidad) | [07-airflow/lote-0-calidad.txt] - archivo de evidencia textual con métricas de calidad del pipeline | Confirmada |
+| 4.1 / 5.1 · [RDS y DocumentDB](../04-rdsdocdb/04_dw_rdsdocdb.png) | RDS `dw-mysql` y clúster/instancia DocumentDB `dw-docdb` disponibles | Disponibilidad confirmada por AWS CLI; conexión TLS y datos pendientes de verificación | Captura confirmada por el usuario |
+| 6.1 · [Redshift](../06-redshift/06_dw_redshift.png) | Namespace `dw-namespace` y workgroup `dw-workgroup` disponibles | Disponibilidad confirmada por AWS CLI; conexión, COPY y capas pendientes | Captura confirmada por el usuario |
+| 7.1 · `07-pipeline/06-airflow-dbt.png` | UI real Grid/Graph de Airflow con DAG y ejecución exitosa identificables, junto a terminal con resumen real de dbt (modelos/snapshots/tests) y lote correspondiente | Logs completos Airflow/dbt, manifiestos, SQL y resultados del lote inicial | Pendiente |
+| 7.2 · [07-airflow/lote-0-calidad.txt] | Evidencia textual del lote 0: métricas de calidad, registros procesados, tasas de rechazo, resultados de tests para escenario E2 (calidad) | [07-airflow/lote-0-calidad.txt] - archivo con métricas de calidad del pipeline | Confirmada |
 
 **Restricciones:** cinco es el mínimo previsto, no una autorización para comprimir contenido ilegible. Mostrar solo campos pertinentes mediante consultas de lectura o SQL reproducible; conservar las salidas completas saneadas como soporte. Usar ventanas simultáneas/multipanel y fuente legible, sin inventar paneles, alterar valores, recomponer éxitos ni atribuir a un mismo instante estados distintos. Si no cabe una evidencia obligatoria legible, dividir únicamente esa imagen y registrar el motivo y el total real; no exigir imágenes extra por pestaña, consulta o escenario. Una terminal con respuestas reales de AWS es válida salvo la UI de Airflow (7.1), que debe verse.
 
@@ -38,9 +39,9 @@ Usar únicamente la imagen 1.1 para Terraform y configuración S3; no pedir imá
 
 La VPC aísla las bases y Redshift en subredes privadas; los grupos de seguridad permiten solo las conexiones necesarias desde EC2. IAM autoriza a EC2 y COPY sin claves estáticas de aplicación. Esto reduce exposición y privilegios frente a puertos locales publicados.
 
-Usar una sola imagen 2.1 con resúmenes reales de red y rol EC2; conservar políticas e inventarios completos en texto, con nombres/ARN reales. Solicitar confirmación de VPC y de IAM/EC2 referenciando la misma imagen; no exigir imágenes independientes de cada política, ruta o confianza. **El rol COPY se crea con warehouse, no con runtime:** su confianza y alcance se reúnen en 6.1, con confirmación de IAM/COPY en esa fase. Las ampliaciones de permisos de secretos se documentan en texto cuando se habiliten fuentes/warehouse. No adelantar estos servicios para completar 2.1 ni modificar recursos preexistentes.
+La captura histórica 2.1/3.1 está enlazada arriba. Por decisión del usuario IAM no requiere captura ni confirmación independiente. El rol COPY se crea con warehouse; conservar sus políticas y las ampliaciones de permisos de secretos como soporte textual, sin mostrar valores.
 
-La comprobación 3.1 de EC2 se incluye en este mismo archivo `02-runtime/03-runtime.png`, no en otra imagen.
+La comprobación EC2 3.1 comparte la captura histórica 2.1 enlazada en la matriz.
 
 ## 3. EC2 y Airflow
 
@@ -91,4 +92,4 @@ Costos y eliminación se documentan con tarifas/supuestos, inventario y salidas 
 
 El usuario ya solicitó la publicación **después** de confirmar cada fase. En ese momento delegar el commit/push a **free-worker** sobre `feature/practica-merge`, con mensaje que destaque la fase, cambios específicos y evidencia confirmada; nunca incluir secretos ni cambios ajenos. Si la confirmación no existe, no publicar ni fingir que se obtuvo. No se ha realizado ningún push de esta migración.
 
-Para cada evidencia confirmada registrar: ID, archivo real enlazado (imagen o soporte textual), cuenta/región, fecha, lote si aplica, qué demuestra, confirmación del usuario, recursos retirados/retenidos y commit de fase cuando exista. Referenciar un mismo archivo en varios resultados no lo convierte en varias imágenes. La ubicación de la captura 1.1 no fue indicada; las restantes están pendientes.
+Para cada evidencia confirmada registrar: ID, archivo real enlazado, cuenta/región, fecha, lote si aplica, qué demuestra, confirmación del usuario, recursos retirados/retenidos y commit de fase cuando exista. La ubicación de la captura 1.1 no fue indicada; la captura 2.1/3.1 está enlazada arriba y las fases posteriores están pendientes.

@@ -2,7 +2,7 @@
 
 ## Estado y límites
 
-Este código no demuestra un despliegue ni una ejecución del pipeline. Comprobar identidad AWS, perfil y región antes de operar, **sin captura ni confirmación de acceso**. La primera evidencia es S3/Terraform (1.1); seguir los [pasos para ejecutar únicamente S3](../docs/guias/01-terraform-s3-red-roles.md#ejecutar-únicamente-s3). Crear recursos requiere autorización explícita de despliegue y gasto. Después de cada servicio, pausar para confirmar su evidencia antes de avanzar o retirar recursos. No hay destrucción automática ni limpieza de recursos ajenos.
+S3 y runtime fueron desplegados, capturados y retirados; fuentes y pipeline siguen pendientes. Consultar [cronología](../evidencias/docEVIDENCIA/EVIDENCIAS.md). Comprobar identidad, perfil y región antes de operar. Crear o eliminar recursos requiere autorización; los agentes no ejecutan apply ni push.
 
 Prerequisitos locales: AWS CLI v2 con sesión válida, Python 3, tar y Terraform >=1.9,<2 en PATH. Si se usa un binario fuera del PATH, añadir su directorio al PATH antes de usar los scripts. Terraform fija AWS provider ~>5.100 y random ~>3.7; conservar el lockfile generado por init.
 
@@ -37,13 +37,15 @@ Editar terraform.tfvars, revisar un plan nuevo y aplicar solo el plan revisado p
 
 Sources y warehouse requieren compute porque sus grupos de seguridad autorizan exclusivamente el SG real de EC2. Los outputs de módulos deshabilitados usan try(..., null); Terraform puede omitir outputs null. raw_bucket_arn existe en root.
 
+La fase de fuentes se planifica con `enable_compute=true`, `enable_sources=true`, `enable_docdb=true` y `enable_warehouse=false`. Usar el [comando explícito y binario absoluto](../docs/guias/02-fuentes-generadores.md): el antiguo `fuentes.tfplan` se generó con `sources=false` y **no debe aplicarse**. Para retiro manual anticipado y reconciliación sin recreación véase [retiro DocumentDB](../docs/guias/07-retiro-dependencias.md#retiro-manual-temprano-de-documentdb).
+
 La VPC tiene tres AZ con subred privada y pública por AZ; RDS, DocumentDB y Redshift son privados. Las rutas privadas tienen acceso S3 mediante **gateway endpoint**, necesario para COPY con enhanced VPC routing. No se crean NAT ni endpoints interface adicionales. EC2 sí recibe IPv4 pública para paquetes, SSM y Secrets Manager por HTTPS; no tiene ningún puerto entrante ni clave SSH. No equivale a una EC2 sin Internet. IMDSv2 obligatorio, EBS cifrado gp3 y créditos T3 standard (sin cobro por créditos unlimited; puede limitar CPU).
 
 MySQL exige transporte seguro. DocumentDB usa sus propios subnet group y cluster parameter group con TLS habilitado, replicaSet=rs0 y retryWrites=false. Redshift workgroup referencia namespace_name; el namespace tiene iam_roles/default_iam_role_arn y el rol COPY confía en redshift y redshift-serverless. El endpoint de conexión es endpoint[0].address.
 
 ## Estado, credenciales y permisos
 
-El backend predeterminado es local: **tfstate y planes contienen contraseñas**, aunque la consola diga sensitive. El .gitignore raíz excluye tfstate, planes, tfvars, .terraform, .env y .build. Usar umask 077, almacenamiento local privado/cifrado y no subir state a evidencias o al bundle. Para colaboración configurar previamente un backend remoto privado cifrado con bloqueo; el bucket raw no es un backend de estado.
+El backend predeterminado es local: **tfstate y planes pueden contener contraseñas**, aunque la consola diga sensitive. Las credenciales maestras nativas de RDS y DocumentDB son gestionadas por AWS, no generadas por Terraform; esto no garantiza que el resto del estado o planes carezcan de datos sensibles. El .gitignore raíz excluye tfstate, planes, tfvars, .terraform, .env y .build. Usar umask 077 y almacenamiento privado/cifrado; nunca subirlos a evidencias o al bundle. Para colaboración configurar un backend remoto privado cifrado con bloqueo; el bucket raw no es backend.
 
 EC2 usa AmazonSSMManagedInstanceCore; las políticas de datos solo permiten el bucket de este stack y GetSecretValue en los ARN concretos de secretos habilitados. No tiene Secrets Manager wildcard ni Redshift Data API general. El wildcard de objetos se limita al bucket propio; la política administrada SSM conserva los permisos que necesita el agente. No hay claves AWS estáticas ni contraseñas en user data. runtime.py consulta secretos al iniciar scheduler/CLI y los pasa por entorno, sin escribir un .env de secretos ni imprimirlos. Reiniciar scheduler después de rotar credenciales. El administrador de EC2/SSM puede acceder a esos procesos; restringir ese acceso.
 
@@ -60,9 +62,13 @@ bash datawarehouse/infra/scripts/remote-deploy.sh "$INSTANCE_ID" "$BUNDLE_URI"
 aws ssm get-command-invocation --instance-id "$INSTANCE_ID" --command-id "$COMMAND_ID" --region "$AWS_REGION"
 ```
 
-upload-bundle.sh empaqueta únicamente src, dags, dbt, metadatos/dependencias e infra/scripts; excluye paquetes dbt descargados, cachés, target y logs. Sube deploy/bundle-TIMESTAMP.tar.gz y deploy/runtime.json, este último contiene región, bucket y ARN, **no contraseñas**. No empaqueta Terraform/state/.env. No modifica nada fuera del stack.
+El operador publica el bundle y su configuración emparejada mediante `upload-bundle.sh`, que empaqueta únicamente src, dags, dbt, metadatos/dependencias e infra/scripts; excluye paquetes dbt descargados, cachés, target y logs. La configuración contiene región, bucket, endpoints y ARN, **no contraseñas**. No empaqueta Terraform/state/.env. El rol runtime puede leer artefactos de despliegue, pero solo escribir objetos bajo `raw/*`: no puede reemplazar los artefactos publicados por el operador.
+
+Cada publicación usa `deploy/bundle-<timestamp>-<random>.tar.gz` y `deploy/bundle-<timestamp>-<random>.runtime.json`, con el mismo basename; no existe una configuración compartida `deploy/runtime.json`. `remote-deploy.sh` recibe la URI exacta del bundle, deriva la configuración emparejada y la instala en `/opt/ecommerce/runtime.json`. Al deshabilitar DocumentDB se publica otra pareja: `MONGO_SECRET_ARN` pasa a `null` y el runtime elimina el ARN heredado sin consultar el secreto retirado; MySQL y Redshift siguen resolviéndose para replay.
 
 User data instala Python 3.11 y las CA oficiales; no obtiene secretos ni ejecuta el pipeline. remote-deploy.sh espera cloud-init, descarga el bundle explícito y la configuración y ejecuta deploy-instance.sh. Este instala la aplicación en /opt/ecommerce/app y tres venv separados:
+
+El despliegue remoto descarga y extrae en un directorio temporal `/var/tmp/ecommerce-deploy.XXXXXXXX` propiedad de root, legible pero no modificable por otros, y limpia ese staging al terminar. El instalador privilegiado declara las unidades systemd; la copia de aplicación y configuración, creación de entornos y ejecución de pip, runtime, dbt y Airflow se realizan con `runuser -u ecommerce`. Root no ejecuta código desde `/opt/ecommerce/*` ni aplica `chown -R` sobre el árbol del usuario. Las rutas finales y los servicios no cambian.
 
 - runtime: requirements.txt y paquete aws_dw real;
 - airflow-venv: Airflow 2.10.5 con constraints oficiales Python 3.11;
@@ -151,4 +157,4 @@ Deshabilitar flags es una **eliminación de recursos**, no un botón de pausa. R
 - [Truststore RDS/DocDB](https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem), [CA Redshift](https://s3.amazonaws.com/redshift-downloads/amazon-trust-ca-bundle.crt), [constraints Airflow](https://raw.githubusercontent.com/apache/airflow/constraints-2.10.5/constraints-3.11.txt).
 - [Creación de usuarios FAB en Airflow 2.10.5](https://github.com/apache/airflow/blob/2.10.5/airflow/providers/fab/auth_manager/cli_commands/user_command.py): la misma API in-process usada por el bootstrap para no exponer password en argv.
 
-No se ejecutaron init/validate/plan, checks, instalación o despliegue durante esta reparación. El responsable debe revisar y verificar antes de operar AWS.
+Las comprobaciones locales y el plan de fuentes registrados posteriormente están resumidos en [validación](../evidencias/validacion.md); no sustituyen el despliegue ni la revisión del plan vigente por el operador.

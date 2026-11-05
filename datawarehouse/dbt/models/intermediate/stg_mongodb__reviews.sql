@@ -4,7 +4,11 @@ select
     cast(product_id as bigint) as product_id,
     cast(rating as integer) as rating,
     cast(reviewed_at as timestamptz) as reviewed_at,
-    try_cast(nullif(json_extract_path_text(document_json, 'verification', 'purchase_confirmed', true), '') as boolean) as is_verified_purchase,
+    case lower(json_extract_path_text(document_json, 'verification', 'purchase_confirmed', true))
+        when 'true' then true
+        when 'false' then false
+        else null
+    end as is_verified_purchase,
     document_json,
     _loaded_at,
     _source,

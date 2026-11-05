@@ -34,23 +34,33 @@ def validate_batch_id(batch_id):
 
 
 def get_mysql_connection(streaming=True):
-    return pymysql.connect(
-        host=os.environ["MYSQL_HOST"], port=int(os.getenv("MYSQL_PORT", "3306")),
-        user=os.environ["MYSQL_USER"], password=os.environ["MYSQL_PASSWORD"],
-        database=os.environ["MYSQL_DATABASE"], charset="utf8mb4", autocommit=False,
-        cursorclass=pymysql.cursors.SSCursor if streaming else pymysql.cursors.Cursor,
-        ssl_ca=os.getenv("MYSQL_SSL_CA"), ssl_verify_cert=True, ssl_verify_identity=True,
-        ssl={"check_hostname": True}, connect_timeout=15,
-    )
+    try:
+        if not os.environ.get("MYSQL_SSL_CA"):
+            raise ValueError("MYSQL_SSL_CA is required")
+        return pymysql.connect(
+            host=os.environ["MYSQL_HOST"], port=int(os.getenv("MYSQL_PORT", "3306")),
+            user=os.environ["MYSQL_USER"], password=os.environ["MYSQL_PASSWORD"],
+            database=os.environ["MYSQL_DATABASE"], charset="utf8mb4", autocommit=False,
+            cursorclass=pymysql.cursors.SSCursor if streaming else pymysql.cursors.Cursor,
+            ssl_ca=os.environ["MYSQL_SSL_CA"], ssl_verify_cert=True, ssl_verify_identity=True,
+            connect_timeout=15,
+        )
+    except Exception:
+        raise RuntimeError("Unable to connect to MySQL with verified TLS") from None
 
 
 def get_mongo_client():
-    options = dict(tls=True, tlsAllowInvalidCertificates=False,
-                   tlsAllowInvalidHostnames=False, retryWrites=False,
-                   tz_aware=True, serverSelectionTimeoutMS=15000)
-    if os.getenv("MONGO_TLS_CA_FILE"):
-        options["tlsCAFile"] = os.environ["MONGO_TLS_CA_FILE"]
-    return MongoClient(os.environ["MONGO_URI"], **options)
+    try:
+        if not os.environ.get("MONGO_TLS_CA_FILE"):
+            raise ValueError("MONGO_TLS_CA_FILE is required")
+        return MongoClient(
+            os.environ["MONGO_URI"], tls=True,
+            tlsCAFile=os.environ["MONGO_TLS_CA_FILE"],
+            tlsAllowInvalidCertificates=False, tlsAllowInvalidHostnames=False,
+            retryWrites=False, tz_aware=True, serverSelectionTimeoutMS=15000,
+        )
+    except Exception:
+        raise RuntimeError("Unable to configure MongoDB with verified TLS") from None
 
 
 def s3_client():
@@ -200,9 +210,12 @@ def verify_payload(s3, info):
     digest = hashlib.sha256()
     result = s3.get_object(Bucket=os.environ["S3_BUCKET"], Key=info["key"])
     size = 0
-    with result["Body"] as body:
+    body = result["Body"]
+    try:
         for chunk in body.iter_chunks(chunk_size=1024 * 1024):
             digest.update(chunk)
             size += len(chunk)
+    finally:
+        body.close()
     if digest.hexdigest() != info["sha256"] or size != info["bytes"]:
         raise ValueError(f"S3 payload integrity failure: {info['key']}")

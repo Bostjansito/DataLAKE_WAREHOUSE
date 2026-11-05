@@ -2,7 +2,7 @@
 
 Implementación de la migración del proyecto local **DE-DW**, localizado junto a este repositorio. Integra RDS MySQL y DocumentDB privados, exportaciones S3 por lote, COPY a Redshift Serverless y modelos dbt; Airflow y dbt se ejecutan en la misma EC2. Los tres hechos conservan ventas por línea, reseñas y navegación; clientes y productos conservan historia SCD2.
 
-**Estado de AWS:** no se han desplegado recursos nuevos ni ejecutado el pipeline en AWS. La primera captura prevista es S3/Terraform (1.1); acceso e identidad son comprobaciones operacionales, sin captura ni confirmación exigida. Las validaciones locales se distinguen de evidencia AWS en [validación](evidencias/validacion.md). No hay capturas confirmadas ni commits/push de esta migración.
+**Estado de AWS:** S3 y EC2/VPC fueron desplegados, capturados y retirados; fuentes, Redshift y pipeline siguen pendientes. Consultar la cronología y sus límites en [evidencias](evidencias/docEVIDENCIA/EVIDENCIAS.md); las validaciones locales son históricas y no demuestran la configuración actual.
 
 ## Documentación
 
@@ -28,4 +28,4 @@ Implementación de la migración del proyecto local **DE-DW**, localizado junto 
 
 Antes de desplegar, comprobar `aws sts get-caller-identity`, perfil y región; si se usa consola, contrastar su identidad. No se exige captura ni confirmación de acceso. La identidad observada es cuenta `241732001318`, `user/user_cli`, distinta a la cuenta histórica del Data Lake. No utilizar evidencia antigua ni asumir permisos de despliegue por el éxito de STS. Crear recursos requiere autorización explícita de ejecución y gasto; preguntar quién ejecuta no la sustituye.
 
-Después de cada servicio o escenario, se detiene el avance para que el usuario tome y confirme su captura. Solo tras la confirmación se retiran recursos propios innecesarios, sin romper dependencias ni destruir datos ajenos, y se delega el commit/push de fase a **free-worker** sobre `feature/practica-merge`. Mientras no haya confirmación, no desmontar ni publicar la fase.
+Tras cada evidencia, confirmar el servicio antes de retirar recursos propios; conservar dependencias necesarias para la demostración o planificar su reconstrucción. Los agentes no ejecutan apply ni push.

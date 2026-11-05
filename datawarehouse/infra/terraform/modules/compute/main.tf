@@ -26,7 +26,8 @@ resource "aws_iam_role_policy" "s3" {
     Version = "2012-10-17"
     Statement = [
       { Effect = "Allow", Action = ["s3:ListBucket", "s3:GetBucketLocation"], Resource = var.raw_bucket_arn },
-      { Effect = "Allow", Action = ["s3:GetObject", "s3:PutObject"], Resource = "${var.raw_bucket_arn}/*" }
+      { Effect = "Allow", Action = ["s3:GetObject"], Resource = "${var.raw_bucket_arn}/*" },
+      { Effect = "Allow", Action = ["s3:PutObject"], Resource = "${var.raw_bucket_arn}/raw/*" }
     ]
   })
 }

@@ -1,23 +1,23 @@
 resource "aws_redshiftserverless_workgroup" "main" {
-  workgroup_name = "dw-workgroup"
-  namespace_name = aws_redshiftserverless_namespace.main.namespace_name
-  base_capacity  = 8
+  workgroup_name       = "dw-workgroup"
+  namespace_name       = aws_redshiftserverless_namespace.main.namespace_name
+  base_capacity        = 8
   enhanced_vpc_routing = true
-  subnet_ids     = var.private_subnets
-  security_group_ids = [aws_security_group.redshift.id]
-  publicly_accessible = false
+  subnet_ids           = var.private_subnets
+  security_group_ids   = [aws_security_group.redshift.id]
+  publicly_accessible  = false
   tags = {
     Name = "dw-redshift-workgroup"
   }
 }
 
 resource "aws_redshiftserverless_namespace" "main" {
-  namespace_name = "dw-namespace"
-  admin_username = "admin"
-  admin_user_password = random_password.redshift.result
-  db_name = "ecommerce_dw"
-  iam_roles = [aws_iam_role.redshift_copy.arn]
-  default_iam_role_arn = aws_iam_role.redshift_copy.arn
+  namespace_name        = "dw-namespace"
+  admin_username        = "admin"
+  manage_admin_password = true
+  db_name               = "ecommerce_dw"
+  iam_roles             = [aws_iam_role.redshift_copy.arn]
+  default_iam_role_arn  = aws_iam_role.redshift_copy.arn
   tags = {
     Name = "dw-redshift-namespace"
   }
@@ -41,12 +41,12 @@ resource "aws_security_group" "redshift" {
 
 # Allow compute instance to connect to Redshift
 resource "aws_security_group_rule" "redshift_ingress_from_compute" {
-  type              = "ingress"
-  from_port         = 5439
-  to_port           = 5439
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 5439
+  to_port                  = 5439
+  protocol                 = "tcp"
   source_security_group_id = var.compute_sg_id
-  security_group_id = aws_security_group.redshift.id
+  security_group_id        = aws_security_group.redshift.id
 }
 
 resource "aws_iam_role" "redshift_copy" {
@@ -72,7 +72,7 @@ resource "aws_iam_policy" "redshift_s3_read" {
         "s3:GetObject",
         "s3:ListBucket"
       ]
-      Effect   = "Allow"
+      Effect = "Allow"
       Resource = [
         var.raw_bucket_arn,
         "${var.raw_bucket_arn}/*"
@@ -86,31 +86,11 @@ resource "aws_iam_role_policy_attachment" "redshift_s3_read" {
   policy_arn = aws_iam_policy.redshift_s3_read.arn
 }
 
-resource "aws_secretsmanager_secret" "redshift" {
-  name = "dw/redshift/credentials"
-}
-
-resource "aws_secretsmanager_secret_version" "redshift" {
-  secret_id = aws_secretsmanager_secret.redshift.id
-  secret_string = jsonencode({
-    host     = aws_redshiftserverless_workgroup.main.endpoint[0].address
-    port     = 5439
-    username = "admin"
-    password = random_password.redshift.result
-    database = "ecommerce_dw"
-  })
-}
-
-resource "random_password" "redshift" {
-  length  = 32
-  special = false
-}
 
 
 
 output "redshift_endpoint" {
-  value     = aws_redshiftserverless_workgroup.main.endpoint[0].address
-  sensitive = true
+  value = aws_redshiftserverless_workgroup.main.endpoint[0].address
 }
 
 output "redshift_database" {
@@ -126,5 +106,5 @@ output "redshift_copy_role_arn" {
 }
 
 output "redshift_secret_arn" {
-  value = aws_secretsmanager_secret.redshift.arn
+  value = aws_redshiftserverless_namespace.main.admin_password_secret_arn
 }

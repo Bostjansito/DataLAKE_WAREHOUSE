@@ -1,22 +1,20 @@
 {# Filtro de cargas incrementales para la fila candidata (alias candidate). Carga las llaves nuevas, las filas cuya fecha de negocio cae en la ventana de reproceso (desde incremental_lookback_days antes de la fecha máxima ya cargada) y las filas cuyas llaves de dimensión resueltas cambiaron (tracked_columns), por ejemplo cuando una versión SCD2 nueva reemplaza a la anterior. #}
 {% macro incremental_candidate_filter(key_column, business_date_column, tracked_columns=[]) %}
 {% if is_incremental() %}
-where candidate.{{ key_column }} not in (
-    select existing.{{ key_column }} from {{ this }} as existing
-)
+left join {{ this }} as existing_candidate
+    on existing_candidate.{{ key_column }} = candidate.{{ key_column }}
+where existing_candidate.{{ key_column }} is null
 or candidate.{{ business_date_column }} >= (
     select cast(dateadd(day, -{{ var('incremental_lookback_days') }}, max(dates.date)) as date)
     from {{ this }} as existing
     inner join {{ ref('dim_date') }} as dates on dates.date_sk = existing.date_sk
 )
 {% if tracked_columns %}
-or exists (
-    select 1
-    from {{ this }} as existing
-    where existing.{{ key_column }} = candidate.{{ key_column }}
+or (
+    existing_candidate.{{ key_column }} is not null
     and (
         {% for column in tracked_columns %}
-        {{ values_differ('existing.' ~ column, 'candidate.' ~ column) }}{{ "" if loop.last else " or" }}
+        {{ values_differ('existing_candidate.' ~ column, 'candidate.' ~ column) }}{{ "" if loop.last else " or" }}
         {% endfor %}
     )
 )

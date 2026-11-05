@@ -2,6 +2,11 @@
 
 Proyecto académico para aprender un flujo de datos de extremo a extremo con noticias RSS de El Tiempo: ingesta, lakehouse medallón, análisis de texto, catálogo, consultas y orquestación. La ruta local permite aprender y probar sin AWS; la ruta AWS es opcional y puede generar cargos.
 
+| Parte | Carpeta | Contenido |
+|---|---|---|
+| Data Lake de noticias RSS | [`datalake/`](datalake/README.md) | Arquitectura, código, Terraform, DAG de Airflow, guías y evidencias |
+| Data Warehouse | [`datawarehouse/`](datawarehouse/README.md) | Migración AWS; S3 y EC2/VPC demostrados y retirados, fuentes y pipeline pendientes. [Instrucciones](datawarehouse/docs/Instrucciones%20-%20Arquitecturas%20de%20datos%20-%20DataWarehouse.md) · [Evidencias](datawarehouse/evidencias/docEVIDENCIA/EVIDENCIAS.md) |
+
 > **Estado de evidencia:** el orquestador registró 11 pruebas locales aprobadas y una ingesta RSS HTTPS real en `evidence/`; revise [evidencias](docs/guias/08-evidencias-demo-costos.md) para distinguir fixtures sintéticas, feeds reales y estado AWS. La identidad STS y el MCP están verificados en `evidence/access.json`. Las capturas de S3, Comprehend, Glue, Athena y Airflow siguen pendientes de una ejecución AWS autorizada: no se han creado recursos ni emitido llamadas AWS facturables.
 
 ## Recorrido recomendado

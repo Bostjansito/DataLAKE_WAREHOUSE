@@ -7,16 +7,17 @@ resource "aws_db_subnet_group" "main" {
 }
 
 resource "aws_docdb_subnet_group" "main" {
-  name = "dw-docdb-subnet-group"
+  count      = var.enable_docdb ? 1 : 0
+  name       = "dw-docdb-subnet-group"
   subnet_ids = var.private_subnets
 }
 
 resource "aws_db_parameter_group" "mysql" {
-  name = "dw-mysql-params"
-  family = "mysql8.0"
+  name   = "dw-mysql-params"
+  family = "mysql8.4"
   parameter {
-    name = "require_secure_transport"
-    value = "ON"
+    name  = "require_secure_transport"
+    value = "1"
   }
 }
 
@@ -38,6 +39,7 @@ resource "aws_security_group" "rds" {
 
 # Security group for DocumentDB
 resource "aws_security_group" "docdb" {
+  count       = var.enable_docdb ? 1 : 0
   name        = "dw-docdb-sg"
   description = "Security group for DocumentDB"
   vpc_id      = var.vpc_id
@@ -55,40 +57,46 @@ resource "aws_security_group" "docdb" {
 
 # Allow compute SG to access RDS and DocumentDB
 resource "aws_security_group_rule" "rds_ingress_from_compute" {
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
   source_security_group_id = var.compute_sg_id
-  security_group_id = aws_security_group.rds.id
+  security_group_id        = aws_security_group.rds.id
 }
 
 resource "aws_security_group_rule" "docdb_ingress_from_compute" {
-  type              = "ingress"
-  from_port         = 27017
-  to_port           = 27017
-  protocol          = "tcp"
+  type                     = "ingress"
+  count                    = var.enable_docdb ? 1 : 0
+  from_port                = 27017
+  to_port                  = 27017
+  protocol                 = "tcp"
   source_security_group_id = var.compute_sg_id
-  security_group_id = aws_security_group.docdb.id
+  security_group_id        = aws_security_group.docdb[0].id
 }
 
 resource "aws_db_instance" "mysql" {
-  identifier             = "dw-mysql"
-  engine                 = "mysql"
-  engine_version         = "8.0"
-  instance_class         = "db.t3.micro"
-  allocated_storage      = 20
-  storage_encrypted      = true
-  db_name                = "ecommerce"
-  username               = "admin"
-  password               = random_password.mysql.result
-  parameter_group_name   = aws_db_parameter_group.mysql.name
-  db_subnet_group_name   = aws_db_subnet_group.main.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
-  skip_final_snapshot    = false
-  final_snapshot_identifier = var.mysql_final_snapshot_identifier
-  deletion_protection    = var.deletion_protection
-  publicly_accessible    = false
+  identifier                  = "dw-mysql"
+  engine                      = "mysql"
+  engine_version              = "8.4"
+  engine_lifecycle_support    = "open-source-rds-extended-support-disabled"
+  instance_class              = "db.t3.micro"
+  allocated_storage           = 20
+  storage_type                = "gp3"
+  backup_retention_period     = 1
+  multi_az                    = false
+  auto_minor_version_upgrade  = true
+  storage_encrypted           = true
+  db_name                     = "ecommerce"
+  username                    = "admin"
+  manage_master_user_password = true
+  parameter_group_name        = aws_db_parameter_group.mysql.name
+  db_subnet_group_name        = aws_db_subnet_group.main.name
+  vpc_security_group_ids      = [aws_security_group.rds.id]
+  skip_final_snapshot         = false
+  final_snapshot_identifier   = var.mysql_final_snapshot_identifier
+  deletion_protection         = var.deletion_protection
+  publicly_accessible         = false
   tags = {
     Name = "dw-mysql"
   }
@@ -96,6 +104,7 @@ resource "aws_db_instance" "mysql" {
 
 resource "aws_docdb_cluster_parameter_group" "docdb" {
   family = "docdb5.0"
+  count  = var.enable_docdb ? 1 : 0
   name   = "dw-docdb-params"
   parameter {
     name  = "tls"
@@ -104,84 +113,49 @@ resource "aws_docdb_cluster_parameter_group" "docdb" {
 }
 
 resource "aws_docdb_cluster" "main" {
-  cluster_identifier      = "dw-docdb"
-  engine                  = "docdb"
-  engine_version          = "5.0.0"
-  master_username         = "admin"
-  master_password         = random_password.docdb.result
-  db_subnet_group_name    = aws_docdb_subnet_group.main.name
-  db_cluster_parameter_group_name = aws_docdb_cluster_parameter_group.docdb.name
-  vpc_security_group_ids  = [aws_security_group.docdb.id]
-  port                    = 27017
-  storage_encrypted       = true
-  skip_final_snapshot     = false
-  final_snapshot_identifier = var.docdb_final_snapshot_identifier
-  deletion_protection     = var.deletion_protection
-  apply_immediately       = true
+  count                           = var.enable_docdb ? 1 : 0
+  cluster_identifier              = "dw-docdb"
+  engine                          = "docdb"
+  engine_version                  = "5.0.0"
+  master_username                 = "dwadmin"
+  manage_master_user_password     = true
+  db_subnet_group_name            = aws_docdb_subnet_group.main[0].name
+  db_cluster_parameter_group_name = aws_docdb_cluster_parameter_group.docdb[0].name
+  vpc_security_group_ids          = [aws_security_group.docdb[0].id]
+  port                            = 27017
+  storage_encrypted               = true
+  backup_retention_period         = 1
+  skip_final_snapshot             = false
+  final_snapshot_identifier       = var.docdb_final_snapshot_identifier
+  deletion_protection             = var.deletion_protection
+  apply_immediately               = true
   tags = {
     Name = "dw-docdb"
   }
 }
 
 resource "aws_docdb_cluster_instance" "main" {
+  count              = var.enable_docdb ? 1 : 0
   identifier         = "dw-docdb-instance"
-  cluster_identifier = aws_docdb_cluster.main.id
+  cluster_identifier = aws_docdb_cluster.main[0].id
   instance_class     = "db.t3.medium"
   apply_immediately  = true
 }
 
-resource "aws_secretsmanager_secret" "mysql" {
-  name = "dw/mysql/credentials"
-}
-
-resource "aws_secretsmanager_secret_version" "mysql" {
-  secret_id = aws_secretsmanager_secret.mysql.id
-  secret_string = jsonencode({
-    host     = aws_db_instance.mysql.address
-    port     = 3306
-    username = "admin"
-    password = random_password.mysql.result
-    database = "ecommerce"
-  })
-}
-
-resource "aws_secretsmanager_secret" "docdb" {
-  name = "dw/docdb/credentials"
-}
-
-resource "aws_secretsmanager_secret_version" "docdb" {
-  secret_id = aws_secretsmanager_secret.docdb.id
-  secret_string = jsonencode({
-    uri      = "mongodb://admin:${random_password.docdb.result}@${aws_docdb_cluster.main.endpoint}:27017/?tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
-    database = "ecommerce"
-  })
-}
-
-resource "random_password" "mysql" {
-  length  = 32
-  special = false
-}
-
-resource "random_password" "docdb" {
-  length  = 32
-  special = false
-}
 
 
 output "mysql_endpoint" {
-  value     = aws_db_instance.mysql.address
-  sensitive = true
+  value = aws_db_instance.mysql.address
 }
 
 output "docdb_endpoint" {
-  value     = aws_docdb_cluster.main.endpoint
-  sensitive = true
+  value = try(aws_docdb_cluster.main[0].endpoint, null)
 }
 
 output "mysql_secret_arn" {
-  value = aws_secretsmanager_secret.mysql.arn
+  value = aws_db_instance.mysql.master_user_secret[0].secret_arn
 }
 
 output "docdb_secret_arn" {
-  value = aws_secretsmanager_secret.docdb.arn
+  value = try(aws_docdb_cluster.main[0].master_user_secret[0].secret_arn, null)
 }
