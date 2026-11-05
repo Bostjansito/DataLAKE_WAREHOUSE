@@ -1,0 +1,21 @@
+{
+  "checked_on": "2026-10-22",
+  "mcp": {
+    "configured": true,
+    "configuration_source": "~/.claude.json mcpServers.aws-mcp (secrets not exported)",
+    "transport": "uvx mcp-proxy-for-aws@latest https://aws-mcp.us-east-1.api.aws/mcp",
+    "initialize": "success",
+    "protocol_version": "2024-11-05",
+    "proxy_version": "1.7.0",
+    "remote_tools_list": "success",
+    "observed_tool": "aws___get_presigned_url",
+    "mutating_calls": 0
+  },
+  "aws_cli": {
+    "command": "aws sts get-caller-identity --output json",
+    "exit_code": 0,
+    "identity_type": "IAM user",
+    "account_redacted": "********1318"
+  },
+  "authorization_boundary": "Authenticated access exists. No authorization to provision or spend was inferred. No AWS resources were created, no Comprehend analysis or Athena execution was issued."
+}

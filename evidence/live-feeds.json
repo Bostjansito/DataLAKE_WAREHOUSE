@@ -1,0 +1,130 @@
+{
+  "command": [
+    ".venv/bin/rss-lake",
+    "run",
+    "--root",
+    ".local-lake/live",
+    "--run-id",
+    "live-20261022T123541Z",
+    "--bucket",
+    "",
+    "--enrichment",
+    "disabled"
+  ],
+  "returncode": 0,
+  "stderr": "2026-10-22 07:35:41,347 INFO run_id=live-20261022T123541Z task=ingest\n2026-10-22 07:35:44,560 INFO run_id=live-20261022T123541Z source=eltiempo-politica status=success\n2026-10-22 07:35:44,560 INFO run_id=live-20261022T123541Z source=eltiempo-economia status=success\n2026-10-22 07:35:44,561 INFO run_id=live-20261022T123541Z source=eltiempo-deportes status=success\n2026-10-22 07:35:44,561 INFO run_id=live-20261022T123541Z task=transform\n2026-10-22 07:35:44,580 INFO run_id=live-20261022T123541Z task=enrich\n2026-10-22 07:35:44,709 INFO run_id=live-20261022T123541Z task=publish_silver\n2026-10-22 07:35:44,742 INFO run_id=live-20261022T123541Z task=build_gold\n2026-10-22 07:35:44,794 INFO run_id=live-20261022T123541Z task=validate\n",
+  "generated_at": "2026-10-22T12:35:44.881845+00:00",
+  "aws_calls": false,
+  "note": "Live RSS over HTTPS; NLP disabled. Source failures are preserved, not fabricated.",
+  "manifest": {
+    "run_id": "live-20261022T123541Z",
+    "status": "complete",
+    "tables": {
+      "news": {
+        "checksums": {
+          "silver/snapshots/live-20261022T123541Z/news/publication_date=2026-10-21/part-00000.parquet": "98055ad04792ffecb852384e26ad462900c973bf86255044e8ca5a2a07d6dcce",
+          "silver/snapshots/live-20261022T123541Z/news/publication_date=2026-10-22/part-00000.parquet": "34e0752104d39dc437cad22687f386b1a39bc6386ff97ca559b9c3dacebaad0d"
+        },
+        "files": [
+          "silver/snapshots/live-20261022T123541Z/news/publication_date=2026-10-21/part-00000.parquet",
+          "silver/snapshots/live-20261022T123541Z/news/publication_date=2026-10-22/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/live/silver/snapshots/live-20261022T123541Z/news/",
+        "partitions": [
+          "2026-10-21",
+          "2026-10-22"
+        ],
+        "prefix": "silver/snapshots/live-20261022T123541Z/news/",
+        "row_count": 30
+      },
+      "news_entities": {
+        "checksums": {
+          "silver/snapshots/live-20261022T123541Z/news_entities/publication_date=1970-01-01/part-00000.parquet": "1e1fb2289e7e945ac96d80223bb99b4142d5cfb73ad91b199d0004875a16e517"
+        },
+        "files": [
+          "silver/snapshots/live-20261022T123541Z/news_entities/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/live/silver/snapshots/live-20261022T123541Z/news_entities/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "silver/snapshots/live-20261022T123541Z/news_entities/",
+        "row_count": 0
+      },
+      "news_key_phrases": {
+        "checksums": {
+          "silver/snapshots/live-20261022T123541Z/news_key_phrases/publication_date=1970-01-01/part-00000.parquet": "7170e80b5716a7fb90adbcd29df15654f9d24cf3cdf1f311c898c39873f423bc"
+        },
+        "files": [
+          "silver/snapshots/live-20261022T123541Z/news_key_phrases/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/live/silver/snapshots/live-20261022T123541Z/news_key_phrases/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "silver/snapshots/live-20261022T123541Z/news_key_phrases/",
+        "row_count": 0
+      },
+      "daily_news": {
+        "checksums": {
+          "gold/snapshots/live-20261022T123541Z/daily_news/publication_date=2026-10-21/part-00000.parquet": "b7aff6b3716f737a0fcb6c188c3fc8c55028166a27188ae6086a9b77ef0b4abe",
+          "gold/snapshots/live-20261022T123541Z/daily_news/publication_date=2026-10-22/part-00000.parquet": "820053a7905de3e93de245ca833084fc916f02c2780a3aaafbcc4a287ca52797"
+        },
+        "files": [
+          "gold/snapshots/live-20261022T123541Z/daily_news/publication_date=2026-10-21/part-00000.parquet",
+          "gold/snapshots/live-20261022T123541Z/daily_news/publication_date=2026-10-22/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/live/gold/snapshots/live-20261022T123541Z/daily_news/",
+        "partitions": [
+          "2026-10-21",
+          "2026-10-22"
+        ],
+        "prefix": "gold/snapshots/live-20261022T123541Z/daily_news/",
+        "row_count": 4
+      },
+      "entity_daily": {
+        "checksums": {
+          "gold/snapshots/live-20261022T123541Z/entity_daily/publication_date=1970-01-01/part-00000.parquet": "c3507ae35665d2f73d8a52296b1d9b03c1ba1a8f5dcbeb98af9a329b6117cd0d"
+        },
+        "files": [
+          "gold/snapshots/live-20261022T123541Z/entity_daily/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/live/gold/snapshots/live-20261022T123541Z/entity_daily/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "gold/snapshots/live-20261022T123541Z/entity_daily/",
+        "row_count": 0
+      },
+      "section_phrases": {
+        "checksums": {
+          "gold/snapshots/live-20261022T123541Z/section_phrases/publication_date=1970-01-01/part-00000.parquet": "2bdc3ec43a112762e02fc00d41cd1fbf7029108ad98ad6640ada83bb9c491d5d"
+        },
+        "files": [
+          "gold/snapshots/live-20261022T123541Z/section_phrases/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/live/gold/snapshots/live-20261022T123541Z/section_phrases/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "gold/snapshots/live-20261022T123541Z/section_phrases/",
+        "row_count": 0
+      }
+    },
+    "parent_run_id": null,
+    "validated_at": "2026-10-22T12:35:44.822762+00:00",
+    "metrics": {
+      "current_news": 30,
+      "duplicates_in_batch": 0,
+      "new": 30,
+      "received": 30,
+      "rejected": 0,
+      "repeated": 0,
+      "unknown_date": 0,
+      "updated": 0
+    },
+    "enrichment_counts": {
+      "skipped_disabled": 30
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "retrieved_on": "2026-10-22",
+  "region": "us-east-1",
+  "currency": "USD",
+  "prices": {
+    "ec2_t3_medium_hour": "0.0418",
+    "ipv4_hour": ".005",
+    "comprehend_100char_unit": ".0001",
+    "athena_TB": "5",
+    "s3": [
+      {
+        "usage": "Requests-Tier2",
+        "description": "$0.004 per 10,000 GET and all other requests",
+        "usd": "0.0000004000",
+        "unit": "Requests"
+      },
+      {
+        "usage": "Requests-Tier1",
+        "description": "$0.005 per 1,000 PUT, COPY, POST, or LIST requests",
+        "usd": "0.0000050000",
+        "unit": "Requests"
+      },
+      {
+        "usage": "TimedStorage-ByteHrs",
+        "description": "$0.023 per GB - first 50 TB / month of storage used",
+        "usd": "0.0230000000",
+        "unit": "GB-Mo"
+      }
+    ],
+    "ebs_gb_month": ".08 (assumption from official example, not a verified regional quote)"
+  },
+  "s3_publication_date": "2026-10-15T17:35:40Z",
+  "sources": [
+    "https://aws.amazon.com/ec2/instance-types/t3/",
+    "https://aws.amazon.com/vpc/pricing/",
+    "https://aws.amazon.com/comprehend/pricing/",
+    "https://aws.amazon.com/athena/pricing/",
+    "https://aws.amazon.com/ebs/pricing/",
+    "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/us-east-1/index.json"
+  ],
+  "assumed_workload_costs": {
+    "EC2_4h": "0.1672",
+    "IPv4_4h": "0.020",
+    "EBS_30GiB_4h_example_30day": "0.01333333333333333333333333333",
+    "S3_0.1GB_7days_30day": "0.0005366666666666666666666666667",
+    "S3_1000_PUT_LIST": "0.005000",
+    "S3_10000_GET": "0.0040000",
+    "Athena_20queries_10MiB_each": "0.0010485760",
+    "Comprehend_30texts_500chars_2APIs": "0.0300"
+  },
+  "total_estimate_usd": "0.2411185760000000000000000000",
+  "not_actual_bill": true,
+  "exclusions": "tax, paid monitoring, transfers, Glue beyond free allowance, changed regional tariffs; EBS tariff explicit scenario assumption"
+}
