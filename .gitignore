@@ -19,6 +19,8 @@ __pycache__/
 *.pyc
 .venv/
 .venv-dw/
+.venv*/
+.local-lake/
 
 # Airflow local
 logs/
@@ -34,3 +36,6 @@ CLAUDE.md
 **/dbt_packages/
 **/target/
 *.egg-info/
+
+# Artifacts
+artifacts/

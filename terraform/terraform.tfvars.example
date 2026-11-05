@@ -1,0 +1,15 @@
+# Copiar a terraform.tfvars. Credenciales mediante AWS SSO/perfil/rol, nunca aquí.
+aws_region         = "us-east-1"
+project_name       = "rss-lake"
+bucket_name        = "reemplazar-por-nombre-globalmente-unico"
+glue_database_name = "rss_lake"
+
+# Primero aplicar con false: crea S3, Glue y Athena, NO cómputo.
+enable_ec2                 = false
+athena_scan_limit_bytes     = 10485760
+instance_type              = "t3.medium"
+root_volume_gib            = 30
+deployment_artifact_key    = "artifacts/lake.tar.gz"
+# Sustituir por SHA-256 real del artefacto antes de habilitar EC2.
+deployment_artifact_sha256 = ""
+compose_version            = "v2.32.4"

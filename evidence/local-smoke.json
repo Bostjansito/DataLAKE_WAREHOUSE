@@ -1,0 +1,223 @@
+{
+  "generated_at": "2026-10-22T12:47:39.222015+00:00",
+  "aws_resources_created": false,
+  "aws_api_calls_in_smoke": false,
+  "nlp_test_mode": "controlled test doubles; published demo uses skipped_disabled, not AWS results",
+  "command": [
+    "/home/emanuel/Universidad/Sexto/Ingenieria de Datos/DATA_LAKE-Perez_Quintero/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--junitxml=evidence/test-results.xml"
+  ],
+  "returncode": 0,
+  "pytest_stdout": "...........                                                              [100%]\n11 passed in 1.40s\n",
+  "pytest_stderr": "",
+  "local_root": ".local-lake/smoke/20261022T124739222039Z",
+  "tests": [
+    {
+      "name": "test_glue_interrupted_switch_converges_and_removes_old_partitions",
+      "seconds": "0.052",
+      "passed": true
+    },
+    {
+      "name": "test_cli_rebuild_references_bronze_without_new_logical_copy",
+      "seconds": "0.163",
+      "passed": true
+    },
+    {
+      "name": "test_athena_timeout_cancels_and_failures_surface",
+      "seconds": "0.001",
+      "passed": true
+    },
+    {
+      "name": "test_s3_exists_exact_prefix_and_access_denied_not_suppressed",
+      "seconds": "0.001",
+      "passed": true
+    },
+    {
+      "name": "test_end_to_end_scenarios",
+      "seconds": "0.770",
+      "passed": true
+    },
+    {
+      "name": "test_partial_failed_http_xml_empty_and_network",
+      "seconds": "0.055",
+      "passed": true
+    },
+    {
+      "name": "test_nlp_explicit_states_and_xml_safety",
+      "seconds": "0.002",
+      "passed": true
+    },
+    {
+      "name": "test_comprehend_operation_cache_recovers_failed_second_call",
+      "seconds": "0.003",
+      "passed": true
+    },
+    {
+      "name": "test_tampering_and_conflicting_parent_rejected",
+      "seconds": "0.151",
+      "passed": true
+    },
+    {
+      "name": "test_storage_path_traversal_rejected",
+      "seconds": "0.002",
+      "passed": true
+    },
+    {
+      "name": "test_http_transient_retry_before_terminal_checkpoint",
+      "seconds": "0.001",
+      "passed": true
+    }
+  ],
+  "initial_metrics": {
+    "current_news": 4,
+    "duplicates_in_batch": 1,
+    "new": 4,
+    "received": 6,
+    "rejected": 1,
+    "repeated": 0,
+    "unknown_date": 1,
+    "updated": 0
+  },
+  "rebuilt_metrics": {
+    "current_news": 4,
+    "duplicates_in_batch": 1,
+    "new": 0,
+    "received": 6,
+    "rejected": 1,
+    "repeated": 4,
+    "unknown_date": 1,
+    "updated": 0
+  },
+  "replay_equal": true,
+  "bronze_unchanged": true,
+  "bronze_files": [
+    "bronze/source=eltiempo-deportes/ingestion_date=2026-10-22/run_id=initial/response.xml",
+    "bronze/source=eltiempo-economia/ingestion_date=2026-10-22/run_id=initial/response.xml",
+    "bronze/source=eltiempo-politica/ingestion_date=2026-10-22/run_id=initial/response.xml"
+  ],
+  "snapshot": {
+    "run_id": "rebuild",
+    "status": "complete",
+    "tables": {
+      "news": {
+        "checksums": {
+          "silver/snapshots/rebuild/news/publication_date=1970-01-01/part-00000.parquet": "bf99e5908f8482fa45c471826cc82e3d5c17a28040a48d73e0bfb41fea19a40f",
+          "silver/snapshots/rebuild/news/publication_date=2026-10-21/part-00000.parquet": "094d061c6931cd8f322bdd157b3df994201314cd2aa99735b6c4956d8d2774a5",
+          "silver/snapshots/rebuild/news/publication_date=2026-10-22/part-00000.parquet": "26a56021175803589b58f880be4241671e05bf75b834ef99d2188aeff8be872f"
+        },
+        "files": [
+          "silver/snapshots/rebuild/news/publication_date=1970-01-01/part-00000.parquet",
+          "silver/snapshots/rebuild/news/publication_date=2026-10-21/part-00000.parquet",
+          "silver/snapshots/rebuild/news/publication_date=2026-10-22/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/smoke/20261022T124739222039Z/silver/snapshots/rebuild/news/",
+        "partitions": [
+          "1970-01-01",
+          "2026-10-21",
+          "2026-10-22"
+        ],
+        "prefix": "silver/snapshots/rebuild/news/",
+        "row_count": 4
+      },
+      "news_entities": {
+        "checksums": {
+          "silver/snapshots/rebuild/news_entities/publication_date=1970-01-01/part-00000.parquet": "1e1fb2289e7e945ac96d80223bb99b4142d5cfb73ad91b199d0004875a16e517"
+        },
+        "files": [
+          "silver/snapshots/rebuild/news_entities/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/smoke/20261022T124739222039Z/silver/snapshots/rebuild/news_entities/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "silver/snapshots/rebuild/news_entities/",
+        "row_count": 0
+      },
+      "news_key_phrases": {
+        "checksums": {
+          "silver/snapshots/rebuild/news_key_phrases/publication_date=1970-01-01/part-00000.parquet": "7170e80b5716a7fb90adbcd29df15654f9d24cf3cdf1f311c898c39873f423bc"
+        },
+        "files": [
+          "silver/snapshots/rebuild/news_key_phrases/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/smoke/20261022T124739222039Z/silver/snapshots/rebuild/news_key_phrases/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "silver/snapshots/rebuild/news_key_phrases/",
+        "row_count": 0
+      },
+      "daily_news": {
+        "checksums": {
+          "gold/snapshots/rebuild/daily_news/publication_date=1970-01-01/part-00000.parquet": "2e9c48f40e9a955f97b9cfdc62bb95951ca2507fb688bccbc2d3eca4feaad5e7",
+          "gold/snapshots/rebuild/daily_news/publication_date=2026-10-21/part-00000.parquet": "2e9c48f40e9a955f97b9cfdc62bb95951ca2507fb688bccbc2d3eca4feaad5e7",
+          "gold/snapshots/rebuild/daily_news/publication_date=2026-10-22/part-00000.parquet": "cc7bc44d396951b88072256705b232953820225aa1f5f3a915de08a0b3f62a42"
+        },
+        "files": [
+          "gold/snapshots/rebuild/daily_news/publication_date=1970-01-01/part-00000.parquet",
+          "gold/snapshots/rebuild/daily_news/publication_date=2026-10-21/part-00000.parquet",
+          "gold/snapshots/rebuild/daily_news/publication_date=2026-10-22/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/smoke/20261022T124739222039Z/gold/snapshots/rebuild/daily_news/",
+        "partitions": [
+          "1970-01-01",
+          "2026-10-21",
+          "2026-10-22"
+        ],
+        "prefix": "gold/snapshots/rebuild/daily_news/",
+        "row_count": 4
+      },
+      "entity_daily": {
+        "checksums": {
+          "gold/snapshots/rebuild/entity_daily/publication_date=1970-01-01/part-00000.parquet": "c3507ae35665d2f73d8a52296b1d9b03c1ba1a8f5dcbeb98af9a329b6117cd0d"
+        },
+        "files": [
+          "gold/snapshots/rebuild/entity_daily/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/smoke/20261022T124739222039Z/gold/snapshots/rebuild/entity_daily/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "gold/snapshots/rebuild/entity_daily/",
+        "row_count": 0
+      },
+      "section_phrases": {
+        "checksums": {
+          "gold/snapshots/rebuild/section_phrases/publication_date=1970-01-01/part-00000.parquet": "2bdc3ec43a112762e02fc00d41cd1fbf7029108ad98ad6640ada83bb9c491d5d"
+        },
+        "files": [
+          "gold/snapshots/rebuild/section_phrases/publication_date=1970-01-01/part-00000.parquet"
+        ],
+        "location": "file:///home/emanuel/Universidad/Sexto/Ingenieria%20de%20Datos/DATA_LAKE-Perez_Quintero/.local-lake/smoke/20261022T124739222039Z/gold/snapshots/rebuild/section_phrases/",
+        "partitions": [
+          "1970-01-01"
+        ],
+        "prefix": "gold/snapshots/rebuild/section_phrases/",
+        "row_count": 0
+      }
+    },
+    "parent_run_id": "initial",
+    "validated_at": "2026-10-22T12:47:39.585458+00:00",
+    "metrics": {
+      "current_news": 4,
+      "duplicates_in_batch": 1,
+      "new": 0,
+      "received": 6,
+      "rejected": 1,
+      "repeated": 4,
+      "unknown_date": 1,
+      "updated": 0
+    },
+    "enrichment_counts": {
+      "skipped_disabled": 4
+    }
+  },
+  "fixture_hashes": {
+    "tests/fixtures/initial/eltiempo-deportes.xml": "fe45d5db16f366900ef5e3f7860173fe50ac38c4920b94b2e5f159338a5ae1a8",
+    "tests/fixtures/initial/eltiempo-economia.xml": "82cde1b72d030abc54fb7c009da285f9e39e310f80dcf43b2970876b60b94957",
+    "tests/fixtures/initial/eltiempo-politica.xml": "2ba3f7a33454e11e62f8666703098698269c39ceb12ec413742f789f0697b7d2"
+  }
+}

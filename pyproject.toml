@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rss-medallion-lake"
+version = "1.0.0"
+description = "Data lake RSS medallón local y AWS"
+requires-python = ">=3.11"
+dependencies = ["boto3>=1.35,<2", "pyarrow>=18,<24", "defusedxml>=0.7,<1"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+rss-lake = "lake.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["lake*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

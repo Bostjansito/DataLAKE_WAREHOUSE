@@ -1,0 +1,91 @@
+x-airflow: &airflow
+  build: .
+  user: "${AIRFLOW_UID:-50000}:0"
+  environment: &environment
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: "${AIRFLOW_FERNET_KEY:?Set AIRFLOW_FERNET_KEY in .env}"
+    AIRFLOW__WEBSERVER__SECRET_KEY: "${AIRFLOW_SECRET_KEY:?Set AIRFLOW_SECRET_KEY in .env}"
+    AIRFLOW__WEBSERVER__WORKERS: "2"
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__CORE__PARALLELISM: "1"
+    AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+    LAKE_BUCKET: "${LAKE_BUCKET:?Set LAKE_BUCKET in .env}"
+    AWS_REGION: "${AWS_REGION:-us-east-1}"
+    AWS_DEFAULT_REGION: "${AWS_REGION:-us-east-1}"
+    LAKE_FEEDS: /opt/lake/config/feeds.json
+    LAKE_ENRICHMENT: "${LAKE_ENRICHMENT:-comprehend}"
+    GLUE_DATABASE: "${GLUE_DATABASE:-rss_lake}"
+    ATHENA_WORKGROUP: "${ATHENA_WORKGROUP:-rss-lake}"
+    LAKE_SCHEDULE: "${LAKE_SCHEDULE:-}"
+  volumes:
+    - airflow_logs:/opt/airflow/logs
+  depends_on:
+    postgres:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: postgres:16.6-alpine
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}"
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U airflow]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+  init:
+    <<: *airflow
+    restart: "no"
+    environment:
+      <<: *environment
+      AIRFLOW_ADMIN_USERNAME: "${AIRFLOW_ADMIN_USERNAME:-admin}"
+      AIRFLOW_ADMIN_PASSWORD: "${AIRFLOW_ADMIN_PASSWORD:?Set AIRFLOW_ADMIN_PASSWORD in .env}"
+    command:
+      - bash
+      - -ec
+      - |
+        airflow db migrate
+        if ! airflow users list --output json | python -c 'import json,os,sys; sys.exit(not any(u["username"] == os.environ["AIRFLOW_ADMIN_USERNAME"] for u in json.load(sys.stdin)))'; then
+          airflow users create --username "$${AIRFLOW_ADMIN_USERNAME}" --password "$${AIRFLOW_ADMIN_PASSWORD}" --firstname Lake --lastname Admin --role Admin --email admin@example.invalid
+        fi
+  webserver:
+    <<: *airflow
+    command: webserver
+    healthcheck:
+      test: [CMD, curl, --fail, http://localhost:8080/health]
+      interval: 20s
+      timeout: 10s
+      start_period: 60s
+      retries: 6
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+  scheduler:
+    <<: *airflow
+    command: scheduler
+    healthcheck:
+      test: [CMD-SHELL, "airflow jobs check --job-type SchedulerJob --local"]
+      interval: 30s
+      timeout: 15s
+      start_period: 60s
+      retries: 6
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+volumes:
+  postgres_data:
+  airflow_logs:

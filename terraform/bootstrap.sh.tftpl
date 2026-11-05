@@ -1,0 +1,87 @@
+#!/bin/bash
+set -euo pipefail
+umask 027
+# No credenciales AWS estáticas: AWS CLI y contenedores usan el instance profile.
+dnf install -y docker awscli-2 python3 tar gzip curl-minimal openssl
+systemctl enable --now docker
+systemctl enable --now amazon-ssm-agent
+
+install -d -m 0755 /usr/local/lib/docker/cli-plugins
+install -d -m 0700 /var/lib/lake-bootstrap
+cd /var/lib/lake-bootstrap
+curl --fail --location --proto '=https' --tlsv1.2 \
+  'https://github.com/docker/compose/releases/download/${compose_version}/docker-compose-linux-x86_64' \
+  --output docker-compose-linux-x86_64
+curl --fail --location --proto '=https' --tlsv1.2 \
+  'https://github.com/docker/compose/releases/download/${compose_version}/docker-compose-linux-x86_64.sha256' \
+  --output compose.sha256
+sha256sum --check compose.sha256
+install -m 0755 docker-compose-linux-x86_64 /usr/local/lib/docker/cli-plugins/docker-compose
+
+aws s3 cp 's3://${bucket}/${artifact_key}' lake.tar.gz --region '${region}'
+printf '%s  lake.tar.gz\n' '${artifact_sha256}' | sha256sum --check -
+# Comprobar rutas y enlaces antes de extraer como root.
+python3 - <<'PY'
+from pathlib import PurePosixPath
+import tarfile
+with tarfile.open('lake.tar.gz', 'r:gz') as archive:
+    for member in archive.getmembers():
+        path = PurePosixPath(member.name)
+        if path.is_absolute() or '..' in path.parts or not (member.isfile() or member.isdir()):
+            raise SystemExit('Artefacto inválido: ruta o tipo no permitido: ' + member.name)
+PY
+install -d -m 0755 /opt/lake
+tar -xzf lake.tar.gz --no-same-owner --no-same-permissions -C /opt/lake
+cd /opt/lake
+test -f docker-compose.yml
+test -f Dockerfile
+test -f pyproject.toml
+test -d lake
+test -d dags
+test -d config
+
+# Los secretos se generan EN el host; nunca entran al estado Terraform/user data.
+AIRFLOW_PASSWORD=$(openssl rand -hex 24)
+AIRFLOW_SECRET_KEY=$(openssl rand -hex 32)
+POSTGRES_PASSWORD=$(openssl rand -hex 32)
+AIRFLOW_FERNET_KEY=$(python3 -c 'import base64, os; print(base64.urlsafe_b64encode(os.urandom(32)).decode("ascii"))')
+cat > .env <<EOF
+LAKE_BUCKET=${bucket}
+AWS_REGION=${region}
+AWS_DEFAULT_REGION=${region}
+GLUE_DATABASE=${database}
+ATHENA_WORKGROUP=${workgroup}
+LAKE_ENRICHMENT=comprehend
+AIRFLOW_UID=50000
+AIRFLOW_ADMIN_USERNAME=admin
+AIRFLOW_ADMIN_PASSWORD=$AIRFLOW_PASSWORD
+AIRFLOW_SECRET_KEY=$AIRFLOW_SECRET_KEY
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+AIRFLOW_FERNET_KEY=$AIRFLOW_FERNET_KEY
+EOF
+chmod 0600 .env
+install -d -o 50000 -g 0 -m 0770 logs
+
+cat > /etc/systemd/system/lake-compose.service <<'UNIT'
+[Unit]
+Description=RSS Data Lake Airflow Docker Compose
+Requires=docker.service
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/lake
+ExecStart=/usr/bin/docker compose --env-file /opt/lake/.env -f /opt/lake/docker-compose.yml up --build -d
+ExecStop=/usr/bin/docker compose --env-file /opt/lake/.env -f /opt/lake/docker-compose.yml stop
+TimeoutStartSec=1800
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now lake-compose.service
+# Evidencia local: /var/log/cloud-init-output.log, journalctl -u lake-compose.
+# Contraseña UI: obtener /opt/lake/.env mediante sesión SSM autorizada.

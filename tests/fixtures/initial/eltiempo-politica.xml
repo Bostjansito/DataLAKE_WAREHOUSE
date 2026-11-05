@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fixture sintético; no es una descarga ni resultado real de El Tiempo. -->
+<rss version="2.0"><channel><title>Política laboratorio</title>
+<item><guid>lab-1</guid><title><![CDATA[<b>Colombia</b> anuncia acuerdo]]></title><link>https://www.eltiempo.com/politica/lab-1?utm_source=rss</link><description><![CDATA[<p>Ana Pérez visitó Bogotá con la ONU.</p>]]></description><pubDate>Thu, 22 Oct 2026 08:00:00 -0500</pubDate></item>
+<item><guid>lab-1</guid><title>Colombia anuncia acuerdo</title><link>https://www.eltiempo.com/politica/lab-1</link><description>Ana Pérez visitó Bogotá con la ONU.</description><pubDate>Thu, 22 Oct 2026 08:00:00 -0500</pubDate></item>
+<item><guid>invalid-1</guid><title></title><link>https://www.eltiempo.com/politica/invalid</link><description>Falta título</description><pubDate>fecha rota</pubDate></item>
+</channel></rss>
