@@ -1,5 +1,8 @@
 # Arquitecturas de datos: Data Lake y Data Warehouse
 
+> 📄 **Evidencias del Data Lake:** [`datalake/evidencias/docEVIDENCIA/EVIDENCIAS.md`](datalake/evidencias/docEVIDENCIA/EVIDENCIAS.md)
+> ([ver en GitHub](https://github.com/Bostjansito/DataLAKE_WAREHOUSE/blob/main/datalake/evidencias/docEVIDENCIA/EVIDENCIAS.md))
+
 | Parte | Carpeta | Contenido |
 |---|---|---|
 | Data Lake de noticias RSS | [`datalake/`](datalake/README.md) | Arquitectura, código, Terraform, DAG de Airflow, guías y evidencias |

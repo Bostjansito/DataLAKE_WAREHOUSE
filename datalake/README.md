@@ -5,6 +5,9 @@ deduplica y enriquece con **Amazon Comprehend** en **Silver**, y construye agreg
 un bucket S3, se registra en **Glue Data Catalog**, se consulta con **Athena** y lo orquesta **Airflow en
 EC2**. La infraestructura está en Terraform.
 
+> 📄 **Documento de evidencias:** [`datalake/evidencias/docEVIDENCIA/EVIDENCIAS.md`](evidencias/docEVIDENCIA/EVIDENCIAS.md)
+> ([ver en GitHub](https://github.com/Bostjansito/DataLAKE_WAREHOUSE/blob/main/datalake/evidencias/docEVIDENCIA/EVIDENCIAS.md))
+
 | Documento | Contenido |
 |---|---|
 | [EVIDENCIAS.md](evidencias/docEVIDENCIA/EVIDENCIAS.md) | Capturas y registros de cada fase y de los 8 escenarios |
