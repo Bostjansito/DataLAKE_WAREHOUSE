@@ -1,0 +1,35 @@
+version: 2
+
+# Raw intentionally retains defective business values for the QA/quarantine split.
+# Runtime COPY/upsert owns these tables; dbt never creates or replaces them.
+sources:
+  - name: mysql_raw
+    schema: raw
+    quoting:
+      schema: true
+    loaded_at_field: _loaded_at
+    tables:
+      - name: mysql_customers
+        columns: &batch_metadata
+          - name: _batch_id
+            tests: [not_null]
+          - name: _source
+            tests: [not_null]
+          - name: _loaded_at
+            tests: [not_null]
+      - name: mysql_products
+        columns: *batch_metadata
+      - name: mysql_orders
+        columns: *batch_metadata
+      - name: mysql_order_items
+        columns: *batch_metadata
+  - name: mongodb_raw
+    schema: raw
+    quoting:
+      schema: true
+    loaded_at_field: _loaded_at
+    tables:
+      - name: mongo_reviews
+        columns: *batch_metadata
+      - name: mongo_navigation_events
+        columns: *batch_metadata

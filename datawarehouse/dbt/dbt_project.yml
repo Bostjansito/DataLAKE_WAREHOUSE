@@ -1,0 +1,47 @@
+name: ecommerce_dw
+version: '1.0.0'
+config-version: 2
+profile: ecommerce_dw
+
+# Paths
+model-paths: ["models"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+# Model configurations - matches DE-DW architecture
+models:
+  ecommerce_dw:
+    # Intermediate layer: staging, QA, and valid models
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    
+    # Quarantine - rejected records with rejection reasons
+    quarantine:
+      +schema: quarantine
+      +materialized: table
+    
+    # Marts - dimensional and fact tables
+    marts:
+      +schema: marts
+      +materialized: table
+
+# Variables for business logic
+vars:
+  valid_sales_channels: ['web', 'móvil', 'tienda']
+  valid_event_types: ['vista_producto', 'busqueda', 'agregar_carrito']
+  business_timezone: 'America/Bogota'
+  date_dimension_start: '2025-01-01'
+  date_dimension_end: '2028-01-01'  # exclusive, compatible with dbt_utils.date_spine
+  incremental_lookback_days: 7  # recent days reprocessed for late data
+
+# Seeds configuration
+seeds:
+  ecommerce_dw:
+    +schema: intermediate
+    +quote_columns: false
+    colombia_holidays:
+      +column_types:
+        date: date

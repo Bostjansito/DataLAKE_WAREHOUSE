@@ -5,6 +5,13 @@ deduplica y enriquece con **Amazon Comprehend** en **Silver**, y construye agreg
 un bucket S3, se registra en **Glue Data Catalog**, se consulta con **Athena** y lo orquesta **Airflow en
 EC2**. La infraestructura está en Terraform.
 
+## Implementaciones conservadas
+
+Este directorio mantiene la implementación AWS original (`src/noticias`, `infra/`, `config/sources.json`, DAG `noticias_datalake`) y sus rutas de ejecución y evidencias.
+La implementación independiente agregada en `fec4717` está en [`rss-local/`](rss-local/README.md): paquete `lake`, CLI `rss-lake`, fixtures locales, Docker Compose y Terraform propio.
+No se fusionaron sus carpetas homónimas: difieren esquemas, particiones, publicación y catálogo. Sus comandos requieren entrar en `datalake/rss-local/`; los de este documento conservan las rutas existentes.
+
+
 > 📄 **Documento de evidencias:** [`datalake/evidencias/docEVIDENCIA/EVIDENCIAS.md`](evidencias/docEVIDENCIA/EVIDENCIAS.md)
 > ([ver en GitHub](https://github.com/Bostjansito/DataLAKE_WAREHOUSE/blob/main/datalake/evidencias/docEVIDENCIA/EVIDENCIAS.md))
 
@@ -171,6 +178,7 @@ cd datalake/infra/terraform
 cp terraform.tfvars.example terraform.tfvars        # ajustar región/nombres si hace falta
 terraform init && terraform apply
 ../scripts/wait_bootstrap.sh                         # ~2 min: instala Airflow y arranca los servicios
+cd ../../..                                         # volver a la raíz del repositorio
 
 # 2. Ejecución: el DAG corre cada hora solo. Para una ejecución inmediata o un escenario:
 datalake/infra/scripts/dag_trigger.sh '{}'                                   # extraer y procesar
@@ -183,14 +191,20 @@ aws ssm get-parameter --name /datalake-noticias/lab/airflow/admin-password --wit
   --query Parameter.Value --output text
 
 # 4. Publicar cambios de código sin recrear la instancia
-terraform apply -target=aws_s3_object.datalake_code && datalake/infra/scripts/ssm_run.sh /opt/datalake/deploy.sh
+terraform -chdir=datalake/infra/terraform apply -target=aws_s3_object.datalake_code
+datalake/infra/scripts/ssm_run.sh /opt/datalake/deploy.sh
 
 # 5. Ejecución local, sin Airflow
-datalake/scripts/run_local.sh test | extract | silver --run-id X | gold --all | validate
+# Comandos alternativos; ejecutar uno por vez:
+datalake/scripts/run_local.sh test
+datalake/scripts/run_local.sh extract
+datalake/scripts/run_local.sh silver --run-id X
+datalake/scripts/run_local.sh gold --all
+datalake/scripts/run_local.sh validate
 
 # 6. Eliminación
-terraform destroy -target=aws_instance.airflow       # solo el cómputo (lo único que cuesta por hora)
-terraform destroy                                    # todo: force_destroy=true vacía y borra el bucket
+terraform -chdir=datalake/infra/terraform destroy -target=aws_instance.airflow
+terraform -chdir=datalake/infra/terraform destroy    # force_destroy=true vacía y borra el bucket
 ```
 
 ## 7. Estimación de costos (us-east-1)

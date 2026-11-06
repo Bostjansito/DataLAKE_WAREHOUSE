@@ -1,0 +1,17 @@
+{
+  "account": "241732001318",
+  "region": "us-east-1",
+  "date": "2026-11-05",
+  "resources_added": 31,
+  "resources_changed": 0,
+  "resources_destroyed": 0,
+  "instance_id": "i-0b65cd081428de5fc",
+  "vpc_id": "vpc-0b26389992211d765",
+  "bucket": "dw-raw-55ce297c189637c0",
+  "captured": false,
+  "confirmed_services": [],
+  "bootstrap_original": "Failed: curl conflicts with curl-minimal",
+  "bootstrap_repair": "Success via SSM without instance replacement",
+  "cloud_init_historical_status": "error retained; remote-deploy.sh cloud-init wait currently blocks deployment",
+  "terraform_warning": "Corrected user_data differs from instance original. user_data_replace_on_change=true; review future replacement plan after explicit confirmation only."
+}

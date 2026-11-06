@@ -1,0 +1,11 @@
+.venv*
+.local-lake
+.env
+terraform
+.git
+.pytest_cache
+**/__pycache__
+*.egg-info
+tests
+evidence
+artifacts

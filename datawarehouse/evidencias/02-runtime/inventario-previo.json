@@ -1,0 +1,20 @@
+{
+  "identity": {
+    "UserId": "AIDATQSCZTYTDJHGXC7LE",
+    "Account": "241732001318",
+    "Arn": "arn:aws:iam::241732001318:user/user_cli"
+  },
+  "vpcs": {
+    "Vpcs": []
+  },
+  "instances": {
+    "Reservations": []
+  },
+  "buckets": {
+    "Buckets": [],
+    "Owner": {
+      "ID": "2198ab376dee9a9fc8da1166547a0fc2333298a7bb25ee5d7f6e8332e43b8ed8"
+    },
+    "Prefix": null
+  }
+}

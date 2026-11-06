@@ -1,0 +1,19 @@
+version: 2
+
+seeds:
+  - name: colombia_municipalities
+    description: Ciudades y departamentos colombianos para la dimensión geográfica.
+    columns:
+      - name: country
+        tests: [not_null]
+      - name: department
+        tests: [not_null]
+      - name: city
+        tests: [not_null]
+  - name: colombia_holidays
+    description: "Calendario nacional de Colombia de 2025 a 2027; celebraciones coincidentes se agrupan en una fecha única. Referencia: https://colombiafestivos.com.co/"
+    columns:
+      - name: date
+        tests: [unique, not_null]
+      - name: holiday_name
+        tests: [not_null]

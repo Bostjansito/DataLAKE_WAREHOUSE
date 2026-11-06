@@ -1,0 +1,19 @@
+Cuenta 241732001318; región us-east-1; lote 0. Consultas Redshift posteriores a la ejecución exitosa.
+
+Conteos:
+marts.dim_customer 50
+marts.dim_product 25
+marts.fct_sales 253
+marts.fct_reviews 150
+marts.fct_navigation_events 500
+
+Ledger: batch_id=0, status=succeeded, rows_loaded=1112.
+Rechazos por lote y motivo:
+customers: invalid_email 2, missing_name 2
+products: missing_category 2
+orders: invalid_sales_channel 2, orphan_customer 2
+order_items: orphan_order 2, orphan_product 2, subtotal_mismatch 2
+reviews: invalid_rating 2, missing_reviewed_at 2, orphan_customer 2, orphan_product 2
+navigation_events: invalid_event_type 2, missing_occurred_at 2, orphan_customer 2, orphan_product 2
+
+Fuente: consultas count(*) sobre tablas marts y agrupación por _batch_id, rejection_reason sobre tablas quarantine. dbt test: PASS=151 WARN=0 ERROR=0 SKIP=0 TOTAL=151.

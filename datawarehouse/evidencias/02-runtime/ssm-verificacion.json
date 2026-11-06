@@ -1,0 +1,22 @@
+{
+  "CommandId": "365e0223-1fff-4d06-8196-6e5c94083132",
+  "InstanceId": "i-0b65cd081428de5fc",
+  "Comment": "Runtime verification only: cloud-init, SSM, TLS CA and own S3 read",
+  "DocumentName": "AWS-RunShellScript",
+  "DocumentVersion": "$DEFAULT",
+  "PluginName": "aws:runShellScript",
+  "ResponseCode": 1,
+  "ExecutionStartDateTime": "2026-11-05T18:04:23.137Z",
+  "ExecutionElapsedTime": "PT0.282S",
+  "ExecutionEndDateTime": "2026-11-05T18:04:23.137Z",
+  "Status": "Failed",
+  "StatusDetails": "Failed",
+  "StandardOutputContent": "\nstatus: error\n",
+  "StandardOutputUrl": "",
+  "StandardErrorContent": "failed to run commands: exit status 1",
+  "StandardErrorUrl": "",
+  "CloudWatchOutputConfig": {
+    "CloudWatchLogGroupName": "",
+    "CloudWatchOutputEnabled": false
+  }
+}

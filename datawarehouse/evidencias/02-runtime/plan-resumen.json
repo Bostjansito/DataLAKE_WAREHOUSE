@@ -1,0 +1,197 @@
+{
+  "account": "241732001318",
+  "region": "us-east-1",
+  "flags": {
+    "enable_compute": true,
+    "enable_sources": false,
+    "enable_warehouse": false
+  },
+  "changes": [
+    {
+      "address": "module.compute[0].aws_iam_instance_profile.ec2",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.compute[0].aws_iam_role.ec2",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.compute[0].aws_iam_role_policy.s3",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.compute[0].aws_iam_role_policy_attachment.ssm",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.compute[0].aws_instance.airflow",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.compute[0].aws_security_group.ec2",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.aws_s3_bucket.raw",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.aws_s3_bucket_lifecycle_configuration.raw",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.aws_s3_bucket_ownership_controls.raw",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.aws_s3_bucket_policy.raw",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.aws_s3_bucket_public_access_block.raw",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.aws_s3_bucket_server_side_encryption_configuration.raw",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.aws_s3_bucket_versioning.raw",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.storage.random_id.suffix",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_internet_gateway.main",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table.private",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table.public",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table_association.private[0]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table_association.private[1]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table_association.private[2]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table_association.public[0]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table_association.public[1]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_route_table_association.public[2]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_subnet.private[0]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_subnet.private[1]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_subnet.private[2]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_subnet.public[0]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_subnet.public[1]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_subnet.public[2]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_vpc.main",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "module.vpc[0].aws_vpc_endpoint.s3",
+      "actions": [
+        "create"
+      ]
+    }
+  ]
+}

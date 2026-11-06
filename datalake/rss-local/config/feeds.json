@@ -1,0 +1,5 @@
+[
+  {"source":"eltiempo-politica","medium":"El Tiempo","section":"politica","url":"https://www.eltiempo.com/rss/politica.xml","language":"es"},
+  {"source":"eltiempo-economia","medium":"El Tiempo","section":"economia","url":"https://www.eltiempo.com/rss/economia.xml","language":"es"},
+  {"source":"eltiempo-deportes","medium":"El Tiempo","section":"deportes","url":"https://www.eltiempo.com/rss/deportes.xml","language":"es"}
+]

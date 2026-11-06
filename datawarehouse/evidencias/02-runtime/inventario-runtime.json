@@ -1,0 +1,819 @@
+{
+  "identity": {
+    "UserId": "AIDATQSCZTYTDJHGXC7LE",
+    "Account": "241732001318",
+    "Arn": "arn:aws:iam::241732001318:user/user_cli"
+  },
+  "instance": {
+    "Reservations": [
+      {
+        "ReservationId": "r-087c92c36b64d0f0b",
+        "OwnerId": "241732001318",
+        "Groups": [],
+        "Instances": [
+          {
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [
+              {
+                "DeviceName": "/dev/xvda",
+                "Ebs": {
+                  "AttachTime": "2026-11-05T18:03:01.694000+00:00",
+                  "DeleteOnTermination": true,
+                  "Status": "attached",
+                  "VolumeId": "vol-0c4bfe13c887d8bf2",
+                  "EbsCardIndex": 0
+                }
+              }
+            ],
+            "ClientToken": "terraform-20261105180300653900000009",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "IamInstanceProfile": {
+              "Arn": "arn:aws:iam::241732001318:instance-profile/dw-ec2-20261105180243857800000002",
+              "Id": "AIPATQSCZTYTEXOLTULZK"
+            },
+            "NetworkInterfaces": [
+              {
+                "Association": {
+                  "IpOwnerId": "amazon",
+                  "PublicDnsName": "ec2-34-232-105-8.compute-1.amazonaws.com",
+                  "PublicIp": "34.232.105.8"
+                },
+                "Attachment": {
+                  "AttachTime": "2026-11-05T18:03:01+00:00",
+                  "AttachmentId": "eni-attach-053376b9cc0c4e1e7",
+                  "DeleteOnTermination": true,
+                  "DeviceIndex": 0,
+                  "Status": "attached",
+                  "NetworkCardIndex": 0
+                },
+                "Description": "",
+                "Groups": [
+                  {
+                    "GroupId": "sg-072229ab7f21921c8",
+                    "GroupName": "dw-ec2-20261105180255319300000006"
+                  }
+                ],
+                "Ipv6Addresses": [],
+                "MacAddress": "02:ff:c0:77:af:ab",
+                "NetworkInterfaceId": "eni-0ccdbd4511cc564e5",
+                "OwnerId": "241732001318",
+                "PrivateDnsName": "ip-10-0-9-121.ec2.internal",
+                "PrivateIpAddress": "10.0.9.121",
+                "PrivateIpAddresses": [
+                  {
+                    "Association": {
+                      "IpOwnerId": "amazon",
+                      "PublicDnsName": "ec2-34-232-105-8.compute-1.amazonaws.com",
+                      "PublicIp": "34.232.105.8"
+                    },
+                    "Primary": true,
+                    "PrivateDnsName": "ip-10-0-9-121.ec2.internal",
+                    "PrivateIpAddress": "10.0.9.121"
+                  }
+                ],
+                "SourceDestCheck": true,
+                "Status": "in-use",
+                "SubnetId": "subnet-0505e3af9cb6db4b0",
+                "VpcId": "vpc-0b26389992211d765",
+                "InterfaceType": "interface",
+                "Operator": {
+                  "Managed": false
+                }
+              }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+              {
+                "GroupId": "sg-072229ab7f21921c8",
+                "GroupName": "dw-ec2-20261105180255319300000006"
+              }
+            ],
+            "SourceDestCheck": true,
+            "Tags": [
+              {
+                "Key": "Project",
+                "Value": "ecommerce-dw"
+              },
+              {
+                "Key": "Name",
+                "Value": "dw-airflow-dbt"
+              }
+            ],
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+              "CoreCount": 1,
+              "ThreadsPerCore": 2
+            },
+            "CapacityReservationSpecification": {
+              "CapacityReservationPreference": "open"
+            },
+            "HibernationOptions": {
+              "Configured": false
+            },
+            "MetadataOptions": {
+              "State": "applied",
+              "HttpTokens": "required",
+              "HttpPutResponseHopLimit": 1,
+              "HttpEndpoint": "enabled",
+              "HttpProtocolIpv6": "disabled",
+              "InstanceMetadataTags": "disabled"
+            },
+            "EnclaveOptions": {
+              "Enabled": false
+            },
+            "BootMode": "uefi-preferred",
+            "PlatformDetails": "Linux/UNIX",
+            "UsageOperation": "RunInstances",
+            "UsageOperationUpdateTime": "2026-11-05T18:03:01+00:00",
+            "PrivateDnsNameOptions": {
+              "HostnameType": "ip-name",
+              "EnableResourceNameDnsARecord": false,
+              "EnableResourceNameDnsAAAARecord": false
+            },
+            "MaintenanceOptions": {
+              "AutoRecovery": "default",
+              "RebootMigration": "default"
+            },
+            "CurrentInstanceBootMode": "uefi",
+            "NetworkPerformanceOptions": {
+              "BandwidthWeighting": "default"
+            },
+            "Operator": {
+              "Managed": false,
+              "HiddenByDefault": false
+            },
+            "SecondaryInterfaces": [],
+            "InstanceId": "i-0b65cd081428de5fc",
+            "ImageId": "ami-07c1b6f58fb89ce9f",
+            "State": {
+              "Code": 16,
+              "Name": "running"
+            },
+            "PrivateDnsName": "ip-10-0-9-121.ec2.internal",
+            "PublicDnsName": "ec2-34-232-105-8.compute-1.amazonaws.com",
+            "StateTransitionReason": "",
+            "AmiLaunchIndex": 0,
+            "ProductCodes": [],
+            "InstanceType": "t3.medium",
+            "LaunchTime": "2026-11-05T18:03:01+00:00",
+            "Placement": {
+              "AvailabilityZoneId": "use1-az1",
+              "GroupName": "",
+              "Tenancy": "default",
+              "AvailabilityZone": "us-east-1a"
+            },
+            "Monitoring": {
+              "State": "disabled"
+            },
+            "SubnetId": "subnet-0505e3af9cb6db4b0",
+            "VpcId": "vpc-0b26389992211d765",
+            "PrivateIpAddress": "10.0.9.121",
+            "PublicIpAddress": "34.232.105.8"
+          }
+        ]
+      }
+    ]
+  },
+  "status": {
+    "InstanceStatuses": [
+      {
+        "AvailabilityZone": "us-east-1a",
+        "AvailabilityZoneId": "use1-az1",
+        "Operator": {
+          "Managed": false,
+          "HiddenByDefault": false
+        },
+        "InstanceId": "i-0b65cd081428de5fc",
+        "InstanceState": {
+          "Code": 16,
+          "Name": "running"
+        },
+        "InstanceStatus": {
+          "Details": [
+            {
+              "Name": "reachability",
+              "Status": "initializing"
+            }
+          ],
+          "Status": "initializing"
+        },
+        "SystemStatus": {
+          "Details": [
+            {
+              "Name": "reachability",
+              "Status": "initializing"
+            }
+          ],
+          "Status": "initializing"
+        }
+      }
+    ]
+  },
+  "vpc": {
+    "Vpcs": [
+      {
+        "OwnerId": "241732001318",
+        "InstanceTenancy": "default",
+        "CidrBlockAssociationSet": [
+          {
+            "AssociationId": "vpc-cidr-assoc-0632cc4616e366723",
+            "CidrBlock": "10.0.0.0/16",
+            "CidrBlockState": {
+              "State": "associated"
+            }
+          }
+        ],
+        "IsDefault": false,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "BlockPublicAccessStates": {
+          "InternetGatewayBlockMode": "off"
+        },
+        "VpcId": "vpc-0b26389992211d765",
+        "State": "available",
+        "CidrBlock": "10.0.0.0/16",
+        "DhcpOptionsId": "dopt-09b4a95f3455aa565"
+      }
+    ]
+  },
+  "subnets": {
+    "Subnets": [
+      {
+        "AvailabilityZoneId": "use1-az2",
+        "MapCustomerOwnedIpOnLaunch": false,
+        "OwnerId": "241732001318",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "SubnetArn": "arn:aws:ec2:us-east-1:241732001318:subnet/subnet-03e34bdd6351f3cb6",
+        "EnableDns64": false,
+        "Ipv6Native": false,
+        "PrivateDnsNameOptionsOnLaunch": {
+          "HostnameType": "ip-name",
+          "EnableResourceNameDnsARecord": false,
+          "EnableResourceNameDnsAAAARecord": false
+        },
+        "BlockPublicAccessStates": {
+          "InternetGatewayBlockMode": "off"
+        },
+        "SubnetId": "subnet-03e34bdd6351f3cb6",
+        "State": "available",
+        "VpcId": "vpc-0b26389992211d765",
+        "CidrBlock": "10.0.64.0/20",
+        "AvailableIpAddressCount": 4091,
+        "AvailabilityZone": "us-east-1b",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false
+      },
+      {
+        "AvailabilityZoneId": "use1-az1",
+        "MapCustomerOwnedIpOnLaunch": false,
+        "OwnerId": "241732001318",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "SubnetArn": "arn:aws:ec2:us-east-1:241732001318:subnet/subnet-08eb03bf0bd727607",
+        "EnableDns64": false,
+        "Ipv6Native": false,
+        "PrivateDnsNameOptionsOnLaunch": {
+          "HostnameType": "ip-name",
+          "EnableResourceNameDnsARecord": false,
+          "EnableResourceNameDnsAAAARecord": false
+        },
+        "BlockPublicAccessStates": {
+          "InternetGatewayBlockMode": "off"
+        },
+        "SubnetId": "subnet-08eb03bf0bd727607",
+        "State": "available",
+        "VpcId": "vpc-0b26389992211d765",
+        "CidrBlock": "10.0.48.0/20",
+        "AvailableIpAddressCount": 4091,
+        "AvailabilityZone": "us-east-1a",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false
+      },
+      {
+        "AvailabilityZoneId": "use1-az1",
+        "MapCustomerOwnedIpOnLaunch": false,
+        "OwnerId": "241732001318",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "SubnetArn": "arn:aws:ec2:us-east-1:241732001318:subnet/subnet-0505e3af9cb6db4b0",
+        "EnableDns64": false,
+        "Ipv6Native": false,
+        "PrivateDnsNameOptionsOnLaunch": {
+          "HostnameType": "ip-name",
+          "EnableResourceNameDnsARecord": false,
+          "EnableResourceNameDnsAAAARecord": false
+        },
+        "BlockPublicAccessStates": {
+          "InternetGatewayBlockMode": "off"
+        },
+        "SubnetId": "subnet-0505e3af9cb6db4b0",
+        "State": "available",
+        "VpcId": "vpc-0b26389992211d765",
+        "CidrBlock": "10.0.0.0/20",
+        "AvailableIpAddressCount": 4090,
+        "AvailabilityZone": "us-east-1a",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false
+      },
+      {
+        "AvailabilityZoneId": "use1-az4",
+        "MapCustomerOwnedIpOnLaunch": false,
+        "OwnerId": "241732001318",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "SubnetArn": "arn:aws:ec2:us-east-1:241732001318:subnet/subnet-079aad653c15f3796",
+        "EnableDns64": false,
+        "Ipv6Native": false,
+        "PrivateDnsNameOptionsOnLaunch": {
+          "HostnameType": "ip-name",
+          "EnableResourceNameDnsARecord": false,
+          "EnableResourceNameDnsAAAARecord": false
+        },
+        "BlockPublicAccessStates": {
+          "InternetGatewayBlockMode": "off"
+        },
+        "SubnetId": "subnet-079aad653c15f3796",
+        "State": "available",
+        "VpcId": "vpc-0b26389992211d765",
+        "CidrBlock": "10.0.80.0/20",
+        "AvailableIpAddressCount": 4091,
+        "AvailabilityZone": "us-east-1c",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false
+      },
+      {
+        "AvailabilityZoneId": "use1-az2",
+        "MapCustomerOwnedIpOnLaunch": false,
+        "OwnerId": "241732001318",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "SubnetArn": "arn:aws:ec2:us-east-1:241732001318:subnet/subnet-0e085ab641a9bf8d5",
+        "EnableDns64": false,
+        "Ipv6Native": false,
+        "PrivateDnsNameOptionsOnLaunch": {
+          "HostnameType": "ip-name",
+          "EnableResourceNameDnsARecord": false,
+          "EnableResourceNameDnsAAAARecord": false
+        },
+        "BlockPublicAccessStates": {
+          "InternetGatewayBlockMode": "off"
+        },
+        "SubnetId": "subnet-0e085ab641a9bf8d5",
+        "State": "available",
+        "VpcId": "vpc-0b26389992211d765",
+        "CidrBlock": "10.0.16.0/20",
+        "AvailableIpAddressCount": 4091,
+        "AvailabilityZone": "us-east-1b",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false
+      },
+      {
+        "AvailabilityZoneId": "use1-az4",
+        "MapCustomerOwnedIpOnLaunch": false,
+        "OwnerId": "241732001318",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "SubnetArn": "arn:aws:ec2:us-east-1:241732001318:subnet/subnet-0d890fda134eb492a",
+        "EnableDns64": false,
+        "Ipv6Native": false,
+        "PrivateDnsNameOptionsOnLaunch": {
+          "HostnameType": "ip-name",
+          "EnableResourceNameDnsARecord": false,
+          "EnableResourceNameDnsAAAARecord": false
+        },
+        "BlockPublicAccessStates": {
+          "InternetGatewayBlockMode": "off"
+        },
+        "SubnetId": "subnet-0d890fda134eb492a",
+        "State": "available",
+        "VpcId": "vpc-0b26389992211d765",
+        "CidrBlock": "10.0.32.0/20",
+        "AvailableIpAddressCount": 4091,
+        "AvailabilityZone": "us-east-1c",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false
+      }
+    ]
+  },
+  "routes": {
+    "RouteTables": [
+      {
+        "Associations": [
+          {
+            "Main": false,
+            "RouteTableAssociationId": "rtbassoc-05f5125b539c4887b",
+            "RouteTableId": "rtb-0aaddcc042e8870f9",
+            "SubnetId": "subnet-079aad653c15f3796",
+            "AssociationState": {
+              "State": "associated"
+            }
+          },
+          {
+            "Main": false,
+            "RouteTableAssociationId": "rtbassoc-0438cdc1e3d14d248",
+            "RouteTableId": "rtb-0aaddcc042e8870f9",
+            "SubnetId": "subnet-08eb03bf0bd727607",
+            "AssociationState": {
+              "State": "associated"
+            }
+          },
+          {
+            "Main": false,
+            "RouteTableAssociationId": "rtbassoc-08800271f47710ecc",
+            "RouteTableId": "rtb-0aaddcc042e8870f9",
+            "SubnetId": "subnet-03e34bdd6351f3cb6",
+            "AssociationState": {
+              "State": "associated"
+            }
+          }
+        ],
+        "PropagatingVgws": [],
+        "RouteTableId": "rtb-0aaddcc042e8870f9",
+        "Routes": [
+          {
+            "DestinationCidrBlock": "10.0.0.0/16",
+            "GatewayId": "local",
+            "Origin": "CreateRouteTable",
+            "State": "active"
+          },
+          {
+            "DestinationPrefixListId": "pl-63a5400a",
+            "GatewayId": "vpce-068864eb7465da3ff",
+            "Origin": "CreateRoute",
+            "State": "active"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "VpcId": "vpc-0b26389992211d765",
+        "OwnerId": "241732001318"
+      },
+      {
+        "Associations": [
+          {
+            "Main": true,
+            "RouteTableAssociationId": "rtbassoc-054a6cad37ab0cf0d",
+            "RouteTableId": "rtb-0f96cab3a7f2cfc3b",
+            "AssociationState": {
+              "State": "associated"
+            }
+          }
+        ],
+        "PropagatingVgws": [],
+        "RouteTableId": "rtb-0f96cab3a7f2cfc3b",
+        "Routes": [
+          {
+            "DestinationCidrBlock": "10.0.0.0/16",
+            "GatewayId": "local",
+            "Origin": "CreateRouteTable",
+            "State": "active"
+          }
+        ],
+        "Tags": [],
+        "VpcId": "vpc-0b26389992211d765",
+        "OwnerId": "241732001318"
+      },
+      {
+        "Associations": [
+          {
+            "Main": false,
+            "RouteTableAssociationId": "rtbassoc-0bfca83b123d3b791",
+            "RouteTableId": "rtb-03fb9041e248b7fb9",
+            "SubnetId": "subnet-0e085ab641a9bf8d5",
+            "AssociationState": {
+              "State": "associated"
+            }
+          },
+          {
+            "Main": false,
+            "RouteTableAssociationId": "rtbassoc-0b031244f1dc90cad",
+            "RouteTableId": "rtb-03fb9041e248b7fb9",
+            "SubnetId": "subnet-0505e3af9cb6db4b0",
+            "AssociationState": {
+              "State": "associated"
+            }
+          },
+          {
+            "Main": false,
+            "RouteTableAssociationId": "rtbassoc-0e8083777728c4705",
+            "RouteTableId": "rtb-03fb9041e248b7fb9",
+            "SubnetId": "subnet-0d890fda134eb492a",
+            "AssociationState": {
+              "State": "associated"
+            }
+          }
+        ],
+        "PropagatingVgws": [],
+        "RouteTableId": "rtb-03fb9041e248b7fb9",
+        "Routes": [
+          {
+            "DestinationCidrBlock": "10.0.0.0/16",
+            "GatewayId": "local",
+            "Origin": "CreateRouteTable",
+            "State": "active"
+          },
+          {
+            "DestinationCidrBlock": "0.0.0.0/0",
+            "GatewayId": "igw-0544d5f90f3101929",
+            "Origin": "CreateRoute",
+            "State": "active"
+          },
+          {
+            "DestinationPrefixListId": "pl-63a5400a",
+            "GatewayId": "vpce-068864eb7465da3ff",
+            "Origin": "CreateRoute",
+            "State": "active"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "VpcId": "vpc-0b26389992211d765",
+        "OwnerId": "241732001318"
+      }
+    ]
+  },
+  "endpoints": {
+    "VpcEndpoints": [
+      {
+        "VpcEndpointId": "vpce-068864eb7465da3ff",
+        "VpcEndpointType": "Gateway",
+        "VpcId": "vpc-0b26389992211d765",
+        "ServiceName": "com.amazonaws.us-east-1.s3",
+        "State": "available",
+        "PolicyDocument": "{\"Version\":\"2008-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"*\",\"Resource\":\"*\"}]}",
+        "RouteTableIds": [
+          "rtb-0aaddcc042e8870f9",
+          "rtb-03fb9041e248b7fb9"
+        ],
+        "SubnetIds": [],
+        "Groups": [],
+        "IpAddressType": "ipv4",
+        "DnsOptions": {
+          "DnsRecordIpType": "service-defined"
+        },
+        "PrivateDnsEnabled": false,
+        "RequesterManaged": false,
+        "NetworkInterfaceIds": [],
+        "DnsEntries": [],
+        "CreationTimestamp": "2026-11-05T18:02:57+00:00",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "OwnerId": "241732001318",
+        "ServiceRegion": "us-east-1"
+      }
+    ]
+  },
+  "nat": {
+    "NatGateways": []
+  },
+  "security_groups": {
+    "SecurityGroups": [
+      {
+        "GroupId": "sg-072229ab7f21921c8",
+        "IpPermissionsEgress": [
+          {
+            "IpProtocol": "-1",
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+              {
+                "CidrIp": "0.0.0.0/0"
+              }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "VpcId": "vpc-0b26389992211d765",
+        "SecurityGroupArn": "arn:aws:ec2:us-east-1:241732001318:security-group/sg-072229ab7f21921c8",
+        "OwnerId": "241732001318",
+        "GroupName": "dw-ec2-20261105180255319300000006",
+        "Description": "Airflow/dbt: no inbound ports; outbound packages and SSM",
+        "IpPermissions": []
+      }
+    ]
+  },
+  "volumes": {
+    "Volumes": [
+      {
+        "AvailabilityZoneId": "use1-az1",
+        "Iops": 3000,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "ecommerce-dw"
+          }
+        ],
+        "VolumeType": "gp3",
+        "MultiAttachEnabled": false,
+        "Throughput": 125,
+        "Operator": {
+          "Managed": false,
+          "HiddenByDefault": false
+        },
+        "VolumeArn": "arn:aws:ec2:us-east-1:241732001318:volume/vol-0c4bfe13c887d8bf2",
+        "OwnerId": "241732001318",
+        "VolumeId": "vol-0c4bfe13c887d8bf2",
+        "Size": 30,
+        "SnapshotId": "snap-06b8fcd8c42df1811",
+        "AvailabilityZone": "us-east-1a",
+        "State": "in-use",
+        "CreateTime": "2026-11-05T18:03:01.778000+00:00",
+        "Attachments": [
+          {
+            "DeleteOnTermination": true,
+            "EbsCardIndex": 0,
+            "VolumeId": "vol-0c4bfe13c887d8bf2",
+            "InstanceId": "i-0b65cd081428de5fc",
+            "Device": "/dev/xvda",
+            "State": "attached",
+            "AttachTime": "2026-11-05T18:03:01+00:00"
+          }
+        ],
+        "Encrypted": true,
+        "KmsKeyId": "arn:aws:kms:us-east-1:241732001318:key/0a660d4a-2c31-4ced-a10c-4babe4c0fb10"
+      }
+    ]
+  },
+  "credits": {
+    "InstanceCreditSpecifications": [
+      {
+        "InstanceId": "i-0b65cd081428de5fc",
+        "CpuCredits": "standard"
+      }
+    ]
+  },
+  "ssm": {
+    "InstanceInformationList": [
+      {
+        "InstanceId": "i-0b65cd081428de5fc",
+        "PingStatus": "Online",
+        "LastPingDateTime": "2026-11-05T13:03:16.035000-05:00",
+        "AgentVersion": "3.3.5700.0",
+        "IsLatestVersion": true,
+        "PlatformType": "Linux",
+        "PlatformName": "Amazon Linux",
+        "PlatformVersion": "2023",
+        "ResourceType": "EC2Instance",
+        "IPAddress": "10.0.9.121",
+        "ComputerName": "ip-10-0-9-121.ec2.internal",
+        "SourceId": "i-0b65cd081428de5fc",
+        "SourceType": "AWS::EC2::Instance"
+      }
+    ]
+  },
+  "role": {
+    "Role": {
+      "Path": "/",
+      "RoleName": "dw-ec2-20261105180243023500000001",
+      "RoleId": "AROATQSCZTYTCFGZWGWDY",
+      "Arn": "arn:aws:iam::241732001318:role/dw-ec2-20261105180243023500000001",
+      "CreateDate": "2026-11-05T18:02:43+00:00",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "ec2.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "MaxSessionDuration": 3600,
+      "Tags": [
+        {
+          "Key": "Project",
+          "Value": "ecommerce-dw"
+        }
+      ],
+      "RoleLastUsed": {}
+    }
+  },
+  "attached_policies": {
+    "AttachedPolicies": [
+      {
+        "PolicyName": "AmazonSSMManagedInstanceCore",
+        "PolicyArn": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      }
+    ]
+  },
+  "inline_policy": {
+    "RoleName": "dw-ec2-20261105180243023500000001",
+    "PolicyName": "terraform-20261105180245599000000004",
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Action": [
+            "s3:ListBucket",
+            "s3:GetBucketLocation"
+          ],
+          "Effect": "Allow",
+          "Resource": "arn:aws:s3:::dw-raw-55ce297c189637c0"
+        },
+        {
+          "Action": [
+            "s3:GetObject",
+            "s3:PutObject"
+          ],
+          "Effect": "Allow",
+          "Resource": "arn:aws:s3:::dw-raw-55ce297c189637c0/*"
+        }
+      ]
+    }
+  },
+  "s3_public_block": {
+    "PublicAccessBlockConfiguration": {
+      "BlockPublicAcls": true,
+      "IgnorePublicAcls": true,
+      "BlockPublicPolicy": true,
+      "RestrictPublicBuckets": true
+    }
+  },
+  "s3_encryption": {
+    "ServerSideEncryptionConfiguration": {
+      "Rules": [
+        {
+          "ApplyServerSideEncryptionByDefault": {
+            "SSEAlgorithm": "AES256"
+          },
+          "BucketKeyEnabled": false,
+          "BlockedEncryptionTypes": {
+            "EncryptionType": [
+              "SSE-C"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "s3_versioning": {
+    "Status": "Enabled"
+  },
+  "s3_policy": {
+    "Policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"DenyInsecureConnections\",\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":[\"arn:aws:s3:::dw-raw-55ce297c189637c0\",\"arn:aws:s3:::dw-raw-55ce297c189637c0/*\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}]}"
+  }
+}

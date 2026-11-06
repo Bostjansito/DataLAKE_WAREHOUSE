@@ -1,0 +1,14 @@
+{
+  "account": "241732001318",
+  "region": "us-east-1",
+  "created_by_this_assignment": [],
+  "observed": {
+    "ec2_instances": [],
+    "rds_instances": [],
+    "documentdb_clusters": [],
+    "redshift_serverless_workgroups": [],
+    "s3_buckets_account_wide": [],
+    "tagged_resources_Project_datawarehouse": []
+  },
+  "limitations": "Inventario de solo lectura limitado a los servicios indicados y región us-east-1, salvo listado S3 global. No acredita ausencia de otros servicios, otras regiones, namespaces, snapshots, volúmenes, direcciones IPv4, secretos o cargos previos. No se eliminaron ni crearon recursos AWS. Captura de usuario aún no confirmada."
+}

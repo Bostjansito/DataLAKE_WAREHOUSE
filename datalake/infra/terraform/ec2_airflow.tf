@@ -21,7 +21,7 @@ data "archive_file" "datalake_code" {
   source_dir  = local.datalake_dir
   output_path = "${path.module}/.build/datalake.zip"
   excludes = concat(
-    [".venv", "infra", "tests", ".env", ".pytest_cache", "scripts", "sql", "docs", "evidencias", "README.md"],
+    [".venv", "infra", "tests", ".env", ".pytest_cache", "scripts", "sql", "docs", "evidencias", "README.md", "rss-local"],
     tolist(local.pycache_files),
   )
 }
