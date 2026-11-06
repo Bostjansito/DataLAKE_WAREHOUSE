@@ -1,4 +1,4 @@
-"""Run from repository root: .venv/bin/python scripts/smoke.py. No AWS requests."""
+"""Run from datalake/rss-local: .venv/bin/python scripts/smoke.py. No AWS requests."""
 from datetime import datetime, timezone
 import hashlib
 import json

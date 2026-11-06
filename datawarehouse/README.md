@@ -2,7 +2,7 @@
 
 Implementación de la migración del proyecto local **DE-DW**, localizado junto a este repositorio. Integra RDS MySQL y DocumentDB privados, exportaciones S3 por lote, COPY a Redshift Serverless y modelos dbt; Airflow y dbt se ejecutan en la misma EC2. Los tres hechos conservan ventas por línea, reseñas y navegación; clientes y productos conservan historia SCD2.
 
-**Estado de AWS:** S3 y EC2/VPC fueron desplegados, capturados y retirados; fuentes, Redshift y pipeline siguen pendientes. Consultar la cronología y sus límites en [evidencias](evidencias/docEVIDENCIA/EVIDENCIAS.md); las validaciones locales son históricas y no demuestran la configuración actual.
+**Estado de AWS:** las capturas documentan S3, EC2/VPC, las fuentes, Redshift y una ejecución exitosa del lote inicial. El usuario decidió cerrar la práctica antes de verificar incrementalidad, idempotencia, SCD2 y recuperación; consultar [evidencias](evidencias/docEVIDENCIA/EVIDENCIAS.md) y [limpieza](docs/guia-seguridad-costos-limpieza.md) para sus límites y recursos remanentes.
 
 ## Documentación
 

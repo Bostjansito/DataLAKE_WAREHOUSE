@@ -10,7 +10,7 @@ Se verificaron identidad AWS mediante `aws sts get-caller-identity`, negociació
 
 Tres feeds oficiales configurados en `config/feeds.json`: política, economía y deportes de El Tiempo. Implementación completa en `lake/core.py`, `lake/storage.py` y `lake/schemas.py`: Bronze original, metadatos UTC/hash/HTTP, parsing seguro RSS/Atom, limpieza HTML, enlaces canónicos, identidad por medio/enlace, deduplicación, versiones vigentes, cuarentena trazable y métricas conciliables. Silver y Gold están en Parquet con partición `publication_date` y archivos tipados incluso sin filas.
 
-Se ejecutó una extracción HTTPS **real**: tres fuentes exitosas, 30 registros recibidos/nuevos/vigentes, cero rechazados/duplicados/fechas desconocidas y estado `complete`. NLP explícitamente deshabilitado: no se atribuyen entidades ficticias a estas noticias. Evidencia: [`live-feeds.json`](../evidence/live-feeds.json); objetos originales y snapshots están disponibles localmente bajo `.local-lake/live/`.
+Se registró una extracción HTTPS **real**: tres fuentes exitosas, 30 registros recibidos/nuevos/vigentes, cero rechazados/duplicados/fechas desconocidas y estado `complete`. NLP explícitamente deshabilitado: no se atribuyen entidades ficticias a estas noticias. Evidencia histórica: [`live-feeds.json`](../evidence/live-feeds.json). Los objetos se guardaron entonces bajo `.local-lake/live/`, ruta local ignorada cuya presencia no está garantizada tras el traslado.
 
 **Subagente:** `PipelineMedallon`, implementación del core, almacenamiento, esquemas, feeds y dependencias. **Orquestador:** CLI, ejecución real y consolidación de evidencia.
 

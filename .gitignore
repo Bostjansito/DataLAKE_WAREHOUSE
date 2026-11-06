@@ -3,6 +3,7 @@
 *.tfstate
 *.tfstate.*
 *.tfplan
+tfplan
 crash.log
 *.tfvars
 !*.tfvars.example
@@ -39,3 +40,6 @@ CLAUDE.md
 
 # Artifacts
 artifacts/
+
+# Captura original con datos de contacto; publicar solo la copia redactada.
+datawarehouse/evidencias/06-redshift/06_dw_queryredshift.png

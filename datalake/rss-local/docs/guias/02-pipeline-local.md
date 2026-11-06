@@ -6,15 +6,16 @@ Ejecutar el pipeline con almacenamiento local antes de habilitar servicios AWS. 
 
 ## Procedimiento reproducible
 
-1. Desde la raíz del repositorio, cree un entorno virtual e instale dependencias de desarrollo:
+1. Desde la raíz del repositorio, entre en `datalake/rss-local/`; cree allí un entorno virtual e instale dependencias de desarrollo:
 
    ```bash
+   cd datalake/rss-local
    python -m venv .venv
    . .venv/bin/activate
    python -m pip install -e '.[test]'
    ```
 
-2. Para reproducir el smoke aislado (tests con dependencias opcionales instaladas), ejecute desde la raíz con el entorno virtual activo:
+2. Para reproducir el smoke aislado (tests con dependencias opcionales instaladas), permanezca en `datalake/rss-local/` con el entorno virtual activo:
 
    ```bash
    python scripts/smoke.py

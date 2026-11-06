@@ -4,6 +4,8 @@
 
 Terraform crea recursos declarados por el proyecto; el recurso EC2 es optativo y desactivado por defecto. No se ejecutaron `plan`, `apply` o destroy como parte de este trabajo. Un plan no es autorización para aplicar. Revise el directorio `terraform/` y sus variables/outputs reales antes de usar esta guía; mantenga estado de Terraform protegido y persistente.
 
+Todos los comandos de esta guía parten del directorio de implementación: desde la raíz del repositorio ejecute primero `cd datalake/rss-local`. No use el Terraform de `datalake/infra/`, que corresponde a otro pipeline; conserve estados y buckets separados.
+
 La configuración Terraform está en `terraform/`, requiere Terraform `>=1.5,<2.0` y AWS provider `~>5.0`; `bucket_name` es obligatorio. Confirme perfil/región y use un bucket globalmente único.
 
 Si no existe `terraform/terraform.tfvars`, cree uno a partir del ejemplo:
@@ -24,7 +26,7 @@ El fichero del plan se crea en el directorio de trabajo de Terraform. Revíselo 
 
 ### Publicar el artefacto y habilitar EC2
 
-Primero aplique la infraestructura con `enable_ec2=false` y un nombre real en `terraform.tfvars` (puede copiar `terraform/terraform.tfvars.example`; reemplace allí el nombre de bucket de ejemplo). Solo después del primer `apply`, desde la raíz del repositorio, empaquete los archivos que el bootstrap requiere, incluido `.dockerignore` para excluir `.env` del contexto de construcción Docker; publique el artefacto bajo el URI del output de Terraform.
+Primero aplique la infraestructura con `enable_ec2=false` y un nombre real en `terraform.tfvars` (puede copiar `terraform/terraform.tfvars.example`; reemplace allí el nombre de bucket de ejemplo). Solo después del primer `apply`, desde `datalake/rss-local/`, empaquete los archivos que el bootstrap requiere, incluido `.dockerignore` para excluir `.env` del contexto de construcción Docker; publique el artefacto bajo el URI del output de Terraform.
 
 El comando excluye bytecode/cachés de Python y fija orden, fecha, propietario y cabecera gzip; para los mismos archivos y permisos produce el mismo artefacto:
 
@@ -45,7 +47,7 @@ Anote el SHA-256 de ese archivo exacto. En `terraform/terraform.tfvars`, estable
 ## Limpieza responsable
 
 1. Pause el DAG y espere que no haya tareas activas. Exporte y verifique los datos/evidencias/versiones S3 que deban conservarse y haga respaldo del estado Terraform fuera del bucket del proyecto.
-2. En `terraform/terraform.tfvars`, establezca `enable_ec2 = false`. Desde la raíz, genere, revise y aplique el plan autorizado que elimina únicamente los recursos opcionales:
+2. En `terraform/terraform.tfvars`, establezca `enable_ec2 = false`. Desde `datalake/rss-local/`, genere, revise y aplique el plan autorizado que elimina únicamente los recursos opcionales:
 
    ```bash
    terraform -chdir=terraform plan -out=disable-ec2.tfplan

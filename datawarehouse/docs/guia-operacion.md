@@ -1,6 +1,6 @@
 # Operación: guías por sección
 
-**Estado:** S3 y EC2/VPC fueron capturados y retirados; fuentes y pipeline están pendientes. Véase la [cronología](../evidencias/docEVIDENCIA/EVIDENCIAS.md). Los comandos de estas guías son instrucciones, no resultados verificados. La solución local DE-DW se encuentra junto al repositorio.
+**Estado:** las capturas registran S3, EC2/VPC, fuentes, Redshift y una ejecución exitosa del lote inicial. Los escenarios incrementales, SCD2 y recuperación no se completaron antes del cierre solicitado; consultar [evidencias](../evidencias/docEVIDENCIA/EVIDENCIAS.md) y [limpieza](guia-seguridad-costos-limpieza.md). Los comandos son instrucciones, no resultados verificados en nuevas ejecuciones.
 
 1. [Preparación operacional de acceso (sin evidencia)](guias/00-acceso-captura.md)
 2. [01 · Terraform, S3, red y roles](guias/01-terraform-s3-red-roles.md)
